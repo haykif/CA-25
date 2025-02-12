@@ -1,5 +1,5 @@
 # 🚀 Projet Contrôle d'Accès 2025 (CA25)
-
+---
 ## 📌 Description
 Ce projet vise à mettre en place un **système de contrôle d'accès** basé sur des **cartes NFC** pour le local technique informatique du Lycée Charles Poncet.  
 Le système permettra :
@@ -22,28 +22,29 @@ Le système permettra :
 - `src/rpi/` → Code pour le Raspberry Pi
 - `docs/` → Documentation et guides
 - `tests/` → Scripts de tests
-
+---
 ## 📝 Installation
-1. **Cloner le projet :**
+1. **Cloner le projet: en ligne de commande**
    ```bash
    git clone https://github.com/ton-utilisateur/controle-acces-2025.git
-   cd controle-acces-2025
+   cd controle-acces-2025```
+   
+2. **Cloner le projet: avec Github Desktop**
+   - Installer sur ce lien: [GitHub Desktop](https://desktop.github.com/download/)
+---
+## 🔐 Serveur VM Login / Mot de Passe 
+- name: `admin`
+- server name: `serverca25`
+- username: `administrateur`
+- password: `admin`
 
+- aaPanel Internet Address: https://80.245.21.40:14473/29f1f021
+- aaPanel Internal Address: https://173.21.1.240:14473/29f1f021
 
-name: admin
-server name: serverca25
-username: administrateur
-password: admin
+## 💚 aa panel Login / Mot de Passe
+- username: `jqgrxbtz`
+- password: `8fb42c65`
 
-
-aaPanel Internet Address: https://80.245.21.40:14473/29f1f021
-aaPanel Internal Address: https://173.21.1.240:14473/29f1f021
-
-
-aa panel id:
-username: jqgrxbtz
-password: 8fb42c65
-
-Databases :
-username: DBCA25
-password: admin
+## ⚙️ Base de Donnée :
+- username: `DBCA25`
+- password: `admin`
