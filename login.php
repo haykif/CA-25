@@ -1,36 +1,31 @@
 <?php
 session_start();
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/database.php'; // Inclusion de la connexion PDO
+require_once 'database.php'; // Connexion incluse ici
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-    // Préparation de la requête SQL pour éviter les injections SQL
-    $stmt = $conn->prepare("SELECT * FROM Admin WHERE Identifiant = username' LIMIT 1");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if (!empty($username) && !empty($password)) {
+        try {
+            // Vérifier si l'utilisateur existe
+            $stmt = $pdo->prepare("SELECT Identifiant, Mdp FROM Admin WHERE Identifiant = :username");
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        // Vérification du mot de passe
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['admin_logged_in'] = true;
-            $_SESSION['admin_username'] = $user['username'];
-            echo "Connexion réussie !";
-            header("Location: dashboard.php"); // Redirection vers la page admin
-            exit();
-        } else {
-            echo "<script>alert('Mot de passe incorrect !');</script>";
+            if ($user && password_verify($password, $user['id'])) {
+                $_SESSION['admin_id'] = $user['Identifiant'];
+                header("Location: dashboard.php"); // Redirection après connexion réussie
+                exit;
+            } else {
+                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='logAdmin.html';</script>";
+            }
+        } catch (PDOException $e) {
+            die("Erreur : " . $e->getMessage());
         }
     } else {
-        echo "<script>alert('Utilisateur non trouvé !');</script>";
+        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='logAdmin.html';</script>";
     }
-
-    $stmt->close();
-    $conn->close();
 }
-
 ?>

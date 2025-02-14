@@ -1,19 +1,5 @@
 <?php
-require 'config.php';
-
-try {
-    // Connexion à la base de données avec PDO
-    $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Active les exceptions en cas d'erreur
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // Mode de récupération par défaut
-        PDO::ATTR_EMULATE_PREPARES   => false, // Désactive l'émulation des requêtes préparées pour plus de sécurité
-    ];
-    
-    $pdo = new PDO($dsn, $userName, $passWord, $options);
-} catch (PDOException $e) {
-    die("Erreur de connexion à la base de données : " . $e->getMessage());
-}
+require_once __DIR__ . '/database.php'; // Inclusion de la connexion PDO
 
 // Récupérer les données du formulaire
 $nom = $_POST['nom'] ?? '';
