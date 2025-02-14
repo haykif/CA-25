@@ -1,31 +1,21 @@
 <?php
-session_start();
-require_once 'database.php'; // Connexion incluse ici
+session_start(); // Toujours démarrer la session en premier
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    if (!empty($username) && !empty($password)) {
-        try {
-            // Vérifier si l'utilisateur existe
-            $stmt = $pdo->prepare("SELECT Identifiant, Mdp FROM Admin WHERE Identifiant = :username");
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['id'])) {
-                $_SESSION['admin_id'] = $user['Identifiant'];
-                header("Location: dashboard.php"); // Redirection après connexion réussie
-                exit;
-            } else {
-                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='logAdmin.html';</script>";
-            }
-        } catch (PDOException $e) {
-            die("Erreur : " . $e->getMessage());
-        }
+    // Ici, tu peux mettre ta logique de vérification (par exemple, avec une base de données).
+    // Pour cet exemple, on va tester avec des valeurs statiques.
+    if ($username === "admin" && $password === "secret") {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        header("Location: dashboard.php"); // Redirection vers le dashboard
+        exit(); // Toujours exit après une redirection
     } else {
-        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='logAdmin.html';</script>";
+        echo "Identifiants incorrects";
     }
+} else {
+    echo "Veuillez remplir tous les champs.";
 }
 ?>
