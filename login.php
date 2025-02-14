@@ -2,6 +2,8 @@
 session_start();
 require_once 'database.php'; // Connexion incluse ici
 
+var_dump($_POST);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
