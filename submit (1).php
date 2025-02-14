@@ -1,8 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "dbca25";  // Remplacez par votre utilisateur MySQL
-$password = "admin";  // Remplacez par votre mot de passe MySQL
-$dbname = "dbca25";
+require 'config.php';
 
 try {
     // Connexion à la base de données avec PDO
@@ -13,7 +10,7 @@ try {
         PDO::ATTR_EMULATE_PREPARES   => false, // Désactive l'émulation des requêtes préparées pour plus de sécurité
     ];
     
-    $pdo = new PDO($dsn, $username, $password, $options);
+    $pdo = new PDO($dsn, $userName, $passWord, $options);
 } catch (PDOException $e) {
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
