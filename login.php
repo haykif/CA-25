@@ -21,13 +21,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: dashboard.php"); // Redirection après connexion réussie
                 exit;
             } else {
-                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='logAdmin.html';</script>";
+                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='index.html';</script>";
             }
         } catch (PDOException $e) {
             die("Erreur : " . $e->getMessage());
         }
     } else {
-        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='logAdmin.html';</script>";
+        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='index.html';</script>";
     }
 }
 ?>
