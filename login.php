@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['id'])) {
+            if ($user && password_verify($password, $user['Mdp'])) {
                 $_SESSION['admin_id'] = $user['Identifiant'];
                 header("Location: dashboard.php"); // Redirection après connexion réussie
                 exit;
