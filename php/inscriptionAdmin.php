@@ -1,6 +1,6 @@
 <?php
 require_once './database.php'; // Assure-toi que ce fichier définit $pdo (PDO) correctement
-
+session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Récupérer et nettoyer les données
     $nom         = trim($_POST['nom'] ?? '');
