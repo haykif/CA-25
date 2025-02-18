@@ -14,6 +14,7 @@
             <li><a href="#">Gestion des accès</a></li>
             <li><a href="#">Formulaire</a></li>
             <li><a href="#">Logs</a></li>
+            <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
         </ul>
     </div>
     
