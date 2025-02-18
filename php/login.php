@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'database.php'; // Connexion à la base de données
+require_once './database.php'; // Connexion à la base de données
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Récupération et nettoyage des entrées utilisateur
@@ -19,24 +19,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($user && password_verify($password, $user['Mdp'])) {
                 // Authentification réussie : initialisation de la session et redirection
                 $_SESSION['admin_id'] = $user['Identifiant'];
-                header("Location: dashboard.php");
+                header("Location: ./dashboard.php");
                 exit;
             } else {
                 // Si la vérification échoue
-                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='index.html';</script>";
+                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='../index.html';</script>";
             }
         } catch (PDOException $e) {
             // En production, on loggue l'erreur et on affiche un message générique
             error_log("Erreur de connexion : " . $e->getMessage());
-            echo "<script>alert('Une erreur interne est survenue.'); window.location.href='index.html';</script>";
+            echo "<script>alert('Une erreur interne est survenue.'); window.location.href='../index.html';</script>";
             exit;
         }
     } else {
-        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='index.html';</script>";
+        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='../index.html';</script>";
     }
 } else {
     // Si la requête n'est pas de type POST, rediriger vers la page d'accueil
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit;
 }
 ?>

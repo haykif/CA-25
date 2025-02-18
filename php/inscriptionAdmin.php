@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php'; // Assure-toi que ce fichier définit $pdo (PDO) correctement
+require_once './database.php'; // Assure-toi que ce fichier définit $pdo (PDO) correctement
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Récupérer et nettoyer les données

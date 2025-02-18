@@ -6,7 +6,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: login.php"); // redirige vers la page de connexion
+    header("Location: ./login.php"); // redirige vers la page de connexion
     exit();
 }
 ?>
@@ -15,7 +15,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Contrôle d'Accès</title>
-    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
     <div class="sidebar">
@@ -64,6 +64,6 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         </table>
     </div>
     
-    <script src="./js/dashboard.js"></script>
+    <script src="../js/dashboard.js"></script>
 </body>
 </html>

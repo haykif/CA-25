@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/database.php'; // Inclusion de la connexion PDO
+require_once __DIR__ . './database.php'; // Inclusion de la connexion PDO
 
 // Récupérer les données du formulaire
 $nom = $_POST['nom'] ?? '';
@@ -43,7 +43,7 @@ try {
 
     Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :
     
-    http://votre-site.com/confirm.php?email=$email&token=$token
+    http://172.21.1.240/php/confirmMail.php?email=$email&token=$token
 
     Cordialement,
     L'équipe de validation.
