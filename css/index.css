@@ -5,7 +5,7 @@ body {
     padding: 20px;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('./image/professional_website_background.jpg');
+    background-image: url('../image/professional_website_background.jpg');
 }
 .container {
     background: #fff;

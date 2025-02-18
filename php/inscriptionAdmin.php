@@ -1,12 +1,5 @@
 <?php
-require_once './database.php'; 
-session_start();
-
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: ./login.php"); // redirige vers la page de connexion
-    exit();
-}
-
+require_once './database.php'; // Assure-toi que ce fichier définit $pdo (PDO) correctement
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Récupérer et nettoyer les données
     $nom         = trim($_POST['nom'] ?? '');
@@ -26,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
         // 4. Préparer la requête d'insertion
+        //    On n'inclut pas idAdmin si c'est un AUTO_INCREMENT
         $stmt = $pdo->prepare("
             INSERT INTO Admin (Nom, Prenom, Identifiant, Mdp, Email, Tel)
             VALUES (:nom, :prenom, :identifiant, :mdp, :email, :tel)

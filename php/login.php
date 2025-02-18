@@ -1,6 +1,6 @@
 <?php
-session_start();
 require_once './database.php'; // Connexion à la base de données
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Récupération et nettoyage des entrées utilisateur
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindParam(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+            
             // Vérifier si l'utilisateur existe et si le mot de passe correspond au hash stocké
             if ($user && password_verify($password, $user['Mdp'])) {
                 // Authentification réussie : initialisation de la session et redirection
