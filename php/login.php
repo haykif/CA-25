@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($user && password_verify($password, $user['Mdp'])) {
                 // Authentification réussie : initialisation de la session et redirection
                 $_SESSION['admin_id'] = $user['Identifiant'];
-                header("Location: ./dashboard.php");
+                header("Location: ./php/dashboard.php");
                 exit;
             } else {
                 // Si la vérification échoue
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 } else {
     // Si la requête n'est pas de type POST, rediriger vers la page d'accueil
-    header("Location: ../index.html");
+    header("Location: ./index.html");
     exit;
 }
 ?>
