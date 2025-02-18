@@ -23,20 +23,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             } else {
                 // Si la vérification échoue
-                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='../index.html';</script>";
+                echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='../../index.html';</script>";
             }
         } catch (PDOException $e) {
             // En production, on loggue l'erreur et on affiche un message générique
             error_log("Erreur de connexion : " . $e->getMessage());
-            echo "<script>alert('Une erreur interne est survenue.'); window.location.href='../index.html';</script>";
+            echo "<script>alert('Une erreur interne est survenue.'); window.location.href='../../index.html';</script>";
             exit;
         }
     } else {
-        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='../index.html';</script>";
+        echo "<script>alert('Veuillez remplir tous les champs.'); window.location.href='../../index.html';</script>";
     }
 } else {
     // Si la requête n'est pas de type POST, rediriger vers la page d'accueil
-    header("Location: ../index.html");
+    header("Location: ../../index.html");
     exit;
 }
 ?>
