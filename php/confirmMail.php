@@ -1,11 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";  // Remplacez par votre utilisateur MySQL
-$password = "";  // Remplacez par votre mot de passe MySQL
-$dbname = "dbca25";
-
-// Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once "database.php";
 
 if ($conn->connect_error) {
     die("Connexion échouée: " . $conn->connect_error);

@@ -1,5 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+    
+
+<?php
+session_start();
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: login.php"); // redirige vers la page de connexion
+    exit();
+}
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
