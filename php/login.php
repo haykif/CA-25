@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 } else {
     // Si la requête n'est pas de type POST, rediriger vers la page d'accueil
-    header("Location: ./index.html");
+    header("Location: ../index.html");
     exit;
 }
 ?>
