@@ -1,5 +1,7 @@
-/* Réinitialisation et box-sizing */
+/* Réinitialisation */
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -8,47 +10,47 @@ body {
     font-family: 'Poppins', sans-serif;
     background: url('../image/professional_website_background.jpg') no-repeat center center fixed;
     background-size: cover;
-    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    padding: 20px;
 }
 
-/* Style du conteneur du formulaire */
-.form-container {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
+/* Conteneur principal du formulaire */
+.registration-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px 40px;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
     max-width: 500px;
-    width: 90%;
 }
 
 /* Style du titre */
-.form-container h2 {
+.registration-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #2c3e50;
 }
 
-/* Styles du formulaire */
-.form-container form {
+/* Style du formulaire */
+.registration-container form {
     display: flex;
     flex-direction: column;
 }
 
-.form-container label {
+.registration-container label {
     margin-bottom: 5px;
     font-weight: 600;
     color: #2c3e50;
 }
 
-/* Styles des champs input */
-.form-container input[type="text"],
-.form-container input[type="tel"],
-.form-container input[type="email"],
-.form-container input[type="date"] {
+/* Styles des champs de saisie */
+.registration-container input[type="text"],
+.registration-container input[type="password"],
+.registration-container input[type="email"],
+.registration-container input[type="number"] {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
@@ -56,13 +58,13 @@ body {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-container input:focus {
+.registration-container input:focus {
     border-color: #2c3e50;
     box-shadow: 0 0 5px rgba(44, 62, 80, 0.5);
 }
 
 /* Style du bouton de soumission */
-.submit-btn {
+.registration-container button {
     background: #2c3e50;
     color: #fff;
     border: none;
@@ -73,6 +75,6 @@ body {
     transition: background 0.3s;
 }
 
-.submit-btn:hover {
+.registration-container button:hover {
     background: #34495e;
 }

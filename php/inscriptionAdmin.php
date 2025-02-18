@@ -47,44 +47,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 } else {
     // 8. Affichage du formulaire si on n'est pas en POST
-    ?>
+?>
     <!DOCTYPE html>
     <html lang="fr">
+
     <head>
         <meta charset="UTF-8">
         <title>Inscription Admin</title>
+        <link rel="stylesheet" href="../css/inscriptionAdmin.css">
     </head>
+
     <body>
-        <h2>Inscription d'un nouvel Admin</h2>
-        <form action="" method="post">
-            <label for="nom">Nom :</label>
-            <input type="text" name="nom" id="nom" required>
-            <br><br>
-
-            <label for="prenom">Prénom :</label>
-            <input type="text" name="prenom" id="prenom" required>
-            <br><br>
-
-            <label for="identifiant">Identifiant :</label>
-            <input type="text" name="identifiant" id="identifiant" required>
-            <br><br>
-
-            <label for="mdp">Mot de passe :</label>
-            <input type="password" name="mdp" id="mdp" required>
-            <br><br>
-
-            <label for="email">Email :</label>
-            <input type="email" name="email" id="email" required>
-            <br><br>
-
-            <label for="tel">Téléphone :</label>
-            <input type="number" name="tel" id="tel" required>
-            <br><br>
-
-            <button type="submit">S'inscrire</button>
-        </form>
+        <div class="registration-container">
+            <h2>Inscription d'un nouvel Admin</h2>
+            <form action="" method="post">
+                <label for="nom">Nom :</label>
+                <input type="text" name="nom" id="nom" required>
+                <br><br>
+                <label for="prenom">Prénom :</label>
+                <input type="text" name="prenom" id="prenom" required>
+                <br><br>
+                <label for="identifiant">Identifiant :</label>
+                <input type="text" name="identifiant" id="identifiant" required>
+                <br><br>
+                <label for="mdp">Mot de passe :</label>
+                <input type="password" name="mdp" id="mdp" required>
+                <br><br>
+                <label for="email">Email :</label>
+                <input type="email" name="email" id="email" required>
+                <br><br>
+                <label for="tel">Téléphone :</label>
+                <input type="number" name="tel" id="tel" required>
+                <br><br>
+                <button type="submit">S'inscrire</button>
+            </form>
+        </div>
     </body>
+
     </html>
-    <?php
+
+<?php
 }
 ?>
