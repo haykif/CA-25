@@ -21,9 +21,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     <div class="sidebar">
         <h2>Admin Dashboard</h2>
         <ul>
-            <li><a href="#">Tableau de bord</a></li>
+            <li><a href="./dashboard.php">Tableau de bord</a></li>
             <li><a href="#">Gestion des accès</a></li>
-            <li><a href="#">Formulaire</a></li>
+            <li><a href="../html/formulaire.html">Formulaire</a></li>
             <li><a href="#">Logs</a></li>
             <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
         </ul>
