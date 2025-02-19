@@ -1,5 +1,12 @@
 <?php
-require_once './database.php'; // Assure-toi que ce fichier définit $pdo (PDO) correctement
+require_once './database.php'; 
+
+session_start();
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+    header("Location: ./login.php"); // redirige vers la page de connexion
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 1. Récupérer et nettoyer les données
     $nom         = trim($_POST['nom'] ?? '');
