@@ -20,7 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($nom) || empty($prenom) || empty($identifiant) || empty($mdp) || empty($email) || empty($tel)) {
         die("Veuillez remplir tous les champs.");
     }
-
+    
+   if (strlen($tel) !== 10) {
+        die("TEL Invalide");
+   }
+    
     // 3. Hasher le mot de passe
     $hashedMdp = password_hash($mdp, PASSWORD_DEFAULT);
 
