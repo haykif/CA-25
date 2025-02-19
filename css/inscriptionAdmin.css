@@ -12,19 +12,18 @@ body {
     background-size: cover;
     display: flex;
     align-items: center;
-    justify-content: baseline;
     min-height: 100vh;
-    padding: 20px;
 }
 
 .sidebar {
-    width: 250px;
+    width: 270px;
     background: rgba(44, 62, 80, 0.9);
     color: white;
     padding: 20px;
     position: fixed;
     height: 100%;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .sidebar h2 {
