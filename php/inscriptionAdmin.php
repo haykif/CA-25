@@ -42,9 +42,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // 6. Exécuter l'insertion
         if ($stmt->execute()) {
-            echo "Inscription réussie !";
+            echo "<script>
+              alert('Inscription réussi');
+              window.location.href = './dashboard.php';
+          </script>";
         } else {
-            echo "Erreur lors de l'inscription.";
+            echo "<script>
+              alert('Inscription échoué');
+              window.location.href = './inscriptionAdmin.php';
+          </script>";
         }
     } catch (PDOException $e) {
         // 7. Log en cas d'erreur
