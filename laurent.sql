@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `dbca25`.`WhiteList` (
   `RFID` INT NULL,
   `Fonction` VARCHAR(45) NULL,
   PRIMARY KEY (`idUser`),
-  INDEX `fk_ Inscription user_Admin1_idx` (`Verification Admin` ASC) VISIBLE,
+  INDEX `fk_ Inscription user_Admin1_idx` (`Verification Admin` ASC) ,
   CONSTRAINT `fk_ Inscription user_Admin1`
     FOREIGN KEY (`Verification Admin`)
     REFERENCES `dbca25`.`Admin` (`idAdmin`)
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `dbca25`.`Acess_log` (
   `Date_heure_sortie` DATETIME NULL,
   `IdUser` INT NOT NULL,
   PRIMARY KEY (`idAcess`),
-  INDEX `fk_Acess_log_ Inscription user1_idx` (`IdUser` ASC) VISIBLE,
+  INDEX `fk_Acess_log_ Inscription user1_idx` (`IdUser` ASC) ,
   CONSTRAINT `fk_Acess_log_ Inscription user1`
     FOREIGN KEY (`IdUser`)
     REFERENCES `dbca25`.`WhiteList` (`idUser`)
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `dbca25`.`Connect_log_admin` (
   `HeureConnexion` DATETIME NULL,
   `idAdmin` INT NOT NULL,
   PRIMARY KEY (`idconnexion`),
-  INDEX `fk_Connexion_Admin1_idx` (`idAdmin` ASC) VISIBLE,
+  INDEX `fk_Connexion_Admin1_idx` (`idAdmin` ASC) ,
   CONSTRAINT `fk_Connexion_Admin1`
     FOREIGN KEY (`idAdmin`)
     REFERENCES `dbca25`.`Admin` (`idAdmin`)
