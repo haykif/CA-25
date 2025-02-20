@@ -8,8 +8,9 @@
 /* Style global du body */
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('../image/professional_website_background.jpg') no-repeat center center fixed;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     align-items: center;
     min-height: 100vh;
@@ -17,8 +18,7 @@ body {
 
 .sidebar {
     width: 270px;
-    background: rgba(44, 62, 80, 0.9);
-    color: white;
+    color: #141f23;
     padding: 20px;
     position: fixed;
     height: 100%;
@@ -39,10 +39,11 @@ body {
 
 .sidebar ul li {
     margin: 20px 0;
+    font-weight: bold;
 }
 
 .sidebar ul li a {
-    color: white;
+    color:rgb(21, 31, 33);
     text-decoration: none;
     font-size: 1.1rem;
     display: block;
@@ -51,25 +52,40 @@ body {
     transition: 0.3s;
 }
 
-.sidebar ul li a:hover {
-    background: #34495e;
+.sidebar .logout {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
+  
+.sidebar .logout a {
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
 }
 
 /* Conteneur principal du formulaire */
 .registration-container {
-    background: rgba(255, 255, 255, 0.9);
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 500px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Style du titre */
 .registration-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #2c3e50;
 }
 
 /* Style du formulaire */
@@ -81,7 +97,6 @@ body {
 .registration-container label {
     margin-bottom: 5px;
     font-weight: 600;
-    color: #2c3e50;
 }
 
 /* Styles des champs de saisie */
@@ -90,8 +105,7 @@ body {
 .registration-container input[type="email"],
 .registration-container input[type="number"] {
     padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
+    margin-bottom: 5px;
     border-radius: 5px;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -115,4 +129,145 @@ body {
 
 .registration-container button:hover {
     background: #34495e;
+}
+/* La partie dark mode selon la taille de l'écran */
+/* Media par défault */
+/* LIGHT */
+@media (prefers-color-scheme: light) {
+    body {
+        background: url("../assets/light-4k.jpeg") no-repeat center center fixed;
+        color: #141f23;
+    }
+    .sidebar {
+        background: linear-gradient(150deg, rgba(245, 215, 181, 0.9), rgba(250, 173, 119, 0.9), rgba(246, 179, 152, 0.9));
+    }
+    .sidebar ul li a:hover {
+        background: rgb(244,165,108);
+        color: rgb(0, 0, 0);
+    }
+    .sidebar .logout a {
+        background: rgb(203, 135, 88);
+        color: #000;
+    }
+    .sidebar .logout a:hover {
+        background: rgb(244,165,108);
+    }
+    .registration-container {
+        background: rgba(255, 255, 255, 0.8);
+    }
+    .registration-container h2 {
+        color: #8dc7cc;
+    }
+    .registration-container label {
+        color: #141f23;
+    }
+    .registration-container input[type="text"],
+    .registration-container input[type="password"],
+    .registration-container input[type="email"],
+    .registration-container input[type="number"] {
+        border: 2px solid #f5b79e;
+    }
+    .registration-container button {
+        background: rgb(203, 135, 88);
+        color: #000;
+    }
+    .registration-container button:hover {
+        background: rgb(244,165,108);
+    }
+}
+
+/* DARK */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: url("../assets/dark-4k.jpeg") no-repeat center center fixed;
+        color: #ddd;
+    }
+    .sidebar {
+        background: linear-gradient(150deg, rgba(244, 167, 87, 0.9), rgba(239, 130, 39, 0.9), rgba(235, 97, 24, 0.9));
+    }
+    .sidebar ul li a:hover {
+        background: rgb(21, 31, 33);
+        color: rgb(220, 212, 201);
+    }
+    .sidebar .logout a {
+        background: rgb(21, 31, 33);
+        color: #ddd;
+    }
+    .sidebar .logout a:hover {
+        background: rgb(21, 31, 33, 0.8);
+    }
+    .registration-container {
+        background: rgba(47, 47, 47, 0.8)
+    }
+    .registration-container h2 {
+        color: #f4a757;
+    }
+    .registration-container label {
+        color: #ddd;
+    }
+    .registration-container input[type="text"],
+    .registration-container input[type="password"],
+    .registration-container input[type="email"],
+    .registration-container input[type="number"] {
+        border: 2px solid #f08326;
+    }
+    .registration-container button {
+        background: rgb(21, 31, 33);
+        color: #ddd;
+    }
+    .registration-container button:hover {
+        background: rgb(21, 31, 33, 0.8);
+    }
+}
+
+/* 2160p (4k UHD) */
+@media (min-width: 3820px) and (prefers-color-scheme: light) {
+    body {
+       background: url('../assets/light-4k.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 3820px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-4k.jpeg') no-repeat center center fixed;
+    }
+}
+
+/* 1440p (2k QHD) */
+@media (min-width: 2540px) and (max-width: 3819px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-2k.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 2540px) and (max-width: 3819px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-2k.jpg') no-repeat center center fixed;
+    }
+}
+
+/* 1080p (Full HD) */
+@media (min-width: 1900px) and (max-width: 2539px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-1080p.jpg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 1900px) and (max-width: 2539px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-1080p.jpg') no-repeat center center fixed;
+    }
+}
+
+/* 720p (HD) */
+@media (min-width: 1260px) and (max-width: 1899px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-720p.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 1260px) and (max-width: 1899px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-720p.jpeg') no-repeat center center fixed;
+    }
 }

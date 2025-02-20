@@ -6,8 +6,8 @@
 /* Style global du body */
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('../image/professional_website_background.jpg') no-repeat center center fixed;
     background-size: cover;
+    background-repeat: no-repeat;
     margin: 0;
     display: flex;
     align-items: center;
@@ -17,7 +17,6 @@ body {
 
 /* Style du conteneur du formulaire */
 .form-container {
-    background: rgba(255, 255, 255, 0.8);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -29,7 +28,6 @@ body {
 .form-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #2c3e50;
 }
 
 /* Styles du formulaire */
@@ -41,7 +39,6 @@ body {
 .form-container label {
     margin-bottom: 5px;
     font-weight: 600;
-    color: #2c3e50;
 }
 
 /* Styles des champs input */
@@ -51,7 +48,6 @@ body {
 .form-container input[type="date"] {
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
     border-radius: 5px;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -63,16 +59,126 @@ body {
 
 /* Style du bouton de soumission */
 .submit-btn {
-    background: #2c3e50;
-    color: #fff;
     border: none;
     padding: 12px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
     transition: background 0.3s;
+    font-weight: bold;
+    text-decoration: none;
+}
+/* La partie dark mode selon la taille de l'écran */
+/* Media par défault */
+/* LIGHT */
+@media (prefers-color-scheme: light) {
+    body {
+        background: url("../assets/light-4k.jpeg") no-repeat center center fixed;
+        color: #141f23;
+    }
+    .form-container {
+        background: rgba(255, 255, 255, 0.8)
+    }
+    .form-container h2 {
+        color: #8dc7cc;
+    }
+    .form-container label {
+        color: #141f23;
+    }
+    .form-container input[type="text"],
+    .form-container input[type="tel"],
+    .form-container input[type="email"],
+    .form-container input[type="date"] {
+        border: 2px solid #f5b79e;
+    }
+    .submit-btn {
+        background: rgb(203, 135, 88);
+        color: #000;
+        font-weight: bold;
+    }
+    .submit-btn:hover {
+        background: rgb(244,165,108);
+    }
 }
 
-.submit-btn:hover {
-    background: #34495e;
+/* DARK */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: url("../assets/dark-4k.jpeg") no-repeat center center fixed;
+        color: #ddd;
+    }
+    .form-container {
+        background: rgba(47, 47, 47, 0.8)
+    }
+    .form-container h2 {
+        color: #f4a757;
+    }
+    .form-container label {
+        color: #ddd;
+    }
+    .form-container input[type="text"],
+    .form-container input[type="tel"],
+    .form-container input[type="email"],
+    .form-container input[type="date"] {
+        border: 2px solid #f08326;
+    }
+    .submit-btn {
+        background: rgb(21, 31, 33);
+        color: #ddd;
+    }
+    .submit-btn:hover {
+        background: rgb(21, 31, 33, 0.8);
+    }
+}
+
+/* 2160p (4k UHD) */
+@media (min-width: 3820px) and (prefers-color-scheme: light) {
+    body {
+       background: url('../assets/light-4k.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 3820px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-4k.jpeg') no-repeat center center fixed;
+    }
+}
+
+/* 1440p (2k QHD) */
+@media (min-width: 2540px) and (max-width: 3819px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-2k.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 2540px) and (max-width: 3819px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-2k.jpg') no-repeat center center fixed;
+    }
+}
+
+/* 1080p (Full HD) */
+@media (min-width: 1900px) and (max-width: 2539px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-1080p.jpg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 1900px) and (max-width: 2539px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-1080p.jpg') no-repeat center center fixed;
+    }
+}
+
+/* 720p (HD) */
+@media (min-width: 1260px) and (max-width: 1899px) and (prefers-color-scheme: light) {
+    body {
+        background: url('../assets/light-720p.jpeg') no-repeat center center fixed;
+    }
+}
+
+@media (min-width: 1260px) and (max-width: 1899px) and (prefers-color-scheme: dark) {
+    body {
+        background: url('../assets/dark-720p.jpeg') no-repeat center center fixed;
+    }
 }
