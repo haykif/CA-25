@@ -11,7 +11,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Admin logged out</title>
-        <link rel="stylesheet" href="../css/logoutAdmin.css">
+        <link rel="stylesheet" href="../css/logout.css">
     </head>
 
     <body>

@@ -29,7 +29,7 @@
       <li><a href="#">Gestion des accès</a></li>
       <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
       <li><a href="../html/formulaire.html">Formulaire</a></li>
-      <li><a href="#">Logs</a></li>
+      <li><a href="./logs.php">Logs</a></li>
     </ul>
     <div class="logout">
       <a href="./logout.php">Déconnexion</a>
