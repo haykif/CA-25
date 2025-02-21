@@ -49,8 +49,8 @@ try {
     L'équipe de validation.
     ";
     
-    $headers = "From: noreply@votre-site.com\r\n"; // À CHANGER
-    $headers .= "Reply-To: noreply@votre-site.com\r\n"; // À CHANGER
+    $headers = "From: noreply@173.21.1.240\r\n"; // À CHANGER
+    $headers .= "Reply-To: noreply@173.21.1.240\r\n"; // À CHANGER
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n"; // À CHANGER
 
     if (mail($to, $subject, $message, $headers)) {
