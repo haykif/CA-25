@@ -14,7 +14,7 @@ Le système permettra :
 - **Base de données MySQL** pour stocker les utilisateurs et les accès.
 - **Serveur Web (Flask/Django ou Node.js)** pour l'administration des accès.
 - **Interface Web (React/Vue.js)** pour l’interface administrateur.
-- **Python / C / Bash** pour le développement embarqué sur le RPi.
+- **Python** pour le développement embarqué sur le RPi.
 
 ## 📂 Structure du projet
 - `src/backend/` → API et base de données
@@ -30,7 +30,7 @@ Le système permettra :
    cd controle-acces-2025```
    
 2. **Cloner le projet: avec Github Desktop**
-   - Installer sur ce lien: [GitHub Desktop](https://desktop.github.com/download/)
+   - Installer sur ce lien: <a href="https://desktop.github.com/download/" target="_blank">Github Desktop</a>
 ---
 ## 🔐 Serveur VM Login / Mot de Passe 
 - name: `admin`
