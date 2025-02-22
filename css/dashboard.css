@@ -93,14 +93,13 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: none;
 }
 
 table, th, td {
-    border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
 }
@@ -141,12 +140,14 @@ th {
     th {
         background: #cb8758;
     }
-    tr:nth-child(even) {
+    tr {
         background: #f9f9f9;
     }
-    /* ICI marque page quoi */
+    table, th, td {
+        border: 1px solid #ffffff;
+    }
     #activity-log tr {
-        background-color: rgba(20, 31, 35, 0.3);
+        background-color: rgba(236, 217, 210, 0.5);
     }
 }
 
@@ -179,11 +180,13 @@ th {
     th {
         background: #141f23;
     }
-    tr:nth-child(even) {
+    tr {
         background: rgb(62, 62, 62);
     }
-    /* ICI marque page quoi */
+    table, th, td {
+        border: 1px solid #838383;
+    }
     #activity-log tr {
-        background-color: rgba(20, 31, 35, 0.3);
+        background-color: rgba(20, 31, 35, 0.5);
     }
 }
