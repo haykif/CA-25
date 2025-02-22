@@ -69,6 +69,7 @@ body {
     margin-left: 290px;
     margin-right: 20px;
     margin-top: 20px;
+    margin-bottom: auto;
     padding: 20px;
     width: calc(100% - 270px);
     backdrop-filter: blur(8px);
@@ -178,8 +179,8 @@ th {
         background: rgb(62, 62, 62);
     }
 }
+/*
 
-/* 2160p (4k UHD) */
 @media (min-width: 3820px) and (prefers-color-scheme: light) {
     body {
        background: url('../assets/light-4k.jpeg') no-repeat center center fixed;
@@ -192,7 +193,7 @@ th {
     }
 }
 
-/* 1440p (2k QHD) */
+
 @media (min-width: 2540px) and (max-width: 3819px) and (prefers-color-scheme: light) {
     body {
         background: url('../assets/light-2k.jpeg') no-repeat center center fixed;
@@ -205,7 +206,7 @@ th {
     }
 }
 
-/* 1080p (Full HD) */
+
 @media (min-width: 1900px) and (max-width: 2539px) and (prefers-color-scheme: light) {
     body {
         background: url('../assets/light-1080p.jpg') no-repeat center center fixed;
@@ -218,7 +219,7 @@ th {
     }
 }
 
-/* 720p (HD) */
+
 @media (min-width: 1260px) and (max-width: 1899px) and (prefers-color-scheme: light) {
     body {
         background: url('../assets/light-720p.jpeg') no-repeat center center fixed;
@@ -230,3 +231,4 @@ th {
         background: url('../assets/dark-720p.jpeg') no-repeat center center fixed;
     }
 }
+*/

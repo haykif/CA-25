@@ -1,20 +1,19 @@
 <?php
     session_start();
     session_destroy();
-    header("Location: ./login.php");
-    exit();
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Admin logged out</title>
-        <link rel="stylesheet" href="../css/logout.css">
-    </head>
-
-    <body>
-
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Déconnexion...</title>
+    <meta http-equiv="refresh" content="5;url=./login.php">
+    <link rel="stylesheet" href="../css/logout.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Déconnexion réussie! <br>Vous allez être redirigé vers la page de connexion...</h2>
+    </div>
+</body>
 </html>
