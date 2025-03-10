@@ -38,7 +38,7 @@ $stmt = $pdo->query($query);
                     <th>ID Accès</th>
                     <th>Date Heure Entrée</th>
                     <th>Date Heure Sortie</th>
-                    <th>ID User</th>
+                    <th>ID Utilisateur</th>
                 </tr>
             </thead>
             <tbody id="activity-log">
@@ -46,6 +46,7 @@ $stmt = $pdo->query($query);
                 // Boucle pour afficher chaque ligne de résultat dans le tableau
                 while ($row = $stmt->fetch()) {
                     echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";

@@ -61,7 +61,7 @@
                     <th>ID Accès</th>
                     <th>Date Heure Entrée</th>
                     <th>Date Heure Sortie</th>
-                    <th>ID User</th>
+                    <th>ID Utilisateur</th>
                 </tr>
             </thead>
             <tbody id="activity-log">
