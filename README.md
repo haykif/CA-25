@@ -47,5 +47,5 @@ Le système permettra :
 - password: `8fb42c65`
 
 ## ⚙️ Base de Donnée :
-- username: `DBCA25`
+- username: `dbca25`
 - password: `admin`
