@@ -71,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <meta charset="UTF-8">
         <title>Inscription Admin</title>
         <link rel="stylesheet" href="../css/inscriptionAdmin.css">
+        <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
     </head>
 
     <body>
