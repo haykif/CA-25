@@ -32,7 +32,7 @@ Le système permettra :
    cd controle-acces-2025```
    
 2. **Cloner le projet: avec Github Desktop**
-   - Installer sur ce lien: <a href="https://desktop.github.com/download/" target="_blank">Github Desktop</a>
+   - Installer sur ce lien: [**Github Desktop**](https://desktop.github.com/download/)
 ---
 ## 🔐 Serveur VM Login / Mot de Passe 
 - name: `admin`
