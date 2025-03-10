@@ -43,16 +43,16 @@ $stmt = $pdo->query($query);
             </thead>
             <tbody id="activity-log">
                 <?php
-                // Boucle pour afficher chaque ligne de résultat dans le tableau
-                while ($row = $stmt->fetch()) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
-                    echo "</tr>";
-                }
+                    // Boucle pour afficher chaque ligne de résultat dans le tableau
+                    while ($row = $stmt->fetch()) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
+                        echo "</tr>";
+                    }
                 ?>
             </tbody>
         </table>
