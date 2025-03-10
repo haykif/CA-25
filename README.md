@@ -12,15 +12,17 @@ Le système permettra :
 - **Raspberry Pi** pour le contrôle des accès.
 - **Lecteur NFC** pour identifier les cartes.
 - **Base de données MySQL** pour stocker les utilisateurs et les accès.
-- **Serveur Web (Flask/Django ou Node.js)** pour l'administration des accès.
-- **Interface Web (React/Vue.js)** pour l’interface administrateur.
+- **Serveur Web (Nginx)** pour l'administration des accès.
+- **Interface Web (CSS)** pour l’interface administrateur.
 - **Python** pour le développement embarqué sur le RPi.
 
 ## 📂 Structure du projet
-- `src/backend/` → API et base de données
-- `src/frontend/` → Interface web administrateur
-- `src/rpi/` → Code pour le Raspberry Pi
-- `docs/` → Documentation et guides
+- `assets/` → Fond d'écran adaptative dans le GUI au thème clair ou sombre du system local
+- `css/` → Interface web administrateur et formulaire de demande d'accès
+- `html/` → Formulaire de demande d'accès
+- `js/` → Emulation de l'état ouvert/fermée de la porte
+- `php/` → Code pour communiquer avec la Base de données
+- `rpi/` → Code pour le Raspberry Pi
 - `tests/` → Scripts de tests
 ---
 ## 📝 Installation
@@ -38,10 +40,9 @@ Le système permettra :
 - username: `administrateur`
 - password: `admin`
 
+## 💚 aaPanel Login / Mot de Passe
 - aaPanel Internet Address: https://80.245.21.40:14473/29f1f021
 - aaPanel Internal Address: https://173.21.1.240:14473/29f1f021
-
-## 💚 aa panel Login / Mot de Passe
 - username: `jqgrxbtz`
 - password: `8fb42c65`
 
