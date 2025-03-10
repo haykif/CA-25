@@ -11,16 +11,16 @@
 <body>
   
   <?php
-  require_once "database.php";
-  session_start();
-  if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header("Location: ./login.php"); // redirige vers la page de connexion
-    exit();
-  }
-  
-  // Exécution de la requête pour récupérer les données
-  $query = "SELECT * FROM Acces_log";
-  $stmt  = $pdo->query($query);
+    require_once "database.php";
+    session_start();
+    if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+      header("Location: ./login.php"); // redirige vers la page de connexion
+      exit();
+    }
+    
+    // Exécution de la requête pour récupérer les données
+    $query = "SELECT * FROM Acces_log";
+    $stmt  = $pdo->query($query);
   ?>
   
   <div class="sidebar">
