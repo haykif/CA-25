@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Déconnexion...</title>
-    <meta http-equiv="refresh" content="5;url=./login.php">
+    <meta http-equiv="refresh" content="3;url=./login.php">
     <link rel="stylesheet" href="../css/logout.css">
     <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
 </head>
