@@ -11,16 +11,16 @@
 <body>
 
     <?php
-    require_once "database.php";
-    session_start();
-    if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-        header("Location: ./login.php"); // Redirige vers la page de connexion
-        exit();
-    }
+        require_once "database.php";
+        session_start();
+        if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+            header("Location: ./login.php"); // Redirige vers la page de connexion
+            exit();
+        }
 
-    // Exécution de la requête pour récupérer les données
-    $query = "SELECT * FROM Acces_log";
-    $stmt  = $pdo->query($query);
+        // Exécution de la requête pour récupérer les données
+        $query = "SELECT * FROM Acces_log";
+        $stmt  = $pdo->query($query);
     ?>
 
     <div class="sidebar">
@@ -66,15 +66,15 @@
             </thead>
             <tbody id="activity-log">
                 <?php
-                // Boucle pour afficher chaque ligne de résultat dans le tableau
-                while ($row = $stmt->fetch()) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
-                    echo "</tr>";
-                }
+                    // Boucle pour afficher chaque ligne de résultat dans le tableau
+                    while ($row = $stmt->fetch()) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
+                        echo "</tr>";
+                    }
                 ?>
             </tbody>
         </table>

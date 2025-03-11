@@ -1,7 +1,7 @@
 <?php
-require_once "database.php";
-$query = "SELECT * FROM Acces_log";
-$stmt = $pdo->query($query);
+    require_once "database.php";
+    $query = "SELECT * FROM Acces_log";
+    $stmt = $pdo->query($query);
 ?>
 
 <!DOCTYPE html>
