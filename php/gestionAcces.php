@@ -1,6 +1,6 @@
 <?php
     require_once "database.php";
-    $query = "SELECT * FROM User";
+    $query = "SELECT * FROM User WHERE Fonction != 'Admin'";
     $stmt = $pdo->query($query);
 ?>
 
@@ -31,14 +31,18 @@
     </div>
 
     <div class="main-content">
-        <h1>Dernières Activités</h1>
+        <h1>Gestion des accès</h1>
         <table>
             <thead>
                 <tr>
-                    <th>ID Accès</th>
-                    <th>Date Heure Entrée</th>
-                    <th>Date Heure Sortie</th>
-                    <th>ID Utilisateur</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Motif</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>ID Carte</th>
                 </tr>
             </thead>
             <tbody id="activity-log">
@@ -46,10 +50,14 @@
                     // Boucle pour afficher chaque ligne de résultat dans le tableau
                     while ($row = $stmt->fetch()) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Nom']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Prenom']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Tel']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Motif']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_debut']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_fin']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['idCarte']) . "</td>";
                         echo "</tr>";
                     }
                 ?>
