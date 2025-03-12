@@ -39,14 +39,14 @@ try {
     // Préparer l'envoi de l'email de confirmation
     $to = $email;
     $subject = "Confirmation de votre inscription";
-    $confirmation_link = "http://172.21.1.240/php/confirmMail.php?email=" . urlencode($email) . "&token=" . $token;
+    $confirmation_link = "http://172.21.1.162/php/confirmMail.php?email=" . urlencode($email) . "&token=" . $token;
     $message = "Bonjour $prenom $nom,\n\n" .
                "Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :\n\n" .
                "$confirmation_link\n\n" .
                "Cordialement,\nL'équipe de validation.";
     
-    $headers = "From: noreply@tonsite.com\r\n" .
-               "Reply-To: noreply@tonsite.com\r\n" .
+    $headers = "From: noreply@jojo.com\r\n" .
+               "Reply-To: noreply@jojo.com\r\n" .
                "Content-Type: text/plain; charset=UTF-8\r\n";
 
     if (mail($to, $subject, $message, $headers)) {
