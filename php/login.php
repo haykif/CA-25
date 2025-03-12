@@ -10,7 +10,7 @@
         if (!empty($username) && !empty($password)) {
             try {
                 // Préparer et exécuter la requête pour récupérer l'utilisateur
-                $stmt = $pdo->prepare("SELECT Identifiant, Mdp FROM Admin WHERE Identifiant = :username");
+                $stmt = $pdo->prepare("SELECT Identifiant, Mdp FROM User WHERE Identifiant = :username");
                 $stmt->bindParam(':username', $username, PDO::PARAM_STR);
                 $stmt->execute();
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);

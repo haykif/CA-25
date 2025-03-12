@@ -1,6 +1,6 @@
 <?php
-    require_once __DIR__ . './database.php'; // Inclusion de la connexion PDO
-
+    require_once './database.php'; // Connexion à la base de données
+    
     // Récupérer les données du formulaire
     $nom = $_POST['nom'] ?? '';
     $prenom = $_POST['prenom'] ?? '';
@@ -17,7 +17,7 @@
 
     try {
         // Insérer les données dans la base
-        $sql = "INSERT INTO Formulaire (Nom, Prenom, Email, Tel, Motif, Date_debut, Date_fin, Fonction, Mail_envoye, Mail_verif) 
+        $sql = "INSERT INTO User (Nom, Prenom, Email, Tel, Motif, Date_debut, Date_fin, Fonction, Mail_envoye, Mail_verif) 
                 VALUES (:nom, :prenom, :email, :telephone, :motif, :date_debut, :date_fin, :fonction, :mail_envoye, :mail_verif)";
         
         $stmt = $pdo->prepare($sql);
