@@ -42,7 +42,7 @@ Le système permettra :
 
 ## 💚 aaPanel Login / Mot de Passe
 - aaPanel Internet Address: https://80.245.21.40:14473/29f1f021
-- aaPanel Internal Address: https://173.21.1.240:14473/29f1f021
+- aaPanel Internal Address: https://173.21.1.162:14473/29f1f021
 - username: `jqgrxbtz`
 - password: `8fb42c65`
 
