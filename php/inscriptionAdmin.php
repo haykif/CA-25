@@ -15,6 +15,8 @@
         $mdp         = trim($_POST['mdp'] ?? '');
         $email       = trim($_POST['email'] ?? '');
         $tel         = trim($_POST['tel'] ?? '');
+        $superuser = 1;
+        $fonction = "Admin";
 
         // 2. Vérifier que tous les champs sont remplis
         if (empty($nom) || empty($prenom) || empty($identifiant) || empty($mdp) || empty($email) || empty($tel)) {
@@ -32,8 +34,8 @@
             // 4. Préparer la requête d'insertion
             //    On n'inclut pas idAdmin si c'est un AUTO_INCREMENT
             $stmt = $pdo->prepare("
-                INSERT INTO Admin (Nom, Prenom, Identifiant, Mdp, Email, Tel)
-                VALUES (:nom, :prenom, :identifiant, :mdp, :email, :tel)
+                INSERT INTO User (Nom, Prenom, Identifiant, Mdp, Email, Tel, SuperUser, Fonction)
+                VALUES (:nom, :prenom, :identifiant, :mdp, :email, :tel, :superuser, :fonction)
             ");
 
             // 5. Lier les paramètres
@@ -43,6 +45,8 @@
             $stmt->bindParam(':mdp',         $hashedMdp,   PDO::PARAM_STR);
             $stmt->bindParam(':email',       $email,       PDO::PARAM_STR);
             $stmt->bindParam(':tel',         $tel,         PDO::PARAM_INT);
+            $stmt->bindParam(':superuser',   $superuser,   PDO::PARAM_INT);
+            $stmt->bindParam(':fonction',    $fonction,    PDO::PARAM_INT);
 
             // 6. Exécuter l'insertion
             if ($stmt->execute()) {
