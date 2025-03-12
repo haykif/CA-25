@@ -27,7 +27,7 @@
         <h2>Admin Dashboard</h2>
         <ul>
             <li><a href="./dashboard.php">Tableau de bord</a></li>
-            <li><a href="#">Gestion des accès</a></li>
+            <li><a href="./gestionAcces.php">Gestion des accès</a></li>
             <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
             <li><a href="./formulaire.php">Formulaire</a></li>
             <li><a href="./logs.php">Logs</a></li>
