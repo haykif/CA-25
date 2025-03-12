@@ -1,99 +1,82 @@
 <?php
-    require_once './database.php'; // Connexion à la base de données
+require_once './database.php'; // Connexion à la base de données
+
+// Récupérer et nettoyer les données du formulaire
+$nom       = trim($_POST['nom'] ?? '');
+$prenom    = trim($_POST['prenom'] ?? '');
+$fonction  = trim($_POST['fonction'] ?? '');
+$motif     = trim($_POST['motif'] ?? '');
+$telephone = trim($_POST['telephone'] ?? '');
+$email     = trim($_POST['email'] ?? '');
+$date_debut_input = $_POST['date-debut'] ?? '';
+$date_fin_input   = $_POST['date-fin'] ?? '';
+
+// Validation des dates avec le format attendu (YYYY-MM-DD)
+$date_debut = DateTime::createFromFormat('Y-m-d', $date_debut_input);
+$date_fin   = DateTime::createFromFormat('Y-m-d', $date_fin_input);
+
+// Si la date n'est pas valide, on peut soit afficher une erreur soit définir une valeur par défaut (ici NULL)
+$date_debut = $date_debut ? $date_debut->format('Y-m-d') : null;
+$date_fin   = $date_fin ? $date_fin->format('Y-m-d') : null;
+
+// Vérification du téléphone : s'il est vide ou non numérique, on le met à NULL
+if ($telephone === '' || !is_numeric($telephone)) {
+    $telephone = null;
+}
+
+// Générer un token unique
+$token = bin2hex(random_bytes(50));
+
+$mail_envoye = 0;
+$mail_verif  = 0; // Email non encore vérifié
+
+
+
+    // Envoyer l'email de confirmation
+    $to = $email;
+    $subject = "Confirmation de votre inscription";
+    $confirmation_link = "http://172.21.1.162/php/confirmMail.php?email=" . urlencode($email) . "&token=" . $token;
+    $message = "Bonjour $prenom $nom,\n\nMerci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :\n\n$confirmation_link\n\nCordialement,\nL'équipe de validation.";
     
-    // Récupérer les données du formulaire
-    $nom = $_POST['nom'] ?? '';
-    $prenom = $_POST['prenom'] ?? '';
-    $fonction = $_POST['fonction'] ?? '';
-    $motif = $_POST['motif'] ?? '';
-    $telephone = $_POST['telephone'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $date_debut = $_POST['date-debut'] ?? '';
-    $date_fin = $_POST['date-fin'] ?? '';
+    $headers = "From: noreply@173.21.1.162\r\n";
+    $headers .= "Reply-To: noreply@173.21.1.162\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
-    $token = bin2hex(random_bytes(50)); // Générer un token unique
-    $mail_envoye = 0;
-    $mail_verif = 0;// Email non encore envoyé
-
-    try {
-        // Insérer les données dans la base
-        $sql = "INSERT INTO User (Nom, Prenom, Email, Tel, Motif, Date_debut, Date_fin, Fonction, Mail_envoye, Mail_verif) 
-                VALUES (:nom, :prenom, :email, :telephone, :motif, :date_debut, :date_fin, :fonction, :mail_envoye, :mail_verif)";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':nom' => $nom,
-            ':prenom' => $prenom,
-            ':email' => $email,
-            ':telephone' => $telephone,
-            ':motif' => $motif,
-            ':date_debut' => $date_debut,
-            ':date_fin' => $date_fin,
-            ':fonction' => $fonction,
-            ':mail_envoye' => $mail_envoye,
-            ':mail_verif' => $mail_verif
-
-        ]);
-
-        // Envoyer l'email de confirmation
-        $to = $email;
-        $subject = "Confirmation de votre inscription";
-        $message = "
-        Bonjour $prenom $nom,
-
-        Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :
-        
-        http://172.21.1.240/php/confirmMail.php?email=$email&token=$token
-
-        Cordialement,
-        L'équipe de validation.
-        ";
-        
-        $headers = "From: noreply@173.21.1.240\r\n"; // À CHANGER
-        $headers .= "Reply-To: noreply@173.21.1.240\r\n"; // À CHANGER
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n"; // À CHANGER
-
-        if (mail($to, $subject, $message, $headers)) {
+    if (mail($to, $subject, $message, $headers)) {
+            // On s'assure que la table User comporte bien les colonnes indiquées
+            $sql = "INSERT INTO User (Nom, Prenom, Email, Tel, Motif, Date_debut, Date_fin, Fonction, Mail_envoye, Mail_verif, token) 
+                    VALUES (:nom, :prenom, :email, :telephone, :motif, :date_debut, :date_fin, :fonction, :mail_envoye, :mail_verif, :token)";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':nom'        => $nom,
+                ':prenom'     => $prenom,
+                ':email'      => $email,
+                ':telephone'  => $telephone,
+                ':motif'      => $motif,
+                ':date_debut' => $date_debut,
+                ':date_fin'   => $date_fin,
+                ':fonction'   => $fonction,
+                ':mail_envoye'=> $mail_envoye,
+                ':mail_verif' => $mail_verif,
+                ':token'      => $token
+            ]);
+       
             echo "Inscription réussie ! Un email de confirmation vous a été envoyé.";
 
-            // Mettre à jour le statut de l'email envoyé
-            $update_sql = "UPDATE WhiteList SET Mail_envoye = 1 WHERE Email = :email";
-            $update_stmt = $pdo->prepare($update_sql);
-            $update_stmt->execute([':email' => $email]);
-        } else {
-            echo "Erreur lors de l'envoi de l'email.";
-        }
-    } catch (PDOException $e) {
-        echo "Erreur lors de l'inscription : " . $e->getMessage();
-    }
-
- 
-    //Envoi Mail
-    
-    // Génération d'un token de confirmation (pour plus de sécurité, envisage d'utiliser d'autres méthodes)
-    $token = md5(uniqid($email, true));
-    
-    // Création du lien de confirmation
-    $link = "http://tonsite.com/confirm.php?email=" . urlencode($email) . "&token=" . $token;
-    
-    // Préparation du contenu de l'email
-    $subject = "Confirmez votre adresse email";
-    $message = "Bonjour,\n\nMerci de vous être inscrit.\nVeuillez cliquer sur le lien suivant pour confirmer votre adresse email :\n$link\n\nCordialement,\nL'équipe";
-    
-    // Préparation des en-têtes de l'email
-    $headers = "From: no-reply@tonsite.com\r\n";
-    $headers .= "Reply-To: support@tonsite.com\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    
-    // Envoi de l'email
-    if(mail($email, $subject, $message, $headers)) {
-        echo "Email de confirmation envoyé.";
-    } else {
+        // Mettre à jour le statut de l'email envoyé dans la même table
+        $update_sql = "UPDATE User SET Mail_envoye = 1 WHERE Email = :email";
+        $update_stmt = $pdo->prepare($update_sql);
+        $update_stmt->execute([':email' => $email]);
+     else {
         echo "Erreur lors de l'envoi de l'email.";
     }
-
-    
+} catch (PDOException $e) {
+    echo "Erreur lors de l'inscription : " . $e->getMessage();
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="fr">

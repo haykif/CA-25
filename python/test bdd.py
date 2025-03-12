@@ -4,7 +4,7 @@ import mysql.connector
 # Fonction pour enregistrer une tentative dans la base de données
 def enregistrer_tentative(id_user, resultat):
     connection = mysql.connector.connect(
-        host="173.21.1.240:3306",
+        host="173.21.1.162:3306",
         user="dbca25",
         password="admin",
         database="dbca25"
