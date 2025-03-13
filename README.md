@@ -22,7 +22,7 @@ Le système permettra :
 - `html/` → Formulaire de demande d'accès
 - `js/` → Emulation de l'état ouvert/fermée de la porte
 - `php/` → Code pour communiquer avec la Base de données
-- `rpi/` → Code pour le Raspberry Pi
+- `python/` → Code pour le Raspberry Pi
 - `tests/` → Scripts de tests
 ---
 ## 📝 Installation
