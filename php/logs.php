@@ -37,7 +37,9 @@
                 <tr>
                     <th>ID Accès</th>
                     <th>Date Heure Entrée</th>
+                    <th>Resultat tentative</th>
                     <th>Date Heure Sortie</th>
+                    <th>Carte RFID utilisé</th>
                     <th>ID Utilisateur</th>
                 </tr>
             </thead>
@@ -48,7 +50,9 @@
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['Date_heure_entree']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Resultat_tentative']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['Date_heure_sortie']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['RFID_utilise']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
                         echo "</tr>";
                     }
