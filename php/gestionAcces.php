@@ -1,6 +1,7 @@
 <?php
     require_once "database.php";
-    $query = "SELECT * FROM User WHERE Fonction != 'Admin'";
+    // On filtre sur Mail_verif = 1 dès la requête
+    $query = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1";
     $stmt = $pdo->query($query);
 ?>
 
@@ -43,21 +44,35 @@
                     <th>Date de début</th>
                     <th>Date de fin</th>
                     <th>ID Carte</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="activity-log">
                 <?php
                     // Boucle pour afficher chaque ligne de résultat dans le tableau
-                    while ($row = $stmt->fetch()) {
+                    while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['Nom']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Prenom']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Email']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Tel']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Motif']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_debut']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_fin']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['idCarte']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Motif'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_debut'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Date_fin'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
+                        echo "<td>";
+                        // Si Verifier est NULL, affiche les boutons
+                        if (is_null($row['Verifier'])) {
+                            echo '<form action="donnerAcces.php" method="post" style="display:inline;">
+                                    <input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">
+                                    <button type="submit">Donner Accès</button>
+                                  </form>';
+                            echo '<form action="refuserAcces.php" method="post" style="display:inline; margin-left:5px;">
+                                    <input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">
+                                    <button type="submit">Refuser</button>
+                                  </form>';
+                        }
+                        echo "</td>";
                         echo "</tr>";
                     }
                 ?>
