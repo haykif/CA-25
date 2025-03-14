@@ -63,14 +63,17 @@
                         echo "<td>";
                         // Si Verifier est NULL, affiche les boutons
                         if (is_null($row['Verifier'])) {
-                            echo '<form action="donnerAcces.php" method="post" style="display:inline;">
-                                    <input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">
-                                    <button type="submit">Donner Accès</button>
-                                  </form>';
-                            echo '<form action="refuserAcces.php" method="post" style="display:inline; margin-left:5px;">
-                                    <input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">
-                                    <button type="submit">Refuser</button>
-                                  </form>';
+                            echo '<form action="bouton.php" method="post" style="display:inline;">';
+                            echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
+                            echo '<input type="hidden" name="action" value="donner">';
+                            echo '<button type="submit">Donner Accès</button>';
+                            echo '</form>';
+                            
+                            echo '<form action="bouton.php" method="post" style="display:inline; margin-left:5px;">';
+                            echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
+                            echo '<input type="hidden" name="action" value="refuser">';
+                            echo '<button type="submit">Refuser</button>';
+                            echo '</form>';
                         }
                         echo "</td>";
                         echo "</tr>";
