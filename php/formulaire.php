@@ -1,10 +1,10 @@
 <?php
 require_once './database.php'; // Connexion à la base de données
 
-// 1. Inclure l'autoload de Composer
+// Inclure l'autoload de Composer
 require __DIR__ . '/vendor/autoload.php';
 
-// 2. Importer les classes PHPMailer
+// Importer les classes PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 

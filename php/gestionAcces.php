@@ -63,18 +63,27 @@
                         echo "<td>";
                         // Si Verifier est NULL, affiche les boutons
                         if (is_null($row['Verifier'])) {
+                            // Bouton accepter
                             echo '<form action="bouton.php" method="post" style="display:inline;">';
                             echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
                             echo '<input type="hidden" name="action" value="donner">';
+                            echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
+                            echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
+                            echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
                             echo '<button type="submit">Donner Accès</button>';
                             echo '</form>';
                             
+                            // Bouton refuser
                             echo '<form action="bouton.php" method="post" style="display:inline; margin-left:5px;">';
                             echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
                             echo '<input type="hidden" name="action" value="refuser">';
+                            echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
+                            echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
+                            echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
                             echo '<button type="submit">Refuser</button>';
                             echo '</form>';
                         }
+                        
                         echo "</td>";
                         echo "</tr>";
                     }
