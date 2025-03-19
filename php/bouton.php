@@ -4,6 +4,7 @@ require_once "database.php";
 // Inclure l'autoload de Composer
 require __DIR__ . '/vendor/autoload.php';
 
+
 // Importer les classes PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -11,7 +12,7 @@ use PHPMailer\PHPMailer\Exception;
 // Générer un token unique
 $token     = bin2hex(random_bytes(50));
 
-//$userId    = $_POST['userId'] ?? '';
+$userId    = $_POST['idUser'] ?? '';
 $action    = $_POST['action'] ?? '';
 $nom       = $_POST['Nom'] ?? '';
 $prenom    = $_POST['Prenom'] ?? '';
@@ -20,15 +21,15 @@ $userEmail = $_POST['Email'] ?? '';  // Renommé pour éviter le conflit
 // Créer l'instance PHPMailer
 $mailer = new PHPMailer(true);
 
-if ($userId !== '') {
+if ($nom !== '') {
 
     // Accès autorisé
     if ($action === 'donner') {
 
         // Met à jour la base de donnée
-        $query = "UPDATE User SET Verifier = 1 WHERE idCarte = :userId";
+        $query = "UPDATE User SET Verifier = 1 WHERE Email = :Email";
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_STR);
+        $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
         if ($stmt->execute()) {
             echo "Accès donné avec succès pour l'utilisateur ayant l'ID : " . htmlspecialchars($userId);
         } else {
@@ -69,11 +70,11 @@ if ($userId !== '') {
 
     // Accès refusé
     } elseif ($action === 'refuser') {
-        $query = "DELETE FROM User WHERE idCarte = :userId";
+        $query = "DELETE FROM User WHERE Email = :Email";
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_STR);
+        $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
         if ($stmt->execute()) {
-            echo "L'utilisateur avec l'ID " . htmlspecialchars($userId) . " a été supprimé avec succès.";
+            echo "L'utilisateur avec a été supprimé avec succès.";
         } else {
             echo "Erreur lors de la suppression de l'utilisateur.";
         }
