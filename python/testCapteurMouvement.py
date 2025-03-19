@@ -24,3 +24,21 @@ try:
 except KeyboardInterrupt:
     print("Arrêt du programme")
     GPIO.cleanup()  # Nettoyage des GPIO avant de quitter
+
+
+#----------------------------------------------------------
+
+import RPi.GPIO as GPIO
+import time
+
+PIR_PIN = 17
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(PIR_PIN, GPIO.IN)
+
+print("Test PIR :")
+
+while True:
+    print(GPIO.input(PIR_PIN))  # Devrait afficher 1 ou 0
+    time.sleep(0.5)
+
