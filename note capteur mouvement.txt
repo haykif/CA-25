@@ -1,0 +1,3 @@
+Faut se situer a au moins 3 metre et maximun 7 metre
+
+La sortie est en 3 volts
