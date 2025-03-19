@@ -1,3 +1,9 @@
 Faut se situer a au moins 3 metre et maximun 7 metre
 
 La sortie est en 3 volts
+
+Sortie(Dout) -> GPIO
+
+VCC -> 5v power 
+
+GND -> any GND
