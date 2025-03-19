@@ -84,7 +84,7 @@
                             echo '</form>';
                         }
 
-                        if (($row['Verifier']= 1))
+                        if (($row['Verifier'] === 1))
                         {
                             echo '<form action="bouton.php" method="post" style="display:inline;">';
                             echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
