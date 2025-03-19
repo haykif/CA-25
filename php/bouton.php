@@ -69,7 +69,7 @@ if ($nom !== '') {
         }
 
     // Accès refusé
-    } elseif ($action === 'refuser') {
+    } elseif ($action === 'refuser' || $action === 'supprimer') {
         $query = "DELETE FROM User WHERE Email = :Email";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
@@ -111,7 +111,9 @@ if ($nom !== '') {
             echo "Erreur lors de l'envoi de l'email : " . $mailer->ErrorInfo;
         }
 
-    } else {
+    } 
+    
+    else {
         echo "Action non valide.";
     }
 } else {
