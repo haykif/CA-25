@@ -9,9 +9,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Générer un token unique
-$token       = bin2hex(random_bytes(50));
+$token     = bin2hex(random_bytes(50));
 
-$userId    = $_POST['userId'] ?? '';
+//$userId    = $_POST['userId'] ?? '';
 $action    = $_POST['action'] ?? '';
 $nom       = $_POST['Nom'] ?? '';
 $prenom    = $_POST['Prenom'] ?? '';
