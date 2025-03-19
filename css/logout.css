@@ -23,7 +23,7 @@ h2 {
 /* LIGHT */
 @media (prefers-color-scheme: light) {
     body {
-        background: url("../assets/light-4k.jpeg") no-repeat center center fixed;
+        background: url("../assets/light-4k.webp") no-repeat center center fixed;
     }
     .container {
         background: rgba(255, 255, 255, 0.8)
@@ -36,7 +36,7 @@ h2 {
 /* DARK */
 @media (prefers-color-scheme: dark) {
     body {
-        background: url("../assets/dark-4k.jpeg") no-repeat center center fixed;
+        background: url("../assets/dark-4k.webp") no-repeat center center fixed;
     }
     .container {
         background: rgba(47, 47, 47, 0.8)

@@ -57,8 +57,8 @@
                         echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row['Motif'] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_debut'] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Date_fin'] ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_debut'])[0]))->format('d-m-Y') ?? '') . "</td>";
+                        echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
                         echo "<td>";
                         // Si Verifier est NULL, affiche les boutons

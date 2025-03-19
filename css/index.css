@@ -45,7 +45,7 @@ input {
 /* LIGHT */
 @media (prefers-color-scheme: light) {
     body {
-        background: url("../assets/light-4k.jpeg") no-repeat center center fixed;
+        background: url("../assets/light-4k.webp") no-repeat center center fixed;
         color: #141f23;
     }
     .container {
@@ -73,7 +73,7 @@ input {
 /* DARK */
 @media (prefers-color-scheme: dark) {
     body {
-        background: url("../assets/dark-4k.jpeg") no-repeat center center fixed;
+        background: url("../assets/dark-4k.webp") no-repeat center center fixed;
         color: #ddd;
     }
     .container {
