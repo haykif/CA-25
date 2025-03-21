@@ -96,7 +96,7 @@ try {
         // Pour l'admin
         $mail1->isHTML(true);
         $mail1->Subject = "Demande d'accès";
-        $mail1->Body    = "Bonjour $prenom $nom,<br><br>"
+        $mail1->Body    = "Bonjour Haykif Senior,<br><br>"
                        . "Une demande d'accès de la part de $prenom $nom vien d'être envoyé. :<br><br>"
                        . "Cordialement,<br>Lycée Charles Poncet.";
         // Version texte (fallback)
