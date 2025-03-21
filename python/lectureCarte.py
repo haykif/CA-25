@@ -150,3 +150,7 @@ except KeyboardInterrupt:
     print("⏹️ Arrêt forcé du programme.")
     GPIO.cleanup()
 
+#source ./Documents/myenv/bin/activate
+#cd /home/Pi/Documents
+#python3 test.py
+
