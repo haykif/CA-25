@@ -33,7 +33,7 @@ body {
 }
 
 .sidebar ul li {
-    margin: 20px 0;
+    margin: 10px 0;
     font-weight: bold;
 }
 
@@ -65,13 +65,20 @@ body {
     transition: background 0.3s;
 }
 
-.main-content {
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     margin-left: 290px;
     margin-right: 20px;
     margin-top: 20px;
     margin-bottom: auto;
-    padding: 20px;
     width: calc(100% - 270px);
+    gap: 20px;
+}
+
+.main-content {
+    padding: 20px;
     backdrop-filter: blur(8px);
     border-radius: 10px;
 }
