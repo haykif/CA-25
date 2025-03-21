@@ -77,3 +77,75 @@ def choisirUnChoix():
         choisirUnChoix()
 
 choisirUnChoix()
+
+
+
+#-----------------------------------------------------------------------------
+
+import RPi.GPIO as GPIO
+import time
+from datetime import datetime
+from mfrc522 import SimpleMFRC522
+
+# 🎯 CONFIGURATION DE LA GÂCHE ÉLECTRIQUE
+RELAIS_PIN = 17  # GPIO 17 (Pin 11 du Raspberry Pi)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(RELAIS_PIN, GPIO.OUT)
+GPIO.output(RELAIS_PIN, GPIO.HIGH)  # Par défaut, la gâche est verrouillée
+
+# Initialisation du lecteur RFID-RC522
+reader = SimpleMFRC522()
+
+def activer_gache():
+    """ Active la gâche électrique pendant 3 secondes """
+    print("✅ Accès autorisé ! Ouverture de la porte...")
+    GPIO.output(RELAIS_PIN, GPIO.LOW)  # Active le relais
+    time.sleep(3)
+    GPIO.output(RELAIS_PIN, GPIO.HIGH)  # Désactive le relais
+    print("🔒 Porte refermée.")
+
+def read_card():
+    """ Lecture de la carte RFID """
+    print("📡 En attente d'une carte RFID...")
+    try:
+        card_id, text = reader.read()  # Lecture de l'ID de la carte
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Date et heure
+        
+        print(f"📡 Carte détectée : {card_id}")
+        print(f"⏰ Badgeage effectué à : {current_time}")
+
+        # Toute carte active la gâche
+        activer_gache()
+
+    except Exception as e:
+        print(f"⚠️ Erreur de lecture RFID : {e}")
+
+# Faire un choix
+def choisirUnChoix():
+    while True:
+        print("""
+        Choisissez:
+        '1' pour continuer le scan.
+        '2' pour arrêter le programme.
+        """)
+        
+        choix = input("Faites votre choix: ")
+        
+        if choix == "1":
+            print("🔁 Lecture en cours...")
+            read_card()
+        
+        elif choix == "2":
+            print("🛑 Arrêt du programme...")
+            GPIO.cleanup()
+            break
+        
+        else:
+            print("❌ Choix invalide, veuillez réessayer.")
+
+try:
+    choisirUnChoix()
+except KeyboardInterrupt:
+    print("⏹️ Arrêt forcé du programme.")
+    GPIO.cleanup()
+
