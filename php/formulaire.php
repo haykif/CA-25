@@ -47,21 +47,35 @@ try {
 
     // Maintenant, on va envoyer l'e-mail de confirmation via PHPMailer
     $mail = new PHPMailer(true);
+    $mail1 = new PHPMailer(true);
 
     try {
-        // Configuration du serveur SMTP (ici avec Gmail)
+        // Configuration du serveur SMTP 
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';           // Serveur SMTP
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'carteacces99@gmail.com';     // Ton adresse SMTP
-        $mail->Password   = 'llvzctlmvjasxyfq';             // Ton mot de passe d'application (ou autre)
+        $mail->Username   = 'carteacces99@gmail.com';     
+        $mail->Password   = 'llvzctlmvjasxyfq';          
         $mail->SMTPSecure = 'tls';                        // Chiffrement TLS
-        $mail->Port       = 587;                          // Port SMTP
+        $mail->Port       = 587;                          // Port SMTP     
+        
+        $mail1->isSMTP();
+        $mail1->Host       = 'smtp.gmail.com';           // Serveur SMTP
+        $mail1->SMTPAuth   = true;
+        $mail1->Username   = 'carteacces99@gmail.com';     
+        $mail1->Password   = 'llvzctlmvjasxyfq';          
+        $mail1->SMTPSecure = 'tls';                        // Chiffrement TLS
+        $mail1->Port       = 587;                          // Port SMTP  
 
-        // Expéditeur et destinataire
+        // Pour l'employé
         $mail->setFrom('carteacces99@gmail.com', 'Charles Poncet');
         $mail->addAddress($email, $prenom . ' ' . $nom);
+        
+        // Pour l'admin
+        $mail1->setFrom('carteacces99@gmail.com', 'Charles Poncet');
+        $mail1->addAddress('hamza.aydogdu04@icloud.com', 'Hayfik'. ' ' . 'Senior');
 
+        //Pour l'employé
         // Construire le lien de confirmation (pointez vers le fichier confirmMail.php)
         $confirmation_link = "http://173.21.1.162/php/confirmMail.php?email=" 
                              . urlencode($email) . "&token=" . $token;
@@ -72,15 +86,28 @@ try {
         $mail->Body    = "Bonjour $prenom $nom,<br><br>"
                        . "Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :<br><br>"
                        . "<a href='$confirmation_link'>$confirmation_link</a><br><br>"
-                       . "Cordialement,<br>L'équipe de validation.";
+                       . "Cordialement,<br>Lycée Charles Poncet.";
         // Version texte (fallback)
         $mail->AltBody = "Bonjour $prenom $nom,\n\n"
                        . "Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :\n\n"
                        . "$confirmation_link\n\n"
-                       . "Cordialement,\nL'équipe de validation.";
+                       . "Cordialement,\nLycée Charles Poncet.";
 
+        // Pour l'admin
+        $mail1->isHTML(true);
+        $mail1->Subject = "Demande d'accès";
+        $mail1->Body    = "Bonjour $prenom $nom,<br><br>"
+                       . "Une demande d'accès de la part de $prenom $nom vien d'être envoyé. :<br><br>"
+                       . "Cordialement,<br>Lycée Charles Poncet.";
+        // Version texte (fallback)
+        $mail1->AltBody = "Bonjour $prenom $nom,\n\n"
+                       . "Une demande d'accès de la part de $prenom $nom vien d'être envoyé. :\n\n"
+                       . "$confirmation_link\n\n"
+                       . "Cordialement,\nLycée Charles Poncet.";
+        
         // Envoi du mail
         $mail->send();
+        $mail1->send();
 
         // Mettre à jour la colonne Mail_envoye à 1
         $update_sql = "UPDATE User SET Mail_envoye = 1 WHERE Email = :email";
