@@ -1,9 +1,9 @@
+#Code lecteur de carte admin
+
 import nfc
 import RPi.GPIO as GPIO
 import time
 from datetime import datetime
-
-
 
 # CONFIGURATION DE LA GÂCHE ÉLECTRIQUE
 RELAIS_PIN = 11  # GPIO 17 (adapter selon ton branchement)
@@ -79,8 +79,9 @@ def choisirUnChoix():
 choisirUnChoix()
 
 
-
 #-----------------------------------------------------------------------------
+
+#Code lecteur de carte encastrée 
 
 import RPi.GPIO as GPIO
 import time
