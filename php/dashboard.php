@@ -23,7 +23,7 @@
         $stmtLogs  = $pdo->query($queryLogs);
         
         // On filtre sur Mail_verif = 1 dès la requête
-        $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1";
+        $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = NULL";
         $stmtAcces = $pdo->query($queryAcces);
     ?>
 
