@@ -3,7 +3,7 @@ import time
 
 # Configuration des GPIO
 GPIO.setmode(GPIO.BCM)
-RELAY_PIN = 18  # Modifier selon ton branchement
+RELAY_PIN = 17  # Modifier selon ton branchement
 LED1 = 23
 LED2 = 24
 
