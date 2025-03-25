@@ -1,5 +1,11 @@
 <?php
     require_once "database.php";
+    session_start();
+    if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
+        header("Location: ./login.php"); // Redirige vers la page de connexion
+        exit();
+    }
+    
     // On filtre sur Mail_verif = 1 dès la requête
     $query = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1";
     $stmt = $pdo->query($query);

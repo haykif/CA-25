@@ -18,8 +18,6 @@ body {
     padding: 20px;
     height: 100%;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
-    animation-duration: 1s;
-    animation-name: slide-in;
 }
 
 .sidebar h2 {
@@ -67,109 +65,20 @@ body {
     transition: background 0.3s;
 }
 
-.main-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.main-content {
     margin-left: 290px;
     margin-right: 20px;
     margin-top: 20px;
     margin-bottom: auto;
-    width: calc(100% - 270px);
-    gap: 20px;
-}
-
-.main-content {
     padding: 20px;
+    width: calc(100% - 270px);
     backdrop-filter: blur(8px);
     border-radius: 10px;
-    animation-duration: 2s;
-    animation-name: slide-up-down;
-    opacity: 1;
-    animation: fadeIn 1s ease-in-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+h2 {
+    padding-top: 20px;
 }
-
-/*
-@keyframes slide-up-down {
-    from {
-        translate: 0 -150vw;
-        scale: 500% 1;
-    }
-  
-    to {
-        translate: 0 0;
-        scale: 100% 1;
-    }
-}
-*/
-.cards {
-    display: flex;
-    gap: 20px;
-}
-
-.card {
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    text-align: center;
-}
-
-/* Dernier card */
-.cards a {
-    flex: 1;
-    display: block;
-    text-decoration: none;
-    transition: transform 0.2s ease-in-out;
-}
-
-.cards a:hover {
-    transform: scale(1.03);
-}
-
-.cards a .card {
-    position: relative;
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-.cards a:hover .card {
-    box-shadow: 0 0 20px rgba(255, 170, 85, 0.5); /* Couleur orangée */
-}
-
-.cards a .card::after {
-    content: "Voir les accès autorisés";
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.8rem;
-    color: #ff8c42;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    pointer-events: none;
-}
-
-.cards a:hover .card::after {
-    opacity: 1;
-}
-
-@keyframes slide-in {
-    from {
-        translate: -100vw 0;
-        scale: 90% 1;
-    }
-  
-    to {
-        translate: 0 0;
-        scale: 100% 1;
-    }
-}
-
 
 table {
     width: 100%;
@@ -214,13 +123,10 @@ th {
         background: rgb(244,165,108);
     }
     .main-content {
-        background: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.8)
     }
     .card {
         background: white;
-    }
-    .cards a {
-        color: #141f23;
     }
     th {
         background: #cb8758;
@@ -257,13 +163,10 @@ th {
         background: rgb(21, 31, 33, 0.8);
     }
     .main-content {
-        background: rgba(47, 47, 47, 0.8);
+        background: rgba(47, 47, 47, 0.8)
     }
     .card {
         background: #141f23;
-    }
-    .cards a {
-        color: #ddd;
     }
     th {
         background: #141f23;

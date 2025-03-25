@@ -23,8 +23,12 @@
         $stmtLogs  = $pdo->query($queryLogs);
         
         // On filtre sur Mail_verif = 1 dès la requête
-        $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = NULL";
+        $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier IS NULL";
         $stmtAcces = $pdo->query($queryAcces);
+
+        $queryAuthorized = "SELECT COUNT(*) FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1";
+        $stmtAuthorized = $pdo->query($queryAuthorized);
+        $authorizedCount = $stmtAuthorized->fetchColumn();
     ?>
 
     <div class="sidebar">
@@ -53,10 +57,12 @@
                     <h3>Présence</h3>
                     <p>Détectée: <span id="presence-status">Non</span></p>
                 </div>
-                <div class="card">
-                    <h3>Accès Autorisés</h3>
-                    <p id="authorized-count">0</p>
-                </div>
+                <a href="./accesAutorise.php">
+                    <div class="card">
+                        <h3>Accès Autorisés</h3>
+                        <p id="authorized-count"><?php echo $authorizedCount; ?></p>
+                    </div>
+                </a>
             </div>
         </div>
         
@@ -69,6 +75,7 @@
                         <th>Date Heure Entrée</th>
                         <th>Date Heure Sortie</th>
                         <th>ID Utilisateur</th>
+                        <th>Tentative d'accès</th>
                     </tr>
                 </thead>
                 <tbody id="activity-log">
@@ -80,6 +87,7 @@
                             echo "<td>" . ($row['Date_heure_entree'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['Date_heure_entree']))) : '') . "</td>";
                             echo "<td>" . htmlspecialchars(isset($row['Date_heure_sortie']) && $row['Date_heure_sortie'] ? date("d-m-Y H:i:s", strtotime($row['Date_heure_sortie'])) : '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Resultat_tentative'] ?? '') . "</td>";
                             echo "</tr>";
                         }
                     ?>
