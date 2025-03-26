@@ -81,6 +81,7 @@
     <body>
         <div class="sidebar">
             <h2>Admin Dashboard</h2>
+
             <ul>
                 <li><a href="./dashboard.php">Tableau de bord</a></li>
                 <li><a href="./gestionAcces.php">Gestion des accès</a></li>
@@ -88,38 +89,54 @@
                 <li><a href="../html/formulaire.html">Formulaire</a></li>
                 <li><a href="./logs.php">Logs</a></li>
             </ul>
+
             <div class="logout">
                 <a href="./logout.php">Déconnexion</a>
-              </div>
+            </div>
         </div>
 
-        <div class="registration-container">
-            <h2>Inscription d'un nouvel Admin</h2>
-            <form action="" method="post">
-                <label for="nom">Nom</label>
-                <input type="text" name="nom" id="nom" required>
-                <br><br>
-                <label for="prenom">Prénom</label>
-                <input type="text" name="prenom" id="prenom" required>
-                <br><br>
-                <label for="identifiant">Identifiant</label>
-                <input type="text" name="identifiant" id="identifiant" required>
-                <br><br>
-                <label for="mdp">Mot de passe</label>
-                <input type="password" name="mdp" id="mdp" required>
-                <br><br>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
-                <br><br>
-                <label for="tel">Téléphone</label>
-                <input type="number" name="tel" id="tel" required>
-                <br><br>
-                <button type="submit">Inscrire</button>
-            </form>
+        <div class="main-container">
+            <div class="main-content">
+                <h2>Inscription d'un nouvel Admin</h2>
+
+                <form action="" method="post">
+                    <label for="nom">Nom</label>
+                    <input type="text" name="nom" id="nom" required>
+
+                    <br>
+
+                    <label for="prenom">Prénom</label>
+                    <input type="text" name="prenom" id="prenom" required>
+
+                    <br>
+
+                    <label for="identifiant">Identifiant</label>
+                    <input type="text" name="identifiant" id="identifiant" required>
+
+                    <br>
+
+                    <label for="mdp">Mot de passe</label>
+                    <input type="password" name="mdp" id="mdp" required>
+
+                    <br>
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" required>
+
+                    <br>
+
+                    <label for="tel">Téléphone</label>
+                    <input type="number" name="tel" id="tel" required>
+
+                    <br>
+
+                    <button type="submit">Inscrire</button>
+                </form>
+            </div>
         </div>
     </body>
 </html>
 
 <?php
-}
+    }
 ?>

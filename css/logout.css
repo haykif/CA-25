@@ -8,13 +8,21 @@ body {
     min-height: 100vh;
     margin: 0;
 }
+
 .container {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     margin: auto;
+    animation: fadeIn 0.5s ease-in-out;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 h2 {
     text-align: center;
 }

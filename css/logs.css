@@ -74,6 +74,7 @@ body {
     width: calc(100% - 270px);
     backdrop-filter: blur(8px);
     border-radius: 10px;
+    
 }
 
 table {

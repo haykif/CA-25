@@ -8,22 +8,32 @@ body {
     min-height: 100vh;
     margin: 0;
 }
+
 .container {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     margin: auto;
+    animation: fadeIn 0.5s ease-in-out;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 h1 {
     text-align: center;
 }
+
 label {
     display: block;
     margin: 10px 0 5px;
     font-weight: bold;
     text-align: left;
 }
+
 input {
     width: 100%;
     padding: 10px;
@@ -31,6 +41,7 @@ input {
     border-radius: 5px;
     box-sizing: border-box;
 }
+
 .btn {
     border: none;
     padding: 10px;
@@ -48,23 +59,29 @@ input {
         background: url("../assets/light-4k.webp") no-repeat center center fixed;
         color: #141f23;
     }
+
     .container {
         background: rgba(255, 255, 255, 0.8)
     }
+
     h1 {
         color: #8dc7cc;
     }
+
     label {
         color: #141f23;
     }
+
     input {
         border: 2px solid #f5b79e;
     }
+
     .btn {
         background: rgb(203, 135, 88);
         color: #000;
         font-weight: bold;
     }
+
     .btn:hover {
         background: rgb(244,165,108);
     }
@@ -76,22 +93,28 @@ input {
         background: url("../assets/dark-4k.webp") no-repeat center center fixed;
         color: #ddd;
     }
+
     .container {
         background: rgba(47, 47, 47, 0.8)
     }
+
     h1 {
         color: #f4a757;
     }
+
     label {
         color: #ddd;
     }
+
     input {
         border: 2px solid #f08326;
     }
+
     .btn {
         background: rgb(21, 31, 33);
         color: #ddd;
     }
+
     .btn:hover {
         background: rgb(21, 31, 33, 0.8);
     }

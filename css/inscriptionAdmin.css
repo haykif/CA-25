@@ -1,35 +1,43 @@
-/* Réinitialisation */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
-/* Style global du body */
 body {
+    display: flex;
     font-family: 'Poppins', sans-serif;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
+    margin: 0;
+    height: 100vh;
 }
 
 .sidebar {
-    width: 270px;
+    position: fixed;
+    width: 230px;
     color: #141f23;
     padding: 20px;
-    position: fixed;
     height: 100%;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
+    animation: slideRight 0.6s ease-out;
+}
 
+@keyframes slideRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .sidebar h2 {
     text-align: left;
     font-size: 1.5rem;
     margin-left: 10px;
+    margin-top: 0;
 }
 
 .sidebar ul {
@@ -54,7 +62,7 @@ body {
 
 .sidebar .logout {
     position: absolute;
-    bottom: 20px;
+    bottom: 60px;
     left: 20px;
     right: 20px;
 }
@@ -70,53 +78,63 @@ body {
     transition: background 0.3s;
 }
 
-/* Conteneur principal du formulaire */
-.registration-container {
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    align-items: center;
+.main-container {
+    display: flex;
     justify-content: center;
+    align-items: center;
+    width: calc(100% - 230px); /* largeur totale - largeur de la sidebar */
+    margin-left: 230px; /* pousse le contenu pour ne pas passer sous la sidebar */
+    height: 100vh;
 }
 
-/* Style du titre */
-.registration-container h2 {
+.main-content {
+    padding: 30px;
+    width: calc(100% - 270px);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 430px;
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.main-content h2 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Style du formulaire */
-.registration-container form {
+.main-content form {
     display: flex;
     flex-direction: column;
 }
 
-.registration-container label {
+.main-content label {
     margin-bottom: 5px;
     font-weight: 600;
 }
 
-/* Styles des champs de saisie */
-.registration-container input[type="text"],
-.registration-container input[type="password"],
-.registration-container input[type="email"],
-.registration-container input[type="number"] {
+.main-content input[type="text"],
+.main-content input[type="password"],
+.main-content input[type="email"],
+.main-content input[type="number"] {
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.registration-container input:focus {
+.main-content input:focus {
     border-color: #2c3e50;
     box-shadow: 0 0 5px rgba(44, 62, 80, 0.5);
 }
 
-/* Style du bouton de soumission */
-.registration-container button {
+.main-content button {
     background: #2c3e50;
     color: #fff;
     border: none;
@@ -124,15 +142,10 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
-.registration-container button:hover {
-    background: #34495e;
-}
-/* La partie dark mode selon la taille de l'écran */
-/* Media par défault */
-/* LIGHT */
 @media (prefers-color-scheme: light) {
     body {
         background: url("../assets/light-4k.webp") no-repeat center center fixed;
@@ -152,26 +165,26 @@ body {
     .sidebar .logout a:hover {
         background: rgb(244,165,108);
     }
-    .registration-container {
+    .main-content {
         background: rgba(255, 255, 255, 0.8);
     }
-    .registration-container h2 {
+    .main-content h2 {
         color: #8dc7cc;
     }
-    .registration-container label {
+    .main-content label {
         color: #141f23;
     }
-    .registration-container input[type="text"],
-    .registration-container input[type="password"],
-    .registration-container input[type="email"],
-    .registration-container input[type="number"] {
+    .main-content input[type="text"],
+    .main-content input[type="password"],
+    .main-content input[type="email"],
+    .main-content input[type="number"] {
         border: 2px solid #f5b79e;
     }
-    .registration-container button {
+    .main-content button {
         background: rgb(203, 135, 88);
         color: #000;
     }
-    .registration-container button:hover {
+    .main-content button:hover {
         background: rgb(244,165,108);
     }
 }
@@ -196,26 +209,26 @@ body {
     .sidebar .logout a:hover {
         background: rgb(21, 31, 33, 0.8);
     }
-    .registration-container {
+    .main-content {
         background: rgba(47, 47, 47, 0.8)
     }
-    .registration-container h2 {
+    .main-content h2 {
         color: #f4a757;
     }
-    .registration-container label {
+    .main-content label {
         color: #ddd;
     }
-    .registration-container input[type="text"],
-    .registration-container input[type="password"],
-    .registration-container input[type="email"],
-    .registration-container input[type="number"] {
+    .main-content input[type="text"],
+    .main-content input[type="password"],
+    .main-content input[type="email"],
+    .main-content input[type="number"] {
         border: 2px solid #f08326;
     }
-    .registration-container button {
+    .main-content button {
         background: rgb(21, 31, 33);
         color: #ddd;
     }
-    .registration-container button:hover {
+    .main-content button:hover {
         background: rgb(21, 31, 33, 0.8);
     }
 }
