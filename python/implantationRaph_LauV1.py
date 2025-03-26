@@ -27,7 +27,7 @@ def activer_gache():
     """ Ouvre la gâche pendant 3 secondes puis la referme """
     print("✅ Accès accordé ! Ouverture de la porte...")
     GPIO.output(RELAY_PIN, GPIO.LOW)  # Active le relais (ouvre la gâche)
-    time.sleep(3)  # La gâche reste ouverte pendant 3 sec
+    time.sleep(1)  # La gâche reste ouverte pendant 3 sec
     GPIO.output(RELAY_PIN, GPIO.HIGH)  # Désactive le relais (ferme la gâche)
     print("🔒 Porte refermée.")
 
@@ -42,9 +42,10 @@ def verifier_acces(uid):
         if carte:
             print("✅ Carte autorisée !")
             activer_gache()
-            enregistrer_acces(uid)  # Enregistre l'accès en base
+            enregistrer_acces_autorisee(uid)  # Enregistre l'accès en base
         else:
             print("❌ Accès refusé ! Carte inconnue.")
+            enregistrer_acces_refusee(uid)
         
     except mysql.connector.Error as err:
         print(f"⚠️ Erreur MySQL : {err}")
@@ -53,8 +54,9 @@ def verifier_acces(uid):
         if 'conn' in locals() and conn.is_connected():
             cursor.close()
             conn.close()
+    return
 
-def enregistrer_acces(uid):
+def enregistrer_acces_autorisee(uid):
     """ Enregistre l'accès réussi dans la table Acces_log """
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
@@ -63,12 +65,42 @@ def enregistrer_acces(uid):
         date_entree = time.strftime('%Y-%m-%d %H:%M:%S')
         resultat = "Accès autorisé"
         etat_porte = "1"
+        IdUser="1"
 
         sql = """
-        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, RFID_utilise)
-        VALUES (%s, %s, %s, %s, %s)
+        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, RFID_utilise, IdUser)
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
-        valeurs = (date_entree, resultat, True, etat_porte, uid)
+        valeurs = (date_entree, resultat, True, etat_porte, uid, IdUser)
+
+        cursor.execute(sql, valeurs)
+        conn.commit()
+        print(f"📌 UID {uid} enregistré avec succès dans Acces_log.")
+
+    except mysql.connector.Error as err:
+        print(f"⚠️ Erreur MySQL : {err}")
+
+    finally:
+        if 'conn' in locals() and conn.is_connected():
+            cursor.close()
+            conn.close()
+            
+def enregistrer_acces_refusee(uid):
+    """ Enregistre l'accès réussi dans la table Acces_log """
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        date_entree = time.strftime('%Y-%m-%d %H:%M:%S')
+        resultat = "Accès refusé"
+        etat_porte = "1"
+        IdUser="1"
+
+        sql = """
+        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, RFID_utilise, IdUser)
+        VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        valeurs = (date_entree, resultat, True, etat_porte, uid, IdUser)
 
         cursor.execute(sql, valeurs)
         conn.commit()
@@ -84,13 +116,17 @@ def enregistrer_acces(uid):
 
 def lire_carte():
     """ Lecture de la carte et vérification de l'accès """
+    global reader
+    
     try:
         while True:
             print("📡 En attente d'une carte RFID...")
             card_id, text = reader.read()
             print(f"📡 Carte détectée : {card_id}")
             verifier_acces(card_id)  # Vérifier l'accès dans la BDD
-            time.sleep(2)  # Pause avant la prochaine lecture
+            time.sleep(2)# Pause avant la prochaine lecture
+            reader = SimpleMFRC522()
+            continue
 
     except KeyboardInterrupt:
         print("\n🛑 Arrêt du programme.")
