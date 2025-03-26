@@ -6,13 +6,15 @@ from mfrc522 import SimpleMFRC522
 RELAY_PIN = 18  # Modifier selon ton branchement
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
+
+# 🛠️ Assurer que la gâche est fermée au démarrage
 GPIO.output(RELAY_PIN, GPIO.LOW)  # La gâche reste fermée par défaut
 
 # Initialisation du lecteur RFID
 reader = SimpleMFRC522()
 
 def activer_gache():
-    """ Ouvre la gâche pendant 3 secondes """
+    """ Ouvre la gâche pendant 3 secondes puis la referme """
     print("✅ Accès accordé ! Ouverture de la porte...")
     GPIO.output(RELAY_PIN, GPIO.HIGH)  # Active le relais (ouvre la gâche)
     time.sleep(3)  # La gâche reste ouverte pendant 3 sec
