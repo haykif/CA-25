@@ -79,7 +79,9 @@
                                 echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                 echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
                                 echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                echo '<button type="submit">Donner Accès</button>';
+                                $emailJS = json_encode($row['Email']); ?>
+                                <button type="button" onclick="donnerAcces(<?php echo $emailJS; ?>)">Donner Accès</button>
+                                <?php
                                 echo '</form>';
                                 
                                 // Bouton refuser
@@ -110,5 +112,6 @@
                 </tbody>
             </table>
         </div>
+        <script src="../js/donnerAcces.js"></script>
     </body>
 </html>
