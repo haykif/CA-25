@@ -31,7 +31,7 @@
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
             if ($stmt->execute()) {
-                echo "Accès donné avec succès pour l'utilisateur ayant l'ID : " . htmlspecialchars($userId);
+                echo "Accès donné avec succès pour l'utilisateur";
             } else {
                 echo "Erreur lors de la mise à jour.";
             }

@@ -7,7 +7,7 @@
     }
     
     // On filtre sur Mail_verif = 1 dès la requête
-    $query = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1";
+    $query = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 ORDER BY Nom";
     $stmt = $pdo->query($query);
 ?>
 
@@ -61,8 +61,8 @@
                         // Boucle pour afficher chaque ligne de résultat dans le tableau
                         while (($row = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                            echo "<td>" . strtoupper(htmlspecialchars($row['Nom'] ?? '')) . "</td>";
+                            echo "<td>" . ucfirst(strtolower(htmlspecialchars($row['Prenom'] ?? ''))) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['Motif'] ?? '') . "</td>";
@@ -79,9 +79,7 @@
                                 echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                 echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
                                 echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                $emailJS = json_encode($row['Email']); ?>
-                                <button type="button" onclick="donnerAcces(<?php echo $emailJS; ?>)">Donner Accès</button>
-                                <?php
+                                echo '<button class="valider-btn" type="submit">Donner Accès</button>';
                                 echo '</form>';
                                 
                                 // Bouton refuser
@@ -91,7 +89,7 @@
                                 echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                 echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
                                 echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                echo '<button type="submit">Refuser</button>';
+                                echo '<button class="refuser-btn" type="submit">Refuser</button>';
                                 echo '</form>';
                             }
 
@@ -101,7 +99,7 @@
                                 echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
                                 echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                 echo '<input type="hidden" name="action" value="supprimer">';
-                                echo '<button type="submit">Supprimer Accès</button>';
+                                echo '<button class="supprimer-btn" type="submit">Supprimer Accès</button>';
                                 echo '</form>';
                             }
                             

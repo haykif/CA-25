@@ -143,7 +143,7 @@
                                     echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                     echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
                                     echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                    echo '<button type="submit">Donner Accès</button>';
+                                    echo '<button class="valider-btn" type="submit">Donner Accès</button>';
                                     echo '</form>';
                                     
                                     // Bouton refuser
@@ -153,17 +153,7 @@
                                     echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                     echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
                                     echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                    echo '<button type="submit">Refuser</button>';
-                                    echo '</form>';
-                                }
-        
-                                if (($row['Verifier'] === 1))
-                                {
-                                    echo '<form action="bouton.php" method="post" style="display:inline;">';
-                                    echo '<input type="hidden" name="Email" value="' . htmlspecialchars($row['Email']) . '">';
-                                    echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
-                                    echo '<input type="hidden" name="action" value="supprimer">';
-                                    echo '<button type="submit">Supprimer Accès</button>';
+                                    echo '<button class="refuser-btn" type="submit">Refuser</button>';
                                     echo '</form>';
                                 }
                                 

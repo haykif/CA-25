@@ -58,10 +58,10 @@
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['idAcces'] ?? '') . "</td>";
                             echo "<td>" . ($row['Date_heure_entree'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['Date_heure_entree']))) : '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Resultat_tentative'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars(isset($row['Date_heure_sortie']) && $row['Date_heure_sortie'] ? date("d-m-Y H:i:s", strtotime($row['Date_heure_sortie'])) : '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['RFID_utilise'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['IdUser'] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Resultat_tentative'] ?? '') . "</td>";
                             echo "</tr>";
                         }
                     ?>

@@ -18,7 +18,7 @@ body {
     padding: 20px;
     height: 100%;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
-    animation: slideRight 0.6 ease-out;
+    animation: slideRight 0.6s ease-out;
 }
 
 @keyframes slideRight {
@@ -86,7 +86,7 @@ body {
     width: calc(100% - 270px);
     backdrop-filter: blur(8px);
     border-radius: 10px;
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {

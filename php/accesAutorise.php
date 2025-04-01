@@ -6,10 +6,10 @@
         exit();
     }
 
-    $queryAuthorized = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1";
+    $queryAuthorized = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1 ORDER BY Nom";
     $stmtAuthorized = $pdo->query($queryAuthorized);
 
-    $queryAdminAuthorized = "SELECT * FROM User WHERE Fonction = 'Admin'";
+    $queryAdminAuthorized = "SELECT * FROM User WHERE Fonction = 'Admin' ORDER BY Nom";
     $stmtAdminAuthorized = $pdo->query($queryAdminAuthorized);
     
 ?>
@@ -61,8 +61,8 @@
                     <?php
                         while ($row = $stmtAuthorized->fetch()) {
                             echo "<tr>";
-                                echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                                echo "<td>" . strtoupper(htmlspecialchars($row['Nom'] ?? '')) . "</td>";
+                                echo "<td>" . ucfirst(strtolower(htmlspecialchars($row['Prenom'] ?? ''))) . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_debut'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
@@ -95,8 +95,8 @@
                         
                         while ($row = $stmtAdminAuthorized->fetch()) {
                             echo "<tr>";
-                                echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                                echo "<td>" . strtoupper(htmlspecialchars($row['Nom'] ?? '')) . "</td>";
+                                echo "<td>" . ucfirst(strtolower(htmlspecialchars($row['Prenom'] ?? ''))) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
                             echo "</tr>";

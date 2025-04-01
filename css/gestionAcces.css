@@ -18,7 +18,7 @@ body {
     padding: 20px;
     height: 100%;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
-    animation: slideRight 0.6 ease-out;
+    animation: slideRight 0.6s ease-out;
 }
 
 @keyframes slideRight {
@@ -86,7 +86,7 @@ body {
     width: calc(100% - 270px);
     backdrop-filter: blur(8px);
     border-radius: 10px;
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -112,6 +112,66 @@ table, th, td {
 th {
     color: white;
     font-weight: bold;
+}
+
+.valider-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #4cd137, #44bd32);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(76, 209, 55, 0.4);
+}
+  
+.valider-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 209, 55, 0.6);
+    background: linear-gradient(135deg, #44bd32, #4cd137);
+}
+  
+.valider-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 114, 255, 0.4);
+}
+
+.refuser-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ffbb33, #ff8800);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(255, 136, 0, 0.4);
+}
+
+.refuser-btn:hover {
+    background: linear-gradient(135deg, #ff8800, #ffbb33);
+    transform: translateY(-2px);
+}
+
+.supprimer-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+}
+  
+.supprimer-btn:hover {
+    background: linear-gradient(135deg, #cc0000, #ff4444);
+    transform: translateY(-2px);
 }
 
 /* La partie dark mode selon la taille de l'écran */
