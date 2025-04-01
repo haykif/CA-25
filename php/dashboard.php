@@ -19,11 +19,11 @@
             }
 
             // Exécution de la requête pour récupérer les données
-            $queryLogs = "SELECT * FROM Acces_log";
+            $queryLogs = "SELECT * FROM Acces_log ORDER BY Date_heure_entree DESC LIMIT 5";
             $stmtLogs  = $pdo->query($queryLogs);
             
             // On filtre sur Mail_verif = 1 dès la requête
-            $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier IS NULL";
+            $queryAcces = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier IS NULL ORDER BY Date_debut DESC LIMIT 5";
             $stmtAcces = $pdo->query($queryAcces);
 
             $queryAuthorized = "SELECT COUNT(*) FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1";
