@@ -29,8 +29,8 @@ USE `dbca25` ;
 -- Table `dbca25`.`Carte`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dbca25`.`Carte` (
-  `idCarte` INT NOT NULL,
-  `RFDI` INT NULL,
+  `idCarte` INT NOT NULL AUTO_INCREMENT,
+  `RFDI` VARCHAR(50) NULL,
   PRIMARY KEY (`idCarte`))
 ENGINE = InnoDB;
 
