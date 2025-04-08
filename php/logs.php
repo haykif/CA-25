@@ -6,7 +6,7 @@
         exit();
     }
 
-    $query = "SELECT * FROM Acces_log";
+    $query = "SELECT * FROM Acces_log ORDER BY Date_heure_entree";
     $stmt = $pdo->query($query);
 ?>
 
