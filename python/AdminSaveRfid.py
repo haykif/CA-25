@@ -1,43 +1,57 @@
 import tkinter as tk
 from tkinter import messagebox
 import json
-import random
 import datetime
-# Si t'utilises un vrai lecteur RFID, dé-commente la ligne suivante et adapte en conséquence.
-# import serial  
+
+# Bibliothèque pour interagir avec le lecteur ACR122U
+from smartcard.System import readers
+from smartcard.util import toHexString
 
 def read_rfid():
     """
-    Fonction pour lire la carte RFID.
-    Ici c'est simulé avec un identifiant aléatoire.
-    Pour un vrai lecteur, tu pourrais utiliser pyserial comme :
-    
-        with serial.Serial('/dev/ttyUSB0', 9600, timeout=1) as ser:
-            card = ser.readline().decode('utf-8').strip()
-            return card
+    Lit la carte via le lecteur ACR122U.
+    Cette fonction vérifie d'abord si un lecteur est disponible, puis envoie la commande APDU
+    [0xFF, 0xCA, 0x00, 0x00, 0x00] pour récupérer l'UID de la carte.
     """
-    # Simulation d'une lecture RFID: génère un ID hexadécimal aléatoire
-    card = hex(random.getrandbits(64))[2:].upper()  
-    return card
+    # Récupère les lecteurs disponibles
+    available_readers = readers()
+    if not available_readers:
+        raise Exception("Aucun lecteur RFID détecté. Branche ton ACR122U!")
+    
+    lecteur = available_readers[0]  # On prend le premier lecteur disponible
+    connection = lecteur.createConnection()
+    connection.connect()
+    
+    # Commande APDU pour obtenir l'UID de la carte
+    SELECT_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
+    data, sw1, sw2 = connection.transmit(SELECT_UID)
+    
+    # Vérification du status de la réponse (0x90 0x00 indique le succès)
+    if sw1 == 0x90 and sw2 == 0x00:
+        uid = toHexString(data).replace(" ", "")
+        return uid
+    else:
+        raise Exception("Erreur de lecture, status: {:02X} {:02X}".format(sw1, sw2))
 
 def save_card(card):
     """
-    Fonction pour enregistrer la lecture RFID dans un fichier JSON.
-    Chaque lecture est ajoutée à une liste sous forme d'un dictionnaire avec l'ID et un timestamp.
+    Enregistre la lecture RFID dans un fichier JSON.
+    Ajoute chaque lecture (avec timestamp) à une liste dans 'rfid_data.json'.
     """
-    data = {
+    data_entry = {
         "card": card,
         "timestamp": datetime.datetime.now().isoformat()
     }
     try:
-        # Tente de lire les données existantes
+        # Essaye de lire les données existantes, sinon initialise la liste
         try:
             with open("rfid_data.json", "r") as file:
                 rfid_data = json.load(file)
         except FileNotFoundError:
-            rfid_data = []  # Fichier inexistant, on part d'une liste vide
-
-        rfid_data.append(data)
+            rfid_data = []
+        
+        # Ajoute la nouvelle lecture
+        rfid_data.append(data_entry)
         with open("rfid_data.json", "w") as file:
             json.dump(rfid_data, file, indent=4)
     except Exception as e:
@@ -46,23 +60,25 @@ def save_card(card):
 def read_card():
     """
     Fonction appelée lors du clic sur le bouton.
-    Lit la carte, met à jour l'IHM, sauvegarde les données et affiche une notification.
+    Lance la lecture de la carte et affiche le résultat dans l'IHM,
+    puis sauvegarde les informations dans le fichier JSON.
     """
-    card = read_rfid()
-    label_card.config(text="Carte RFID lue: " + card)
-    save_card(card)
-    messagebox.showinfo("Succès", "Carte enregistrée !")
+    try:
+        card = read_rfid()
+        label_card.config(text="Carte RFID lue: " + card)
+        save_card(card)
+        messagebox.showinfo("Succès", "Carte enregistrée!")
+    except Exception as e:
+        messagebox.showerror("Erreur", str(e))
 
-# Création de la fenêtre principale
+# Création de l'interface graphique avec Tkinter
 root = tk.Tk()
-root.title("RFID Reader")
+root.title("Lecteur RFID ACR122U")
 root.geometry("400x200")
 
-# Label pour afficher la lecture de la carte
 label_card = tk.Label(root, text="Pas de carte lue", font=("Helvetica", 14))
 label_card.pack(pady=20)
 
-# Bouton pour lancer la lecture RFID
 btn_read = tk.Button(root, text="Lire la carte RFID", font=("Helvetica", 12), command=read_card)
 btn_read.pack(pady=10)
 
