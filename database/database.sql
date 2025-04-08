@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `dbca25`.`User` (
   `Mail_envoye` TINYINT NULL,
   `Mail_verif` TINYINT NULL,
   `token` VARCHAR(100) NULL,
-  `Carte_idCarte` INT NOT NULL,
+  `Carte_idCarte` INT NULL,
   PRIMARY KEY (`idUser`),
   INDEX `fk_User_Carte1_idx` (`Carte_idCarte` ASC) VISIBLE,
   CONSTRAINT `fk_User_Carte1`
