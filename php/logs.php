@@ -6,7 +6,7 @@
         exit();
     }
 
-    $query = "SELECT * FROM Acces_log ORDER BY Date_heure_entree";
+    $query = "SELECT * FROM Acces_log ORDER BY Date_heure_entree DESC";
     $stmt = $pdo->query($query);
 ?>
 
@@ -44,9 +44,9 @@
                     <tr>
                         <th>ID Accès</th>
                         <th>Date Heure Entrée</th>
-                        <th>Resultat tentative</th>
+                        <th>Tentative</th>
                         <th>Date Heure Sortie</th>
-                        <th>Carte RFID utilisé</th>
+                        <th>UID</th>
                         <th>ID Utilisateur</th>
                     </tr>
                 </thead>
