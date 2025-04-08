@@ -26,17 +26,18 @@ reader = SimpleMFRC522()
 # 📌 Paramètres de connexion à la base de données
 DB_CONFIG = {
     'user': 'dbca25',
-    'password': 'admin',
-    'host': '173.21.1.162',
-    'port': 3306,
+    'password': 'admin25',
+    'host': '173.21.1.164',
+    'port': 887,
     'database': 'dbca25'
 }
 
 def activer_gache():
     """ Ouvre la gâche pendant 3 secondes puis la referme """
     print("✅ Accès accordé ! Ouverture de la porte...")
+    GPIO.output(LED1, GPIO.LOW)
     GPIO.output(RELAY_PIN, GPIO.LOW)  # Active le relais (ouvre la gâche)
-    time.sleep(1)  # La gâche reste ouverte pendant 3 sec
+    time.sleep(5)  # La gâche reste ouverte pendant 3 sec
     GPIO.output(RELAY_PIN, GPIO.HIGH)  # Désactive le relais (ferme la gâche)
     print("🔒 Porte refermée.")
 
@@ -77,7 +78,7 @@ def enregistrer_acces_autorisee(uid):
         IdUser="1"
 
         sql = """
-        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, RFID_utilise, IdUser)
+        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, RFID_utilise, UID)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
         valeurs = (date_entree, resultat, True, etat_porte, uid, IdUser)
