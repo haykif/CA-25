@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 # Configuration des GPIO
-PIR_PIN = 26  # GPIO 17 correspond à la Pin 11
+PIR_PIN = 26  
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIR_PIN, GPIO.IN)
 
