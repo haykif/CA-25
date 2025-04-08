@@ -34,11 +34,9 @@ Le système permettra :
 2. **Cloner le projet: avec Github Desktop**
    - Installer sur ce lien: [**Github Desktop**](https://desktop.github.com/download/)
 ---
-## 🔐 Serveur VM Login / Mot de Passe 
-- name: `admin`
-- server name: `serverca25`
-- username: `administrateur`
-- password: `admin`
+## 🔐 Serveur Login / Mot de Passe 
+- username: `ca25`
+- password: `ca25`
 
 ## 💚 aaPanel Login / Mot de Passe
 - aaPanel Internet Address: https://80.245.21.40:14473/29f1f021
