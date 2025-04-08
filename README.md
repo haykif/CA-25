@@ -39,10 +39,10 @@ Le système permettra :
 - password: `ca25`
 
 ## 💚 aaPanel Login / Mot de Passe
-aaPanel Internet Address: https://80.245.21.40:41022/c712c546
-aaPanel Internal Address: https://173.21.1.164:41022/c712c546
-username: n2wdd8ov
-password: 121bb80e
+- aaPanel Internet Address: https://80.245.21.40:41022/c712c546
+- aaPanel Internal Address: https://173.21.1.164:41022/c712c546
+- username: `n2wdd8ov`
+- password: `121bb80e`
 
 ## ⚙️ Base de Donnée :
 - username: `dbca25`
