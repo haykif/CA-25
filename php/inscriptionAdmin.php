@@ -138,7 +138,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <li><a href="./gestionAcces.php">Gestion des accès</a></li>
             <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
             <li><a href="../html/formulaire.html">Formulaire</a></li>
-            <li><a href="./logs.php">Logs</a></li>
+            <li><a href="./logsAdmin.php">Logs admin</a></li>
+            <li><a href="./logsServer.php">Logs serveur</a></li>
         </ul>
         <div class="logout">
             <a href="./logout.php">Déconnexion</a>
