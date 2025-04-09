@@ -77,7 +77,7 @@
 
             //Pour l'employé
             // Construire le lien de confirmation (pointez vers le fichier confirmMail.php)
-            $confirmation_link = "http://173.21.1.162/php/confirmMail.php?email=" 
+            $confirmation_link = "http://ca25.charles-poncet.net:8083/php/confirmMail.php?email=" 
                                 . urlencode($email) . "&token=" . $token;
 
             // Contenu du mail
@@ -128,4 +128,5 @@
         // header("Location: ../html/formulaire.html");
         // exit;
     }
+
 ?>
