@@ -24,28 +24,33 @@ body {
 }
 
 h1 {
-    margin-top: 0;
     text-align: center;
-}
-
-.btn_formulaire {
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
     margin-top: 0;
 }
 
-.btn_connexion {
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.btn {
     border: none;
     padding: 10px;
     width: 100%;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+    font-size: 16px;;
+    margin: 0;
 }
 
 /* La partie dark mode selon la taille de l'écran */
@@ -65,13 +70,21 @@ h1 {
         color: #8dc7cc;
     }
 
-    .btn_formulaire, .btn_connexion {
+    label {
+        color: #141f23;
+    }
+
+    input {
+        border: 2px solid #f5b79e;
+    }
+
+    .btn {
         background: rgb(203, 135, 88);
         color: #000;
         font-weight: bold;
     }
 
-    .btn_formulaire:hover, .btn_connexion:hover {
+    .btn:hover {
         background: rgb(244,165,108);
     }
 }
@@ -91,12 +104,20 @@ h1 {
         color: #f4a757;
     }
 
-    .btn_formulaire, .btn_connexion {
+    label {
+        color: #ddd;
+    }
+
+    input {
+        border: 2px solid #f08326;
+    }
+
+    .btn {
         background: rgb(21, 31, 33);
         color: #ddd;
     }
 
-    .btn_formulaire:hover, .btn_connexion:hover {
+    .btn:hover {
         background: rgb(21, 31, 33, 0.8);
     }
 }
