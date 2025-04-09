@@ -70,6 +70,7 @@
                             echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
                             echo "<td>";
+                            
                             // Si Verifier est NULL, affiche les boutons
                             if (is_null($row['Verifier'])) {
                                 // Bouton accepter
