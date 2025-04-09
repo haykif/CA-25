@@ -28,7 +28,7 @@ DB_CONFIG = {
     'user': 'dbca25',
     'password': 'admin25',
     'host': '173.21.1.164',
-    'port': 887,
+    'port': 3306,
     'database': 'dbca25'
 }
 
