@@ -75,8 +75,8 @@
                             // Si Verifier est NULL, affiche les boutons
                             if (is_null($row['Verifier'])) {
                                 // Bouton accepter
-                                echo '<form action="bouton.php" method="post" style="display:inline;">';
-                                echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
+                                echo '<form onsubmit="event.preventDefault(); openModal(this);" method="post" style="display:inline;">';
+                                echo '<input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">';
                                 echo '<input type="hidden" name="action" value="donner">';
                                 echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                 echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
@@ -112,5 +112,16 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="modalPython" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <p>Veuillez lancer l'exécutable Python et scanner la carte.<br>Ensuite, chargez le fichier JSON généré :</p>
+                <input type="file" id="jsonFileInput" accept=".json">
+                <button onclick="submitJson()">Valider UID</button>
+            </div>
+        </div>
+
+        <script src="../js/modal.js"></script>
     </body>
 </html>

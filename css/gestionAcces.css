@@ -174,6 +174,88 @@ th {
     transform: translateY(-2px);
 }
 
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeInModal 0.4s ease-out;
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: slideDown 0.5s ease;
+    color: #333;
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+#jsonFileInput {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 80%;
+    transition: border-color 0.3s;
+}
+
+#jsonFileInput:hover {
+    border-color: #4cd137;
+}
+
+.modal-content button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #4cd137, #44bd32);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.modal-content button:hover {
+    box-shadow: 0 4px 12px rgba(76, 209, 55, 0.6);
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-color-scheme: dark) {
+    
+}
+
+
 /* La partie dark mode selon la taille de l'écran */
 /* Media par défault */
 /* LIGHT */
@@ -222,36 +304,66 @@ th {
         background: url("../assets/dark-4k.webp") no-repeat center center fixed;
         color: #ddd;
     }
+
     .sidebar {
         background: linear-gradient(150deg, rgba(244, 167, 87, 0.9), rgba(239, 130, 39, 0.9), rgba(235, 97, 24, 0.9));
     }
+
     .sidebar ul li a:hover {
         background: rgb(21, 31, 33);
         color: rgb(220, 212, 201);
     }
+
     .sidebar .logout a {
         background: rgb(21, 31, 33);
         color: #ddd;
     }
+
     .sidebar .logout a:hover {
         background: rgb(21, 31, 33, 0.8);
     }
+
     .main-content {
         background: rgba(47, 47, 47, 0.8)
     }
+
     .card {
         background: #141f23;
     }
+
     th {
         background: #141f23;
     }
+
     tr {
         background: rgb(62, 62, 62);
     }
+
     table, th, td {
         border: 1px solid #838383;
     }
+
     #activity-log tr {
         background-color: rgba(20, 31, 35, 0.5);
+    }
+    
+    /* Modal */
+    .modal-content {
+        background-color: rgba(50, 50, 50, 0.95);
+        color: #ddd;
+    }
+
+    #jsonFileInput {
+        background-color: #333;
+        color: #ddd;
+        border: 1px solid #555;
+    }
+
+    .close-btn {
+        color: #bbb;
+    }
+
+    .close-btn:hover {
+        color: #fff;
     }
 }

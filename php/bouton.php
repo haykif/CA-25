@@ -26,14 +26,24 @@
         // Accès autorisé
         if ($action === 'donner') {
 
-            // Met à jour la base de donnée
-            $query = "UPDATE User SET Verifier = 1 WHERE Email = :Email";
+            $uid = $_POST['uid'] ?? '';
+
+            if ($uid === '') {
+                echo "Erreur : UID manquant.";
+                exit();
+            }
+
+            // Met à jour la base de données avec Verifier = 1 et l'UID
+            $query = "UPDATE User SET Verifier = 1, uid = :uid WHERE Email = :Email";
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
+            $stmt->bindParam(':uid', $uid, PDO::PARAM_STR);
+
             if ($stmt->execute()) {
-                echo "Accès donné avec succès pour l'utilisateur";
+                echo "Accès donné avec succès pour l'utilisateur (UID enregistré).";
             } else {
-                echo "Erreur lors de la mise à jour.";
+                echo "Erreur lors de la mise à jour de l'UID.";
+                exit();
             }
 
             // Envoi du mail à l'utilisateur
