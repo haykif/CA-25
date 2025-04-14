@@ -52,6 +52,8 @@
                     <tr>
                         <th>Nom</th>
                         <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
                         <th>Date de début</th>
                         <th>Date de fin</th>
                         <th>ID Carte</th>
@@ -64,6 +66,8 @@
                             echo "<tr>";
                                 echo "<td>" . strtoupper(htmlspecialchars($row['Nom'] ?? '')) . "</td>";
                                 echo "<td>" . ucfirst(strtolower(htmlspecialchars($row['Prenom'] ?? ''))) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
+                                echo "<td>" . "0" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_debut'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
