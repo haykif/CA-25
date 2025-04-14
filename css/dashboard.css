@@ -84,7 +84,7 @@ body {
     margin-left: 290px;
     margin-right: 20px;
     margin-top: 20px;
-    margin-bottom: auto;
+    margin-bottom: 20px;
     width: calc(100% - 270px);
     gap: 20px;
 }
