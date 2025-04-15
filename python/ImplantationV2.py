@@ -14,14 +14,14 @@ GPIO.setmode(GPIO.BCM)
 RELAY_PIN = 18
 LED_VERTE = 20
 LED_ROUGE = 21
-CAPTEUR_PORTE = 17  # capteur magnétique
-PIR_PIN = 4         # Détecteur de mouvement
+CAPTEUR_PORTE = 17
+PIR_PIN = 4
 
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(LED_VERTE, GPIO.OUT)
 GPIO.setup(LED_ROUGE, GPIO.OUT)
 GPIO.setup(CAPTEUR_PORTE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIR_PIN, GPIO.IN)  # 🔧 Ajout nécessaire !
+GPIO.setup(PIR_PIN, GPIO.IN)
 
 # Gâche fermée par défaut
 GPIO.output(RELAY_PIN, GPIO.HIGH)
@@ -35,7 +35,7 @@ DB_CONFIG = {
     'database': 'dbca25'
 }
 
-# === PORTE ===
+# === GESTION PORTE ===
 def etat_filtre():
     etat1 = GPIO.input(CAPTEUR_PORTE)
     time.sleep(0.1)
@@ -50,18 +50,16 @@ def afficher_etat_porte():
         else:
             print("🚪 La porte est OUVERTE !")
 
-# === GÂCHE ÉLECTRIQUE ===
+# === GÂCHE ===
 def activer_gache():
     print("✅ Ouverture de la porte...")
     GPIO.output(RELAY_PIN, GPIO.LOW)
-    time.sleep(3)
+    time.sleep(10)
     GPIO.output(RELAY_PIN, GPIO.HIGH)
     print("🔒 Porte refermée.")
 
-# === LOG BDD ===
+# === BASE DE DONNÉES ===
 def enregistrer_acces(uid, autorise):
-    conn = None
-    cursor = None
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
@@ -85,17 +83,49 @@ def enregistrer_acces(uid, autorise):
         print(f"⚠️ Erreur MySQL : {err}")
     finally:
         try:
-            if cursor:
-                cursor.close()
-            if conn and conn.is_connected():
-                conn.close()
+            cursor.close()
+            conn.close()
         except:
             pass
 
-# === VÉRIF RFID ===
+def enregistrer_heure_sortie(uid):
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        heure_sortie = time.strftime('%Y-%m-%d %H:%M:%S')
+
+        cursor.execute("""
+            SELECT idAcces FROM Acces_log
+            WHERE UID = %s
+            ORDER BY idAcces DESC
+            LIMIT 1
+        """, (uid,))
+        last_entry = cursor.fetchone()
+
+        if last_entry:
+            log_id = last_entry[0]
+            cursor.execute("""
+                UPDATE Acces_log
+                SET Date_heure_sortie = %s
+                WHERE idAcces = %s
+            """, (heure_sortie, log_id))
+            conn.commit()
+            print(f"🕒 Heure de sortie enregistrée pour ID {log_id} : {heure_sortie}")
+        else:
+            print("⚠️ Aucun accès trouvé pour ce badge.")
+
+    except mysql.connector.Error as e:
+        print(f"⚠️ Erreur MySQL sortie : {e}")
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+        except:
+            pass
+
+# === LOGIQUE RFID ===
 def verifier_et_traiter(uid):
-    conn = None
-    cursor = None
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
@@ -106,7 +136,7 @@ def verifier_et_traiter(uid):
             print("✅ Carte autorisée")
             GPIO.output(LED_VERTE, GPIO.LOW)
             activer_gache()
-            time.sleep(1)
+            time.sleep(10)
             GPIO.output(LED_VERTE, GPIO.HIGH)
             enregistrer_acces(uid, True)
         else:
@@ -120,12 +150,51 @@ def verifier_et_traiter(uid):
         print(f"⚠️ Erreur MySQL : {err}")
     finally:
         try:
-            if cursor:
-                cursor.close()
-            if conn and conn.is_connected():
-                conn.close()
+            cursor.close()
+            conn.close()
         except:
             pass
+
+# === SURVEILLANCE SORTIE ===
+def detecter_sortie(uid):
+    print("👁️ Détection de sortie : attente d'une réouverture de la porte...")
+
+    porte_precedente = GPIO.input(CAPTEUR_PORTE)
+
+    while True:
+        etat_porte = GPIO.input(CAPTEUR_PORTE)
+
+        # Attendre une réouverture
+        if etat_porte == GPIO.HIGH and porte_precedente == GPIO.LOW:
+            print("🚪 Porte réouverte → surveillance pendant 10 secondes")
+            enregistrer_heure_sortie(uid)
+            break  # passer à l'analyse
+
+
+        porte_precedente = etat_porte
+        time.sleep(0.2)
+
+    # ⏳ Surveillance pendant 10 secondes
+    duree = 10
+    pas_de_mouvement = 0
+
+    for i in range(duree):
+        mouvement = GPIO.input(PIR_PIN)
+        if not mouvement:
+            pas_de_mouvement += 1
+            print(f"🔴 {i+1}s : aucun mouvement")
+        else:
+            print(f"🟢 {i+1}s : mouvement détecté")
+
+        time.sleep(1)
+
+    print(f"⏱️ Temps sans mouvement : {pas_de_mouvement}s / {duree}s")
+
+    if pas_de_mouvement >= 3:
+        print("✅ Sortie détectée → log de sortie enregistré")
+    else:
+        print("📌 Sortie non détectée (mouvement trop fréquent)")
+
 
 # === BOUCLE PRINCIPALE ===
 def boucle_principale():
@@ -134,21 +203,25 @@ def boucle_principale():
         while True:
             afficher_etat_porte()
 
-            ##### DETECTEUR DE MOUVEMENT #####
             if GPIO.input(PIR_PIN):
-                print("⚠️ Mouvement détecté sur GPIO4 (broche 7) !")
+                print("⚠️ Mouvement détecté")
             else:
                 print("Aucun mouvement détecté")
-            ##################################
 
             print("📡 En attente d'une carte RFID...")
             try:
                 uid, _ = reader.read()
                 print(f"📡 Carte détectée : {uid}")
                 verifier_et_traiter(uid)
+
+                detecter_sortie(uid)
+
+
             except Exception as e:
                 print(f"⚠️ Erreur RFID : {e}")
+
             time.sleep(1)
+
     except KeyboardInterrupt:
         print("\n🛑 Programme interrompu.")
     finally:
