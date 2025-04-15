@@ -104,7 +104,7 @@
             </div>
             
             <div class="main-content">
-                <h2>Demande d'accès</h2>
+                <h2>Demande d'autorisation</h2>
 
                 <table>
                     <thead>

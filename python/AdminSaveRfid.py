@@ -22,7 +22,14 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from smartcard.System import readers
 from smartcard.util import toHexString
 
-JSON_FILE = "rfid_data.json"
+# Définir un chemin sûr pour stocker le fichier JSON
+APP_DIR_NAME = "UIDScanner"
+if sys.platform.startswith('win'):
+    base_dir = os.path.join(os.environ['USERPROFILE'], "Documents", APP_DIR_NAME)
+else:
+    base_dir = os.path.join(os.path.expanduser("~"), "Documents", APP_DIR_NAME)
+os.makedirs(base_dir, exist_ok=True)
+JSON_FILE = os.path.join(base_dir, "rfid_data.json")
 
 class Sidebar(QtWidgets.QFrame):
     def __init__(self, parent=None):
@@ -113,7 +120,7 @@ class UIDCard(QtWidgets.QFrame):
 class RFIDDashboard(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Badging RFID UI")
+        self.setWindowTitle("UIDScanner")
         self.resize(900, 500)
         self.setStyleSheet("QMainWindow { background-color: #1f232a; }")
 
@@ -227,18 +234,19 @@ class RFIDDashboard(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.critical(self, "Erreur", str(e))
 
     def open_json(self):
-        if not os.path.exists(JSON_FILE):
-            with open(JSON_FILE, "w", encoding="utf-8") as f:
-                json.dump([], f, indent=4)
+        path = os.path.abspath(JSON_FILE)
+        if not os.path.exists(path):
+            QtWidgets.QMessageBox.critical(self, "Erreur", "Le fichier JSON n'existe pas.")
+            return
         try:
             if sys.platform.startswith('win'):
-                os.startfile(JSON_FILE)
+                os.startfile(path)
             elif sys.platform == 'darwin':
-                os.system(f'open "{JSON_FILE}"')
+                os.system(f'open "{path}"')
             else:
-                os.system(f'xdg-open "{JSON_FILE}"')
+                os.system(f'xdg-open "{path}"')
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Erreur", str(e))
+            QtWidgets.QMessageBox.critical(self, "Erreur", f"Impossible d’ouvrir le fichier : {e}")
 
     def show_json_path(self):
         abs_path = os.path.abspath(JSON_FILE)
