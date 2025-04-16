@@ -1,20 +1,31 @@
 [Setup]
-AppName=Mon Appli
+AppName=UIDScanner
 AppVersion=1.0
-DefaultDirName={pf}\MonAppli
-DefaultGroupName=Mon Appli
-OutputDir=.\output
-OutputBaseFilename=MonAppli_Installer
+DefaultDirName={pf}\UIDScanner
+DefaultGroupName=UIDScanner
+OutputDir=output
+OutputBaseFilename=UIDScanner_Installer
 Compression=lzma
 SolidCompression=yes
+SetupIconFile=favicon.jpeg
+WizardImageFile=uidscannerimage.png
+WizardSmallImageFile=uidscannerimage.png
 
 [Files]
-Source: "MonApp.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "data\*"; DestDir: "{app}\data"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "UIDScanner.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\Mon Appli"; Filename: "{app}\MonApp.exe"
-Name: "{commondesktop}\Mon Appli"; Filename: "{app}\MonApp.exe"; Tasks: desktopicon
+Name: "{group}\UIDScanner"; Filename: "{app}\UIDScanner.exe"
+Name: "{commondesktop}\UIDScanner"; Filename: "{app}\UIDScanner.exe"; Tasks: desktopicon
 
 [Tasks]
-Name: "desktopicon"; Description: "Créer un raccourci sur le bureau"; GroupDescription: "Raccourcis :"
+Name: "desktopicon"; Description: "Créer un raccourci sur le bureau"; GroupDescription: "Options :"
+
+[Run]
+Filename: "{app}\UIDScanner.exe"; Description: "Lancer UIDScanner"; Flags: nowait postinstall skipifsilent
+
+[UninstallRun]
+Filename: "{app}\UIDScanner.exe"; Parameters: "/uninstall"; Flags: skipifdoesntexist
+
+[Messages]
+SetupCompletedMessage=UIDScanner a été installé avec succès !
