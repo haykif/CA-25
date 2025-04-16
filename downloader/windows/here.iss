@@ -1,13 +1,13 @@
 [Setup]
 AppName=UIDScanner
-AppVersion=1.0
+AppVersion=1.5
 DefaultDirName={pf}\UIDScanner
 DefaultGroupName=UIDScanner
 OutputDir=output
 OutputBaseFilename=UIDScanner_Installer
 Compression=lzma
 SolidCompression=yes
-SetupIconFile=favicon.jpeg
+SetupIconFile=icon.ico
 WizardImageFile=uidscannerimage.png
 WizardSmallImageFile=uidscannerimage.png
 
