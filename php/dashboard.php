@@ -168,5 +168,7 @@
         </div>
 
         <script src="../js/dashboard.js"></script>
+        <script src="../js/etat_Porte.js"></script>
+
     </body>
 </html>

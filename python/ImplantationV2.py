@@ -14,12 +14,15 @@ GPIO.setmode(GPIO.BCM)
 RELAY_PIN = 18
 LED_VERTE = 20
 LED_ROUGE = 21
+LED_JAUNE = 16
 CAPTEUR_PORTE = 17
 PIR_PIN = 4
 
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(LED_VERTE, GPIO.OUT)
 GPIO.setup(LED_ROUGE, GPIO.OUT)
+GPIO.setup(LED_JAUNE, GPIO.OUT)
+
 GPIO.setup(CAPTEUR_PORTE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(PIR_PIN, GPIO.IN)
 
@@ -47,8 +50,12 @@ def afficher_etat_porte():
     if etat is not None:
         if etat == GPIO.LOW:
             print("🚪 La porte est FERMÉE")
+            with open('../data/door_status.txt', 'w') as file:
+                file.write("fermée")
         else:
             print("🚪 La porte est OUVERTE !")
+            with open('../data/door_status.txt', 'w') as file:
+                file.write("ouverte")
 
 # === GÂCHE ===
 def activer_gache():
@@ -205,8 +212,10 @@ def boucle_principale():
 
             if GPIO.input(PIR_PIN):
                 print("⚠️ Mouvement détecté")
+                GPIO.output(LED_JAUNE, GPIO.HIGH)
             else:
                 print("Aucun mouvement détecté")
+                GPIO.output(LED_JAUNE, GPIO.LOW) 
 
             print("📡 En attente d'une carte RFID...")
             try:
