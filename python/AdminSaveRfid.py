@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
-# Nom du fichier : AdminSaveRfid.py
-# Description   : Application PyQt5 pour la gestion de cartes RFID (ACR122U)
-# Projet        : CA-25
-# Auteur        : Hamza Aydogdu
-# Date de création : 2025-04-15
-# Licence       : MIT License
+# File Name     : AdminSaveRfid.py
+# Description   : PyQt5 application for managing RFID cards (ACR122U)
+# Project       : CA-25
+# Author        : Hamza Aydogdu
+# Created Date  : 2025-04-15
+# License       : MIT License
 # -----------------------------------------------------------------------------
-# © 2025 Hamza Aydogdu. Tous droits réservés.
+# © 2025 Hamza Aydogdu. All rights reserved.
 #
-# Ce logiciel est fourni "tel quel", sans garantie d'aucune sorte.
-# Vous pouvez l'utiliser, le modifier et le redistribuer selon les termes
-# de la licence MIT. Respectez l'auteur et contribuez à l'amélioration
-# en conservant cette notice.
+# This software is provided "as is", without warranty of any kind.
+# You are free to use, modify, and redistribute it under the terms
+# of the MIT License. Respect the author and help improve the project
+# by keeping this notice intact.
 # -----------------------------------------------------------------------------
 import sys
 import json
@@ -22,7 +22,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from smartcard.System import readers
 from smartcard.util import toHexString
 
-# Définir un chemin sûr pour stocker le fichier JSON
+# Define a safe path to store the JSON file
 APP_DIR_NAME = "UIDScanner"
 if sys.platform.startswith('win'):
     base_dir = os.path.join(os.environ['USERPROFILE'], "Documents", APP_DIR_NAME)
@@ -96,9 +96,9 @@ class UIDCard(QtWidgets.QFrame):
         layout = QtWidgets.QVBoxLayout(self)
         layout.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.title = QtWidgets.QLabel("Dernier UID scanné")
+        self.title = QtWidgets.QLabel("Last scanned UID")
         self.title.setObjectName("title")
-        self.uid_label = QtWidgets.QLabel("Aucun UID")
+        self.uid_label = QtWidgets.QLabel("No UID yet")
         self.uid_label.setObjectName("uid")
         self.uid_label.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.uid_label.mousePressEvent = self.copy_uid_to_clipboard
@@ -115,12 +115,12 @@ class UIDCard(QtWidgets.QFrame):
         if text.startswith("UID : "):
             text = text.split("UID : ")[-1].strip()
         clipboard.setText(text)
-        QtWidgets.QToolTip.showText(QtGui.QCursor.pos(), "UID copié !", self.uid_label)
+        QtWidgets.QToolTip.showText(QtGui.QCursor.pos(), "UID copied!", self.uid_label)
 
 class RFIDDashboard(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("UIDScanner")
+        self.setWindowTitle(self.tr("UIDScanner"))
         self.resize(900, 500)
         self.setStyleSheet("QMainWindow { background-color: #1f232a; }")
 
@@ -132,43 +132,43 @@ class RFIDDashboard(QtWidgets.QMainWindow):
         self.sidebar = Sidebar()
         layout.addWidget(self.sidebar)
 
-        self.sidebar.add_button("📡 Lire carte RFID", self.read_card)
-        self.sidebar.add_button("📂 Ouvrir le JSON", self.open_json)
-        self.sidebar.add_button("📁 Emplacement JSON", self.show_json_path)
-        self.sidebar.add_button("🗑️ Vider le JSON", self.clear_json)
-        self.sidebar.add_button("🔎 Vérifier JSON", self.check_json_exists)
-        self.sidebar.add_button("❓ Aide / Documentation", self.show_help)
-        self.sidebar.add_button("🛑 À propos", self.show_about)
+        self.sidebar.add_button("📡 Read RFID Card", self.read_card)
+        self.sidebar.add_button("📂 Open save file", self.open_json)
+        self.sidebar.add_button("📁 Save file path", self.show_json_path)
+        self.sidebar.add_button("🗑️ Empty save file", self.clear_json)
+        self.sidebar.add_button("🔎 Check save file", self.check_json_exists)
+        self.sidebar.add_button("❓ Help / Documentation", self.show_help)
+        self.sidebar.add_button("🛑 About", self.show_about)
 
         self.uid_card = UIDCard()
         layout.addWidget(self.uid_card, 1)
 
     def show_help(self):
         doc_text = (
-            "1. Posez la carte sur le lecteur RFID.\n\n"
-            "2. Cliquez sur 'Lire carte RFID' pour scanner un badge.\n\n"
-            "3. Le badge est enregistré dans un fichier JSON local.\n\n"
-            "4. L'UID s'affiche à droite en hexadécimal.\n\n"
-            "5. Vous pouvez gérer ce fichier JSON avec les boutons à gauche :\n"
-            "   - Ouvrir le fichier\n"
-            "   - Voir son emplacement\n"
-            "   - Le vider\n"
-            "   - Vérifier s'il existe\n\n\n"
-            "L'UID est également vérifié dans la base de données."
+            "1. Place the card on the RFID reader.\n\n"
+            "2. Click on 'Read RFID Card' to scan it.\n\n"
+            "3. The UID is saved in a local JSON file.\n\n"
+            "4. The UID appears on the right in hexadecimal format.\n\n"
+            "5. You can manage the JSON file with the buttons on the left:\n"
+            "   - Open the file\n"
+            "   - Show file path\n"
+            "   - Clear the file\n"
+            "   - Check if it exists\n\n\n"
+            "The UID is also checked against the database."
         )
-        QtWidgets.QMessageBox.warning(self, "Aide / Documentation", doc_text)
+        QtWidgets.QMessageBox.warning(self, "Help / Documentation", doc_text)
 
     def show_about(self):
-        QtWidgets.QMessageBox.information(self, "À propos", (
-            "Badging RFID UI\n"
-            "Version : 1.0\n"
-            "Projet : CA-25\n"
-            "Auteur : Hamza Aydogdu\n"
-            "Date : 2025-04-15\n\n"
-            "© 2025 Hamza Aydogdu. Tous droits réservés.\n"
-            "Licence : MIT\n\n"
-            "Ce logiciel est fourni \"tel quel\".\n"
-            "Contribuez librement, et gardez cette trace ✊"
+        QtWidgets.QMessageBox.information(self, "About", (
+            "UIDScanner\n"
+            "Version: 1.0\n"
+            "Project: CA-25\n"
+            "Author: Hamza Aydogdu\n"
+            "Date: 2025-04-15\n\n"
+            "© 2025 Hamza Aydogdu. All rights reserved.\n"
+            "License: MIT\n\n"
+            "This software is provided \"as is\".\n"
+            "Feel free to contribute, and keep this trace ✊"
         ))
 
     def save_uid(self, uid_dec):
@@ -188,18 +188,18 @@ class RFIDDashboard(QtWidgets.QMainWindow):
 
     def read_card(self):
         try:
-            lecteurs = readers()
-            if not lecteurs:
-                QtWidgets.QMessageBox.warning(self, "Attention", "Aucun lecteur RFID détecté.")
+            readers_list = readers()
+            if not readers_list:
+                QtWidgets.QMessageBox.warning(self, "Warning", "No RFID reader detected.")
                 return
 
-            lecteur = lecteurs[0]
-            connection = lecteur.createConnection()
+            reader = readers_list[0]
+            connection = reader.createConnection()
 
             try:
                 connection.connect()
             except:
-                QtWidgets.QMessageBox.warning(self, "Attention", "Veuillez poser une carte RFID sur le lecteur.")
+                QtWidgets.QMessageBox.warning(self, "Warning", "Please place a card on the reader.")
                 return
 
             SELECT_UID = [0xFF, 0xCA, 0x00, 0x00, 0x00]
@@ -208,7 +208,7 @@ class RFIDDashboard(QtWidgets.QMainWindow):
                 uid_hex = toHexString(data).replace(" ", "")
                 if not uid_hex or uid_hex == "00":
                     connection.disconnect()
-                    QtWidgets.QMessageBox.warning(self, "Erreur", "Aucune carte valide détectée.")
+                    QtWidgets.QMessageBox.warning(self, "Error", "No valid card detected.")
                     return
 
                 uid_dec = int(uid_hex, 16)
@@ -222,21 +222,21 @@ class RFIDDashboard(QtWidgets.QMainWindow):
                 except:
                     pass
                 if not already_scanned:
-                    QtWidgets.QMessageBox.information(self, "Nouvelle carte", "✅ Carte enregistrée dans le JSON.")
+                    QtWidgets.QMessageBox.information(self, "New card", "✅ Card saved to rfid_data.json file.")
 
-                status_msg = f"UID : {uid_hex}\nDéjà scannée : {'✅' if already_scanned else '❌'}"
+                status_msg = f"UID : {uid_hex}\nAlready scanned : {'✅' if already_scanned else '❌'}"
                 self.uid_card.update_uid(status_msg)
                 QtCore.QTimer.singleShot(4000, lambda: self.uid_card.update_uid(f"UID : {uid_hex}"))
                 self.save_uid(uid_dec)
             else:
-                raise Exception(f"Erreur : {sw1:02X} {sw2:02X}")
+                raise Exception(f"Error: {sw1:02X} {sw2:02X}")
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Erreur", str(e))
+            QtWidgets.QMessageBox.critical(self, "Error", str(e))
 
     def open_json(self):
         path = os.path.abspath(JSON_FILE)
         if not os.path.exists(path):
-            QtWidgets.QMessageBox.critical(self, "Erreur", "Le fichier JSON n'existe pas.")
+            QtWidgets.QMessageBox.critical(self, "Error", "The save file does not exist.")
             return
         try:
             if sys.platform.startswith('win'):
@@ -246,25 +246,25 @@ class RFIDDashboard(QtWidgets.QMainWindow):
             else:
                 os.system(f'xdg-open "{path}"')
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Erreur", f"Impossible d’ouvrir le fichier : {e}")
+            QtWidgets.QMessageBox.critical(self, "Error", f"Failed to open file: {e}")
 
     def show_json_path(self):
         abs_path = os.path.abspath(JSON_FILE)
-        QtWidgets.QMessageBox.information(self, "Emplacement", "Chemin vers le fichier .json:\n\n" + abs_path)
+        QtWidgets.QMessageBox.information(self, "Path", "Path to the save file:\n\n" + abs_path)
 
     def clear_json(self):
         try:
             with open(JSON_FILE, "w", encoding="utf-8") as f:
                 json.dump([], f, indent=4)
-            QtWidgets.QMessageBox.information(self, "Succès", "Fichier vidé.")
+            QtWidgets.QMessageBox.information(self, "Success", "File cleared.")
         except Exception as e:
-            QtWidgets.QMessageBox.critical(self, "Erreur", str(e))
+            QtWidgets.QMessageBox.critical(self, "Error", str(e))
 
     def check_json_exists(self):
         if os.path.exists(JSON_FILE):
-            QtWidgets.QMessageBox.information(self, "Existence", "✅ Le fichier existe.")
+            QtWidgets.QMessageBox.information(self, "Exists", "✅ File exists.")
         else:
-            QtWidgets.QMessageBox.warning(self, "Existence", "❌ Le fichier n'existe pas.")
+            QtWidgets.QMessageBox.warning(self, "Exists", "❌ File does not exist.")
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
