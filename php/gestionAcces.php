@@ -5,11 +5,21 @@
         header("Location: ./login.php"); // Redirige vers la page de connexion
         exit();
     }
+
+    $delaiExpiration = 10; // en minutes
+    $deleteExpired = $pdo->prepare("
+    DELETE FROM User
+    WHERE Verifier IS NULL 
+      AND Mail_verif = 1 
+      AND date_demande < (NOW() - INTERVAL :delai MINUTE)
+    ");
+    $deleteExpired->bindValue(':delai', $delaiExpiration, PDO::PARAM_INT);
+    $deleteExpired->execute();
     
     // On filtre sur Mail_verif = 1 dès la requête
     $query = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 ORDER BY Nom";
     $stmt = $pdo->query($query);
-?>
+    ?>
 
 <!DOCTYPE html>
 <html lang="fr">

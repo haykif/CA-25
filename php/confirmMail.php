@@ -22,7 +22,12 @@
     }
 
     // Mettre à jour la colonne Mail_verif à 1
-    $update = $pdo->prepare("UPDATE User SET Mail_verif = 1 WHERE Email = :email AND token = :token");
+    // Mettre à jour la colonne Mail_verif à 1 et date_demande à l'heure actuelle
+    $update = $pdo->prepare("
+        UPDATE User 
+        SET Mail_verif = 1, date_demande = NOW()
+        WHERE Email = :email AND token = :token
+    ");
     if ($update->execute([':email' => $email, ':token' => $token])) {
         echo "Votre adresse email a été vérifiée avec succès !";
     } else {
