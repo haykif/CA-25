@@ -48,8 +48,3 @@ Le système permettra :
 - username: `dbca25`
 - password: `admin`
 
-- ## ⚙️ Mail :
-mail: 'carteacces99@gmail.com'
-mdp: 'charlesponcet2025'
-application: 'llvz ctlm vjas xyfq'
-
