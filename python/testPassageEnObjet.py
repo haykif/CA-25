@@ -1,26 +1,26 @@
-Infrastructure
+# Infrastructure
 
-projet_rfid/
-│
-├── config/
-│   ├── __init__.py
-│   └── settings.py        # Configuration des pins et de la BDD
-│
-├── hardware/
-│   ├── __init__.py
-│   ├── gpio_controller.py # Gestion des GPIO
-│   └── rfid_reader.py     # Lecture RFID
-│
-├── database/
-│   ├── __init__.py
-│   └── db_handler.py      # Interactions avec la BDD
-│
-├── logic/
-│   ├── __init__.py
-│   ├── door_manager.py    # Gestion porte/gâche
-│   └── access_logic.py    # Logique d'accès
-│
-└── main.py                # Point d'entrée principal
+# projet_rfid/
+# │
+# ├── config/
+# │   ├── __init__.py
+# │   └── settings.py        # Configuration des pins et de la BDD
+# │
+# ├── hardware/
+# │   ├── __init__.py
+# │   ├── gpio_controller.py # Gestion des GPIO
+# │   └── rfid_reader.py     # Lecture RFID
+# │
+# ├── database/
+# │   ├── __init__.py
+# │   └── db_handler.py      # Interactions avec la BDD
+# │
+# ├── logic/
+# │   ├── __init__.py
+# │   ├── door_manager.py    # Gestion porte/gâche
+# │   └── access_logic.py    # Logique d'accès
+# │
+# └── main.py                # Point d'entrée principal
 
 -------------------------------------------------------------------------------
 
