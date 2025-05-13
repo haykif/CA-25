@@ -187,11 +187,11 @@
                 <p style="margin-bottom: 10px;">Vous n'avez pas encore l'application ?</p>
 
                 <div class="download-section" style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-                    <a id="download-mac" href="/downloads/MonApp-macos.dmg" download>
-                        <img src="/assets/dl-for-macos.png" alt="Télécharger pour macOS" style="height:50px;">
+                    <a id="download-mac" href="../downloader/macos/UIDScanner Installer.dmg" download>
+                        <img src="../assets/dl-for-macos.png" alt="Télécharger pour macOS" style="height:50px;">
                     </a>
-                    <a id="download-win" href="/downloads/MonApp-windows.exe" download>
-                        <img src="/assets/dl-for-windows.png" alt="Télécharger pour Windows" style="height:50px;">
+                    <a id="download-win" href="../downloader/windows/UIDScanner_Installer.exe" download>
+                        <img src="../assets/dl-for-windows.png" alt="Télécharger pour Windows" style="height:50px;">
                     </a>
                 </div>
             </div>
