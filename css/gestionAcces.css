@@ -77,15 +77,25 @@ body {
     transition: background 0.3s;
 }
 
-.main-content {
+.main-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     margin-left: 290px;
     margin-right: 20px;
     margin-top: 20px;
-    margin-bottom: auto;
-    padding: 20px;
+    margin-bottom: 20px;
     width: calc(100% - 270px);
+    gap: 20px;
+}
+
+.main-content {
+    padding: 20px;
     backdrop-filter: blur(8px);
     border-radius: 10px;
+    animation-duration: 2s;
+    animation-name: slide-up-down;
+    opacity: 1;
     animation: fadeIn 1s ease-in-out;
 }
 
