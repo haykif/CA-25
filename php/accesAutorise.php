@@ -19,7 +19,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Gestion des accès</title>
-        <link rel="stylesheet" href="../css/gestionAcces.css">
+        <link rel="stylesheet" href="../css/accesAutorise.css">
         <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
     </head>
 
