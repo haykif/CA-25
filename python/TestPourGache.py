@@ -61,7 +61,7 @@ def afficher_etat_porte():
 def activer_gache():
     print("✅ Ouverture de la porte...")
     GPIO.output(RELAY_PIN, GPIO.LOW)
-    time.sleep(10)
+    time.sleep(10)  # <- Ouverture pendant 10 secondes
     GPIO.output(RELAY_PIN, GPIO.HIGH)
     print("🔒 Porte refermée.")
 
@@ -142,8 +142,7 @@ def verifier_et_traiter(uid):
         if carte:
             print("✅ Carte autorisée")
             GPIO.output(LED_VERTE, GPIO.LOW)
-            activer_gache()
-            time.sleep(10)
+            activer_gache()  # 🔓 ouvre la porte pendant 10 sec
             GPIO.output(LED_VERTE, GPIO.HIGH)
             enregistrer_acces(uid, True)
         else:
