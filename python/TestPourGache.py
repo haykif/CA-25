@@ -1,3 +1,5 @@
+#NE SUPPRIMER PAS CETTE VERSION CAR GRACE A ELLE LA GACHE RE MARCHE
+
 import mysql.connector
 import time
 import RPi.GPIO as GPIO
