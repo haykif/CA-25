@@ -1,29 +1,39 @@
 import RPi.GPIO as GPIO
 import time
 
-# === PINS ===
-PIR_PIN = 4
-LED_JAUNE = 16
+# === CONFIGURATION ===
+PIR_PIN   = 4    # GPIO4 (Pin 7)
+LED_JAUNE = 16   # GPIO16 (Pin 36)
 
-# === SETUP ===
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIR_PIN, GPIO.IN)
 GPIO.setup(LED_JAUNE, GPIO.OUT)
 
-print("🕵️ Capteur PIR en attente...")
+print("🔋 Stabilisation du capteur PIR (30s)…")
+time.sleep(30)  # Phase de stabilisation du PIR
+print("✅ Stabilisation terminée. Surveillance active.")
+
+# On mémorise l'état précédent pour n'afficher qu'au changement
+etat_prec = GPIO.input(PIR_PIN)
+GPIO.output(LED_JAUNE, GPIO.HIGH if etat_prec else GPIO.LOW)
 
 try:
     while True:
-        if GPIO.input(PIR_PIN):
-            print("⚠️ Mouvement détecté !")
-            GPIO.output(LED_JAUNE, GPIO.HIGH)
-            time.sleep(2)  # Laisse la LED allumée pendant 2 sec
-        else:
-            GPIO.output(LED_JAUNE, GPIO.LOW)
+        etat = GPIO.input(PIR_PIN)
+        if etat != etat_prec:
+            if etat:
+                print("🟢 Mouvement détecté !")
+                GPIO.output(LED_JAUNE, GPIO.HIGH)
+            else:
+                print("🔴 Plus de mouvement")
+                GPIO.output(LED_JAUNE, GPIO.LOW)
+            etat_prec = etat
 
-        time.sleep(0.1)  # Anti-rebond et limitation CPU
+        time.sleep(0.1)  # Boucle légère
 
 except KeyboardInterrupt:
-    print("🛑 Arrêt du programme.")
+    pass
+
 finally:
     GPIO.cleanup()
+    print("🔧 GPIO nettoyés.")
