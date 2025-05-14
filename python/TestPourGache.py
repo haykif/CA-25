@@ -241,3 +241,4 @@ def boucle_principale():
 # === LANCEMENT ===
 if __name__ == "__main__":
     boucle_principale()
+
