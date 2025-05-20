@@ -30,6 +30,8 @@ if (!$user) {
 // Récupérer nom et prénom depuis la base
 $prenom = $user['Prenom'] ?? '';
 $nom    = $user['Nom'] ?? '';
+$fonction = $user['Fonction'] ?? '';
+$motif    = $user['Motif'] ?? '';
 
 // Mettre à jour l'utilisateur (confirmation du mail)
 $update = $pdo->prepare("
@@ -60,11 +62,16 @@ try {
         $mail->addBCC($a['Email'], $a['Prenom'] . ' ' . $a['Nom']);
     }
     $mail->isHTML(true);
-    $mail->Subject = "Demande d'accès";
+    $mail->Subject = "Demande d'acces";
+   $mail->isHTML(true);
+    $mail->Subject = "Demande d'acces confirmee";
     $mail->Body    = "Bonjour Admin,<br><br>"
-                  . "Une demande d'accès de la part de <strong>$prenom $nom</strong> a été confirmée.<br><br>"
+                  . "Une demande d'accès a été confirmée pour :<br>"
+                  . "<strong>Nom :</strong> $prenom $nom<br>"
+                  . "<strong>Fonction :</strong> $fonction<br>"
+                  . "<strong>Motif :</strong> $motif<br><br>"
                   . "Cordialement,<br>Lycée Charles Poncet.";
-    $mail->AltBody = "Une demande d'accès de la part de $prenom $nom a été confirmée.";
+    $mail->AltBody = "Une demande d'accès confirmée pour : $prenom $nom - Fonction : $fonction - Motif : $motif";
 
     $mail->send();
 
