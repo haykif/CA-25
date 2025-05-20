@@ -1,15 +1,18 @@
 <?php
+// Bibliotheque
 require __DIR__ . '/vendor/autoload.php';
 require_once './database.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// Démarage session
 session_start();
 if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header("Location: ./login.php");
     exit();
 }
 
+// Si le formulaire est fournis
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nom         = trim($_POST['nom'] ?? '');
     $prenom      = trim($_POST['prenom'] ?? '');
@@ -47,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit();
         }
 
+        // Hashement du mdp en bcrypt
         $hashedMdp = password_hash($mdp, PASSWORD_DEFAULT);
 
         $stmt = $pdo->prepare("
@@ -54,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             VALUES (:nom, :prenom, :identifiant, :mdp, :email, :tel, :superuser, :fonction)
         ");
 
+        // Liaison des paramètres
         $stmt->bindParam(':nom',         $nom,         PDO::PARAM_STR);
         $stmt->bindParam(':prenom',      $prenom,      PDO::PARAM_STR);
         $stmt->bindParam(':identifiant', $identifiant, PDO::PARAM_STR);

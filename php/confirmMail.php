@@ -9,6 +9,10 @@ use PHPMailer\PHPMailer\Exception;
 $email = $_GET['email'] ?? '';
 $token = $_GET['token'] ?? '';
 
+// Récupérer tous les super utilisateurs
+$adminStmt = $pdo->query("SELECT Email, Prenom, Nom FROM User WHERE SuperUser = 1");
+$admin = $adminStmt->fetchAll(PDO::FETCH_ASSOC);
+
 // Vérifier que les paramètres existent
 if (empty($email) || empty($token)) {
     exit("❌ Lien de vérification invalide.");
@@ -52,11 +56,12 @@ try {
     $mail->Port       = 587;
 
     $mail->setFrom('carteacces99@gmail.com', 'Charles Poncet');
-    $mail->addAddress('hamza.aydogdu04@icloud.com', 'Hayfik Senior');
-
+    foreach ($admin as $a){
+        $mail->addBCC($a['Email'], $a['Prenom'] . ' ' . $a['Nom']);
+    }
     $mail->isHTML(true);
     $mail->Subject = "Demande d'accès";
-    $mail->Body    = "Bonjour Haykif Senior,<br><br>"
+    $mail->Body    = "Bonjour Admin,<br><br>"
                   . "Une demande d'accès de la part de <strong>$prenom $nom</strong> a été confirmée.<br><br>"
                   . "Cordialement,<br>Lycée Charles Poncet.";
     $mail->AltBody = "Une demande d'accès de la part de $prenom $nom a été confirmée.";
