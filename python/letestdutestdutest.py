@@ -188,7 +188,8 @@ def boucle_principale():
                 uid, _ = reader.read()
                 print(f"📡 UID détecté : {uid}")
                 verifier_et_traiter(uid)
-                detecter_sortie(uid)
+                #detecter_sortie(uid)
+                threading.Thread(target=detecter_sortie, args=(uid,), daemon=True).start()
             except Exception as e:
                 print(f"⚠️ Erreur RFID : {e}")
             time.sleep(1)
