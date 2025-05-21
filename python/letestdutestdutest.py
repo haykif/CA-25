@@ -234,11 +234,48 @@ def boucle_principale():
 
             print("📡 En attente d'une carte RFID...")
             try:
-                uid, _ = reader.read()
-                print(f"📡 Carte détectée : {uid}")
-                verifier_et_traiter(uid)
+                #uid, _ = reader.read()
+                #print(f"📡 Carte détectée : {uid}")
+                #verifier_et_traiter(uid)
 
-                detecter_sortie(uid)
+                #detecter_sortie(uid)
+
+                while True:
+                    uid, _ = reader.read()
+                    print(f"📡 Carte détectée : {uid}")
+    
+                    try:
+                        conn = mysql.connector.connect(**DB_CONFIG)
+                        cursor = conn.cursor()
+                        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (int(uid),))
+                        carte = cursor.fetchone()
+
+                    if carte:
+                        print("✅ Carte autorisée")
+                        GPIO.output(LED_VERTE, GPIO.LOW)
+                        activer_gache()
+                        GPIO.output(LED_VERTE, GPIO.HIGH)
+                        enregistrer_acces(uid, True)
+                        break  # sortir de la boucle, passer à la détection de sortie
+                    else:
+                        print("❌ Carte non autorisée, veuillez re-badger...")
+                        GPIO.output(LED_ROUGE, GPIO.LOW)
+                        time.sleep(2)
+                        GPIO.output(LED_ROUGE, GPIO.HIGH)
+                        enregistrer_acces(uid, False)
+                        envoyer_mail(uid)
+
+                    except mysql.connector.Error as err:
+                        print(f"⚠️ Erreur MySQL : {err}")
+                    finally:
+                        try:
+                            cursor.close()
+                            conn.close()
+                        except:
+                            pass
+
+                    time.sleep(1)
+
                 
                  # 🛠️ Forcer le reset du lecteur
                 time.sleep(0.5)
