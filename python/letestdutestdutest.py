@@ -8,46 +8,64 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# Pour gpiozero
+
+# === Forcer gpiozero à utiliser RPi.GPIO ===
 Device.pin_factory = RPiGPIOFactory()
 
-# === CONFIGURATION DES PINS ===
-GPIO.setmode(GPIO.BCM)
-RELAY_PIN = 18
-LED_VERTE = 20
-LED_ROUGE = 21
-CAPTEUR_PORTE = 17
-
-GPIO.setup(RELAY_PIN, GPIO.OUT)
-GPIO.setup(LED_VERTE, GPIO.OUT)
-GPIO.setup(LED_ROUGE, GPIO.OUT)
-GPIO.setup(CAPTEUR_PORTE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-GPIO.output(RELAY_PIN, GPIO.HIGH)
-
-# === CONFIGURATION MAIL
+# === CONFIGURATION ADRESSE MAIL === 
 expediteur = "carteacces99@gmail.com"
-mot_de_passe = "llvz ctlm vjas xyfq"
+mot_de_passe = "llvz ctlm vjas xyfq" 
 destinataire = "laurent14123@gmail.com"
 
+
+# === CONFIGURATION DU MAIL ENVOYE === 
+
 def envoyer_mail(uid):
+    # Sujet et corps de l'e-mail
     heure = time.strftime('%d-%m-%Y à %H:%M:%S')
+    sujet = "ENTREE NON AUTORISEE"
+    corps = f"Entrée interdite détectée lee {heure}.\nUID : {uid}"
+
+    # Création du message
     message = MIMEMultipart()
     message["From"] = expediteur
     message["To"] = destinataire
-    message["Subject"] = "ENTREE NON AUTORISEE"
-    corps = f"Entrée interdite détectée le {heure}.\nUID : {uid}"
+    message["Subject"] = sujet
+
     message.attach(MIMEText(corps, "plain"))
 
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as serveur:
             serveur.login(expediteur, mot_de_passe)
             serveur.sendmail(expediteur, destinataire, message.as_string())
-            print("📧 Mail envoyé")
+            print("📧 E-mail envoyé avec succès !")
     except Exception as e:
-        print(f"❌ Erreur mail : {e}")
+        print(f"⚠️ Erreur lors de l'envoi de l'e-mail : {e}")
 
-# === CONFIGURATION BDD
+# === CONFIGURATION DES PINS ===
+GPIO.setmode(GPIO.BCM)
+CAPTEUR_PORTE = 17
+RELAY_PIN = 18
+LED_JAUNE = 16
+LED_VERTE = 20
+LED_ROUGE = 21
+PIR_PIN = 4
+
+
+GPIO.setup(RELAY_PIN, GPIO.OUT)
+GPIO.setup(LED_VERTE, GPIO.OUT)
+GPIO.setup(LED_JAUNE, GPIO.OUT)
+GPIO.setup(LED_ROUGE, GPIO.OUT)
+GPIO.setup(CAPTEUR_PORTE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(PIR_PIN, GPIO.IN)
+
+# Gâche fermée par défaut
+GPIO.output(RELAY_PIN, GPIO.HIGH)
+#LED par défaut
+GPIO.output(LED_JAUNE, GPIO.HIGH)
+GPIO.output(LED_VERTE, GPIO.HIGH)
+GPIO.output(LED_ROUGE, GPIO.LOW)
+# === CONFIGURATION BDD ===
 DB_CONFIG = {
     'user': 'dbca25',
     'password': 'admin',
@@ -56,116 +74,202 @@ DB_CONFIG = {
     'database': 'dbca25'
 }
 
-# === ENREGISTREMENTS ===
+# === GESTION PORTE ===
+def etat_filtre():
+    etat1 = GPIO.input(CAPTEUR_PORTE)
+    time.sleep(0.1)
+    etat2 = GPIO.input(CAPTEUR_PORTE)
+    return etat1 if etat1 == etat2 else None
 
-def enregistrer_entree(uid):
+def afficher_etat_porte():
+    etat = etat_filtre()
+    if etat is not None:
+        if etat == GPIO.LOW:
+            print("🚪 La porte est FERMÉE")
+        else:
+            print("🚪 La porte est OUVERTE !")
+
+# === GÂCHE ===
+def activer_gache():
+    print("✅ Ouverture de la porte...")
+    GPIO.output(RELAY_PIN, GPIO.LOW)
+
+    porte_ouverte = False
+    start_time = time.time()
+
+    while time.time() - start_time < 5:
+        if GPIO.input(CAPTEUR_PORTE) == GPIO.HIGH:  # Porte ouverte
+            porte_ouverte = True
+            break
+        time.sleep(0.1)  # Attente pour ne pas surcharger le CPU
+
+    GPIO.output(RELAY_PIN, GPIO.HIGH)
+    print("🔒 Porte refermée.")
+
+    return porte_ouverte
+
+# === BASE DE DONNÉES ===
+def enregistrer_acces(uid, autorise):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
+
         date_entree = time.strftime('%Y-%m-%d %H:%M:%S')
+        resultat = "Accès autorisé" if autorise else "Accès refusé"
+        etat_porte = "1"
+        IdUser = "1"
+
         sql = """
         INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, UID, IdUser)
         VALUES (%s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(sql, (date_entree, "Accès autorisé", True, "1", uid, "1"))
+        valeurs = (date_entree, resultat, True, etat_porte, uid, IdUser)
+        cursor.execute(sql, valeurs)
         conn.commit()
-        print("✅ Entrée enregistrée.")
-    except Exception as e:
-        print(f"❌ Erreur MySQL (entrée) : {e}")
-    finally:
-        cursor.close()
-        conn.close()
 
-def enregistrer_sortie(uid):
+        print(f"📌 {resultat} | UID : {uid} enregistré.")
+
+    except mysql.connector.Error as err:
+        print(f"⚠️ Erreur MySQL : {err}")
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+        except:
+            pass
+
+def enregistrer_heure_sortie(uid):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
+
+        heure_sortie = time.strftime('%Y-%m-%d %H:%M:%S')
+
+
         cursor.execute("""
-            SELECT idAcces FROM Acces_log WHERE UID = %s ORDER BY idAcces DESC LIMIT 1
+            SELECT idAcces FROM Acces_log
+            WHERE UID = %s
+            ORDER BY idAcces DESC
+            LIMIT 1
         """, (uid,))
-        last = cursor.fetchone()
-        if last:
-            log_id = last[0]
+        last_entry = cursor.fetchone()
+
+        if last_entry:
+            log_id = last_entry[0]
             cursor.execute("""
-                UPDATE Acces_log SET Date_heure_sortie = %s WHERE idAcces = %s
-            """, (time.strftime('%Y-%m-%d %H:%M:%S'), log_id))
+                UPDATE Acces_log
+                SET Date_heure_sortie = %s
+                WHERE idAcces = %s
+            """, (heure_sortie, log_id))
             conn.commit()
-            print(f"🕒 Sortie enregistrée pour ID {log_id}")
-    except Exception as e:
-        print(f"❌ Erreur MySQL (sortie) : {e}")
+            print(f"🕒 Heure de sortie enregistrée pour ID {log_id} : {heure_sortie}")
+        else:
+            print("⚠️ Aucun accès trouvé pour ce badge.")
+
+    except mysql.connector.Error as e:
+        print(f"⚠️ Erreur MySQL sortie : {e}")
     finally:
-        cursor.close()
-        conn.close()
+        try:
+            cursor.close()
+            conn.close()
+        except:
+            pass
 
-# === PORTE
-def attendre_ouverture(message="Attente ouverture porte..."):
-    print(f"👁️ {message}")
-    etat_precedent = GPIO.input(CAPTEUR_PORTE)
-    while True:
-        etat_actuel = GPIO.input(CAPTEUR_PORTE)
-        if etat_actuel == GPIO.HIGH and etat_precedent == GPIO.LOW:
-            print("🚪 Porte ouverte")
-            break
-        etat_precedent = etat_actuel
-        time.sleep(0.2)
 
-# === GÂCHE
-def activer_gache():
-    print("🔓 Gâche activée (10s)")
-    GPIO.output(RELAY_PIN, GPIO.LOW)
-    time.sleep(10)
-    GPIO.output(RELAY_PIN, GPIO.HIGH)
-    print("🔒 Porte refermée")
+# === DETECTEUR DE PRESENCE ===
+def presence_detecter():
+    while GPIO.input(PIR_PIN):
+                print("⚠️ Mouvement détecté")
+                GPIO.output(LED_JAUNE, GPIO.HIGH)
+    else:
+                print("Aucun mouvement détecté")
+                GPIO.output(LED_JAUNE, GPIO.LOW)
 
-# === RFID
-def verifier_carte(uid):
+# === LOGIQUE RFID ===
+def verifier_et_traiter(uid):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (int(uid),))
         carte = cursor.fetchone()
-        return carte is not None
-    except Exception as e:
-        print(f"❌ Erreur DB RFID : {e}")
-        return False
+
+        if carte:
+            print("✅ Carte autorisée")
+            GPIO.output(LED_VERTE, GPIO.LOW)
+
+            porte_ouverte = activer_gache()  # Attend ouverture 5s
+            GPIO.output(LED_VERTE, GPIO.HIGH)
+
+            if porte_ouverte:
+                enregistrer_acces(uid, True)
+                detecter_sortie(uid)  # on enchaîne vers sortie
+            else:
+                print("❌ La porte n’a pas été ouverte. Retour à l’attente d’un badge.")
+        else:
+            print("❌ Carte non autorisée")
+            GPIO.output(LED_ROUGE, GPIO.LOW)
+            time.sleep(2)
+            GPIO.output(LED_ROUGE, GPIO.HIGH)
+            enregistrer_acces(uid, False)
+            envoyer_mail(uid)
+
+    except mysql.connector.Error as err:
+        print(f"⚠️ Erreur MySQL : {err}")
     finally:
         cursor.close()
         conn.close()
 
-# === BOUCLE PRINCIPALE
+# === SURVEILLANCE SORTIE ===
+def detecter_sortie(uid):
+    print("👁️ Surveillance active pour sortie : attendre la DEUXIÈME ouverture de la porte...")
+
+    porte_precedente = GPIO.input(CAPTEUR_PORTE)
+    while True:
+        etat_porte = GPIO.input(CAPTEUR_PORTE)
+
+        # Réouverture détectée
+        if etat_porte == GPIO.HIGH and porte_precedente == GPIO.LOW:
+            print("🚪 Deuxième ouverture → sortie détectée")
+            enregistrer_heure_sortie(uid)
+            break  # Revenir à l'attente RFID
+
+        porte_precedente = etat_porte
+        time.sleep(0.2)
+
+# === BOUCLE PRINCIPALE ===
 def boucle_principale():
-    reader = SimpleMFRC522()
+    reader = SimpleMFRC522()  # Une seule instance au début
+
+
     try:
         while True:
-            print("\n📡 En attente d'une carte RFID...")
-            uid, _ = reader.read()
-            print(f"📡 Carte détectée : {uid}")
+            print("📡 En attente d'une carte RFID...")
+            try:
+                uid, _ = reader.read()
+                print(f"📡 Carte détectée : {uid}")
+                verifier_et_traiter(uid)
 
-            if verifier_carte(uid):
-                GPIO.output(LED_VERTE, GPIO.LOW)
-                activer_gache()
-                GPIO.output(LED_VERTE, GPIO.HIGH)
+                # 🛠️ Forcer le reset du lecteur
+                time.sleep(0.5)
+                reader = SimpleMFRC522()  # Réinitialiser le lecteur
+                time.sleep(0.5)
 
-                # Attente de la première ouverture (entrée)
-                attendre_ouverture("🕒 En attente de l’ouverture de la porte (entrée)...")
-                enregistrer_entree(uid)
-
-                # Attente de la deuxième ouverture (sortie)
-                attendre_ouverture("🕒 En attente de l’ouverture de la porte (sortie)...")
-                enregistrer_sortie(uid)
-
-            else:
-                GPIO.output(LED_ROUGE, GPIO.LOW)
-                time.sleep(2)
-                GPIO.output(LED_ROUGE, GPIO.HIGH)
-                enregistrer_entree(uid)  # Enregistre tentative refusée
-                envoyer_mail(uid)
+            except Exception as e:
+                print(f"⚠️ Erreur RFID : {e}")
+                time.sleep(1)
 
     except KeyboardInterrupt:
-        print("🛑 Arrêt manuel.")
+        print("\n🛑 Programme interrompu.")
     finally:
+        try:
+            reader.close()
+        except:
+            pass
         GPIO.cleanup()
+        print("🔧 GPIO nettoyés.")
 
-# === LANCEMENT
+
+# === LANCEMENT ===
 if __name__ == "__main__":
     boucle_principale()
+    
