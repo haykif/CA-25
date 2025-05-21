@@ -223,58 +223,44 @@ def boucle_principale():
     reader = SimpleMFRC522()
     try:
         while True:
-            afficher_etat_porte()
+    try:
+        uid, _ = reader.read()
+        print(f"📡 Carte détectée : {uid}")
 
-            if GPIO.input(PIR_PIN):
-                print("⚠️ Mouvement détecté")
-                GPIO.output(LED_JAUNE, GPIO.HIGH)
-            else:
-                print("Aucun mouvement détecté")
-                GPIO.output(LED_JAUNE, GPIO.LOW) 
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor()
 
-            print("📡 En attente d'une carte RFID...")
-            try:
-                #uid, _ = reader.read()
-                #print(f"📡 Carte détectée : {uid}")
-                #verifier_et_traiter(uid)
+        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (uid,))
+        carte = cursor.fetchone()
 
-                #detecter_sortie(uid)
+        if carte is not None:
+            print("✅ Carte autorisée")
+            GPIO.output(LED_VERTE, GPIO.LOW)
+            activer_gache()
+            GPIO.output(LED_VERTE, GPIO.HIGH)
+            enregistrer_acces(uid, True)
+            break  # ✅ on sort de la boucle pour continuer avec la détection de sortie
+        else:
+            print("❌ Carte non autorisée, veuillez re-badger...")
+            GPIO.output(LED_ROUGE, GPIO.LOW)
+            time.sleep(2)
+            GPIO.output(LED_ROUGE, GPIO.HIGH)
+            enregistrer_acces(uid, False)
+            envoyer_mail(uid)
 
-                while True:
-                    uid, _ = reader.read()
-                    print(f"📡 Carte détectée : {uid}")
-    
-                    try:
-                        conn = mysql.connector.connect(**DB_CONFIG)
-                        cursor = conn.cursor()
-                        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (int(uid),))
-                        carte = cursor.fetchone()
+    except mysql.connector.Error as err:
+        print(f"⚠️ Erreur MySQL : {err}")
+    except Exception as e:
+        print(f"⚠️ Erreur de lecture RFID : {e}")
+    finally:
+        try:
+            cursor.close()
+            conn.close()
+        except:
+            pass
 
-                    if carte:
-                        print("✅ Carte autorisée")
-                        GPIO.output(LED_VERTE, GPIO.LOW)
-                        activer_gache()
-                        GPIO.output(LED_VERTE, GPIO.HIGH)
-                        enregistrer_acces(uid, True)
-                        break  # sortir de la boucle, passer à la détection de sortie
-                    else:
-                        print("❌ Carte non autorisée, veuillez re-badger...")
-                        GPIO.output(LED_ROUGE, GPIO.LOW)
-                        time.sleep(2)
-                        GPIO.output(LED_ROUGE, GPIO.HIGH)
-                        enregistrer_acces(uid, False)
-                        envoyer_mail(uid)
+    time.sleep(1)
 
-                    except mysql.connector.Error as err:
-                        print(f"⚠️ Erreur MySQL : {err}")
-                    finally:
-                        try:
-                            cursor.close()
-                            conn.close()
-                        except:
-                            pass
-
-                    time.sleep(1)
 
                 
                  # 🛠️ Forcer le reset du lecteur
