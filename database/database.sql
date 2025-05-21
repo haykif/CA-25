@@ -30,7 +30,7 @@ USE `dbca25` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dbca25`.`Carte` (
   `idCarte` INT NOT NULL AUTO_INCREMENT,
-  `RFDI` VARCHAR(50) NULL,
+  `RFID` VARCHAR(50) NULL,
   PRIMARY KEY (`idCarte`))
 ENGINE = InnoDB;
 
