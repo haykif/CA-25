@@ -93,6 +93,8 @@ def afficher_etat_porte():
 def activer_gache():
     print("✅ Ouverture de la porte...")
     GPIO.output(RELAY_PIN, GPIO.LOW)
+    time.sleep(3)  # <- Ouverture pendant 3 secondes
+    GPIO.output(RELAY_PIN, GPIO.HIGH)
 
     porte_ouverte = False
     start_time = time.time()
@@ -107,6 +109,7 @@ def activer_gache():
     print("🔒 Porte refermée.")
 
     return porte_ouverte
+
 
 # === BASE DE DONNÉES ===
 def enregistrer_acces(uid, autorise):
@@ -191,8 +194,8 @@ def verifier_et_traiter(uid):
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
 
-        #heure_actuelle = time.strftime('%H:%M:%S %d-%m-%Y ')
-        #print(f"🕓 Carte détectée le {heure_actuelle}")
+        heure_actuelle = time.strftime('%H:%M:%S %d-%m-%Y ')
+        print(f"🕓 Carte détectée le {heure_actuelle}")
 
         cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (int(uid),))
         carte = cursor.fetchone()
@@ -238,7 +241,6 @@ def detecter_sortie(uid):
 
         # Attendre une réouverture
         if etat_porte == GPIO.HIGH and porte_precedente == GPIO.LOW:
-            print("🚪 Porte réouverte → surveillance pendant 10 secondes")
             GPIO.output(LED_JAUNE, GPIO.HIGH)
             GPIO.output(LED_ROUGE, GPIO.LOW)
             enregistrer_heure_sortie(uid)
