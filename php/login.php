@@ -21,7 +21,15 @@
                     $_SESSION['admin_id'] = $user['Identifiant'];
                     $_SESSION['is_admin'] = true;
                     header("Location: ./dashboard.php");
+                    
+                    // 🔄 Log de connexion réussie dans Connect_log_admin
+                    $idAdmin = $user['idUser'];
+                    $logStmt = $pdo->prepare("INSERT INTO Connect_log_admin (HeureConnexion, idAdmin) VALUES (NOW(), ?)");
+                    $logStmt->execute([$idAdmin]);
+                    
+                    
                     exit;
+                    
                 } else {
                     // Si la vérification échoue
                     echo "<script>alert('Identifiant ou mot de passe incorrect !'); window.location.href='../index.html';</script>";

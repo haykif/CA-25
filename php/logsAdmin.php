@@ -6,7 +6,14 @@
         exit();
     }
 
-    $query = "SELECT HeureConnexion FROM Connect_log_admin ORDER BY HeureConnexion DESC";
+    $query = "SELECT 
+        Connect_log_admin.HeureConnexion AS HeureConnexion, 
+        User.Identifiant AS Identifiant, 
+        User.Prenom AS Prenom, 
+        User.Nom AS Nom
+    FROM Connect_log_admin 
+    INNER JOIN User ON Connect_log_admin.idAdmin = User.idUser 
+    ORDER BY HeureConnexion DESC";
     $stmt = $pdo->query($query);
 ?>
 
@@ -43,9 +50,10 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID Accès</th>
-                        <th>Date Heure Entrée</th>
-                        <th>ID Utilisateur</th>
+                        <th>Identifiant du Superutilisateur</th>
+                        <th>Prénom du Superutilisateur</th>
+                        <th>Nom du Superutilisateur</th>
+                        <th>Date et Heure de connexion</th>
                     </tr>
                 </thead>
 
@@ -54,9 +62,10 @@
                         // Boucle pour afficher chaque ligne de résultat dans le tableau
                         while ($row = $stmt->fetch()) {
                             echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['idAcces'] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Identifiant'] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
                             echo "<td>" . ($row['HeureConnexion'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['HeureConnexion']))) : '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row['IdUser'] ?? '') . "</td>";
                             echo "</tr>";
                         }
                     ?>
