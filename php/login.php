@@ -27,7 +27,6 @@
                     $logStmt = $pdo->prepare("INSERT INTO Connect_log_admin (HeureConnexion, idAdmin) VALUES (NOW(), ?)");
                     $logStmt->execute([$idAdmin]);
                     
-                    
                     exit;
                     
                 } else {
