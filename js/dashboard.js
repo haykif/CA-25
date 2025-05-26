@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("Erreur récupération état porte:", error);
-                doorStatus.textContent = "Erreur";
+                doorStatus.textContent = "Erreur lors de la récupération de l'état de la porte";
             });
     }
 
