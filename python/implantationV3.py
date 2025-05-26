@@ -10,14 +10,11 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
-import logging
-
-# Configuration du logging
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "http://ca25.charles-poncet.net:8083"}})
+
+
 
 # === Variables globales ===
 etat_porte_actuel = "inconnu"
@@ -213,7 +210,7 @@ def dashboard():
                         .then(data => document.getElementById("etat").textContent = data.etat)
                         .catch(err => document.getElementById("etat").textContent = "Erreur de connexion");
                 }
-                setInterval(majEtat, 3000);
+                setInterval(majEtat, 10);
                 majEtat();
             </script>
         </body>
@@ -222,12 +219,10 @@ def dashboard():
 
 @app.route("/etat_porte")
 def etat_porte():
-    logger.debug(f"État actuel de la porte: {etat_porte_actuel}")
     return jsonify({"etat": etat_porte_actuel})
 
 def lancer_serveur():
-    logger.info("Démarrage du serveur Flask...")
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 # === MAIN ===
 if __name__ == "__main__":
