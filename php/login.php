@@ -10,7 +10,7 @@
         if (!empty($username) && !empty($password)) {
             try {
                 // Préparer et exécuter la requête pour récupérer l'utilisateur
-                $stmt = $pdo->prepare("SELECT idUser, Identifiant, Mdp FROM User WHERE Identifiant = :username");
+                $stmt = $pdo->prepare("SELECT idUser, Identifiant, Mdp, Nom, Prenom FROM User WHERE Identifiant = :username");
                 $stmt->bindParam(':username', $username, PDO::PARAM_STR);
                 $stmt->execute();
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,6 +20,12 @@
                     // Authentification réussie : initialisation de la session et redirection
                     $_SESSION['admin_id'] = $user['Identifiant'];
                     $_SESSION['is_admin'] = true;
+                    $_SESSION['admin_nom'] = $user['Nom'];
+                    $_SESSION['admin_prenom'] = $user['Prenom'];
+                    
+                    // Débogage
+                    error_log("Session après connexion : " . print_r($_SESSION, true));
+                    
                     header("Location: ./dashboard.php");
                     
                     // 🔄 Log de connexion réussie dans Connect_log_admin

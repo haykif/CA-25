@@ -13,10 +13,20 @@
         <?php
             require_once "database.php";
             session_start();
+            
+            // Débogage
+            error_log("Session dans dashboard : " . print_r($_SESSION, true));
+            
             if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 header("Location: ./login.php"); // Redirige vers la page de connexion
                 exit();
             }
+
+            // Récupération des informations de l'administrateur
+            $adminQuery = "SELECT Nom, Prenom FROM User WHERE Identifiant = :identifiant";
+            $adminStmt = $pdo->prepare($adminQuery);
+            $adminStmt->execute(['identifiant' => $_SESSION['admin_id']]);
+            $adminInfo = $adminStmt->fetch(PDO::FETCH_ASSOC);
 
             // Exécution de la requête pour récupérer les données
             $queryLogs = "SELECT * FROM Acces_log ORDER BY Date_heure_entree DESC LIMIT 5";
@@ -50,7 +60,9 @@
         
         <div class="main-container">
             <div class="main-content">
-                <h1>Bienvenue, Admin</h1>
+                <h1>Bienvenue, <?php 
+                    echo htmlspecialchars(($adminInfo['Prenom'] ?? 'Admin') . ' ' . ($adminInfo['Nom'] ?? '')); 
+                ?></h1>
 
                 <div class="cards">
                     <div class="card">
