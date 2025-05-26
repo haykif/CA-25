@@ -12,7 +12,13 @@ from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://ca25.charles-poncet.net:8083"}})
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Accept"]
+    }
+})
 
 
 
