@@ -9,6 +9,11 @@ from gpiozero import Device
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
 
 # === Variables globales ===
 etat_porte_actuel = "inconnu"
