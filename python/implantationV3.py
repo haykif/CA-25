@@ -14,6 +14,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
 # === Variables globales ===
 etat_porte_actuel = "inconnu"
 
