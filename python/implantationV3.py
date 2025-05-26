@@ -12,15 +12,15 @@ from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": "*",
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Accept"]
-    }
-})
 
-
+# Configuration CORS plus permissive
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://ca25.charles-poncet.net:8083')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Accept')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
 # === Variables globales ===
 etat_porte_actuel = "inconnu"
