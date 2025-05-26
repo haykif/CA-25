@@ -5,17 +5,6 @@
         header("Location: ./login.php"); // Redirige vers la page de connexion
         exit();
     }
-
-    // Suppression des utilisateurs dont la demande de vérification a expiré
-    $delaiExpiration = 10; // en minutes
-    $deleteExpired = $pdo->prepare("
-    DELETE FROM User
-    WHERE Verifier IS NULL 
-      AND Mail_verif = 1 
-      AND date_demande < (NOW() - INTERVAL :delai MINUTE)
-    ");
-    $deleteExpired->bindValue(':delai', $delaiExpiration, PDO::PARAM_INT);
-    $deleteExpired->execute();
     
     // On filtre sur Mail_verif = 1 dès la requête
     $queryAutorisee = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1 ORDER BY Nom";
@@ -45,8 +34,8 @@
                 <li><a href="./gestionAcces.php">Gestion des accès</a></li>
                 <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
                 <li><a href="../html/formulaire.html">Formulaire</a></li>
-                <li><a href="./logsAdmin.php">Logs admin</a></li>
-                <li><a href="./logsServer.php">Logs serveur</a></li>
+                <li><a href="./logsAdmin.php">Historique connexion admin</a></li>
+                <li><a href="./logsServer.php">Historique des accès</a></li>
             </ul>
 
             <div class="logout">

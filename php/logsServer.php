@@ -28,8 +28,8 @@
                 <li><a href="./gestionAcces.php">Gestion des accès</a></li>
                 <li><a href="./inscriptionAdmin.php">Inscription admin</a></li>
                 <li><a href="../html/formulaire.html">Formulaire</a></li>
-                <li><a href="./logsAdmin.php">Logs admin</a></li>
-                <li><a href="./logsServer.php">Logs serveur</a></li>
+                <li><a href="./logsAdmin.php">Historique connexion admin</a></li>
+                <li><a href="./logsServer.php">Historique des accès</a></li>
             </ul>
 
             <div class="logout">
