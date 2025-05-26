@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("http://173.21.1.14:5000/etat_porte", {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 mode: 'cors',
                 credentials: 'include'
             });
             
             console.log("Réponse reçue:", response.status, response.statusText);
-            console.log("Headers:", response.headers);
             
             if (response.ok) {
                 const data = await response.json();
