@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, render_template_string
 import threading
 import mysql.connector
@@ -11,15 +12,13 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
 
+# Ne pas effacer LAURENT!!!
 app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": ["http://ca25.charles-poncet.net:8083"],
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Accept"],
-        "supports_credentials": True
-    }
-})
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+@app.route("/etat_porte")
+def etat_porte():
+	return jsonify({"etat": etat_porte_actuel})
 
 # === Variables globales ===
 etat_porte_actuel = "inconnu"
@@ -193,38 +192,6 @@ def boucle_principale():
         print("🛑 Arrêt programme.")
     finally:
         reader.close()
-
-# === FLASK SERVER ===
-app = Flask(__name__)
-
-@app.route("/")
-def dashboard():
-    return render_template_string("""
-        <!DOCTYPE html>
-        <html lang="fr">
-        <head>
-            <meta charset="UTF-8">
-            <title>État de la Porte</title>
-        </head>
-        <body>
-            <h1>État de la Porte : <span id="etat">Chargement...</span></h1>
-            <script>
-                function majEtat() {
-                    fetch("/etat_porte")
-                        .then(response => response.json())
-                        .then(data => document.getElementById("etat").textContent = data.etat)
-                        .catch(err => document.getElementById("etat").textContent = "Erreur de connexion");
-                }
-                setInterval(majEtat, 10);
-                majEtat();
-            </script>
-        </body>
-        </html>
-    """)
-
-@app.route("/etat_porte")
-def etat_porte():
-    return jsonify({"etat": etat_porte_actuel})
 
 def lancer_serveur():
     app.run(host="0.0.0.0", port=5000)
