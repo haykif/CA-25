@@ -1,42 +1,83 @@
-function openModal(formElement) {
-    window.currentForm = formElement;
-    document.getElementById('modalPython').style.display = 'block';
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const doorStatus = document.getElementById("door-status");
+    const presenceStatus = document.getElementById("presence-status");
+    console.log("Élément door-status trouvé:", doorStatus);
 
-function closeModal() {
-    document.getElementById('modalPython').style.display = 'none';
-}
-
-function submitJson() {
-    const fileInput = document.getElementById('jsonFileInput');
-    if (fileInput.files.length === 0) {
-        alert('Veuillez charger un fichier JSON.');
-        return;
+    async function majEtatPorte() {
+        console.log("Tentative de récupération de l'état de la porte...");
+        
+        try {
+            const response = await fetch("http://173.21.1.14:5000/etat_porte", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                credentials: 'include'
+            });
+            
+            console.log("Réponse reçue:", response.status, response.statusText);
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Données reçues:", data);
+                
+                if (data && data.etat) {
+                    doorStatus.textContent = data.etat === "ouverte" ? "Ouverte" : "Fermée";
+                    doorStatus.className = data.etat === "ouverte" ? "status-open" : "status-closed";
+                } else {
+                    throw new Error("Format de données invalide");
+                }
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Erreur détaillée:", error);
+            doorStatus.textContent = "Erreur de connexion";
+            doorStatus.className = "status-error";
+        }
     }
 
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const jsonContent = JSON.parse(event.target.result);
-        if (jsonContent.uid) {
-            const formData = new FormData(window.currentForm);
-            formData.append('uid', jsonContent.uid);
-
-            fetch('bouton.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);
-                closeModal();
-                window.location.reload();
-            })
-            .catch(error => {
-                alert('Erreur : ' + error);
+    async function majEtatPIR() {
+        try {
+            const response = await fetch("http://173.21.1.14:5000/etat_pir", {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                credentials: 'include'
             });
-        } else {
-            alert('Le fichier JSON ne contient pas de champ "uid".');
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.pir) {
+                    presenceStatus.textContent = data.pir === "mouvement détecté"
+                        ? "Présence détectée"
+                        : "Aucune présence";
+                    presenceStatus.className = data.pir === "mouvement détecté"
+                        ? "status-alert"
+                        : "status-normal";
+                } else {
+                    throw new Error("Format de données PIR invalide");
+                }
+            } else {
+                throw new Error(`HTTP error PIR! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Erreur PIR:", error);
+            presenceStatus.textContent = "Erreur capteur";
+            presenceStatus.className = "status-error";
         }
-    };
-    reader.readAsText(fileInput.files[0]);
-}
+    }
+
+    // Mise à jour immédiate
+    majEtatPorte();
+    majEtatPIR();
+
+    // Mise à jour toutes les 3 secondes
+    setInterval(majEtatPorte, 3000);
+    setInterval(majEtatPIR, 3000);
+});
