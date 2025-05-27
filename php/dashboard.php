@@ -29,7 +29,10 @@
             $adminInfo = $adminStmt->fetch(PDO::FETCH_ASSOC);
 
             // Exécution de la requête pour récupérer les données
-            $queryLogs = "SELECT * FROM Acces_log ORDER BY Date_heure_entree DESC LIMIT 5";
+            $queryLogs = "SELECT a.*, u.Nom, u.Prenom 
+                         FROM Acces_log a 
+                         LEFT JOIN User u ON a.IdUser = u.idUser 
+                         ORDER BY a.Date_heure_entree DESC LIMIT 5";
             $stmtLogs  = $pdo->query($queryLogs);
             
             // On filtre sur Mail_verif = 1 dès la requête
@@ -93,7 +96,7 @@
                             <th>ID Accès</th>
                             <th>Date Heure Entrée</th>
                             <th>Date Heure Sortie</th>
-                            <th>ID Utilisateur</th>
+                            <th>Utilisateur</th>
                             <th>Tentative d'accès</th>
                         </tr>
                     </thead>
@@ -106,7 +109,7 @@
                                 echo "<td>" . htmlspecialchars($row['idAcces']) . "</td>";
                                 echo "<td>" . ($row['Date_heure_entree'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['Date_heure_entree']))) : '') . "</td>";
                                 echo "<td>" . htmlspecialchars(isset($row['Date_heure_sortie']) && $row['Date_heure_sortie'] ? date("d-m-Y H:i:s", strtotime($row['Date_heure_sortie'])) : '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['IdUser']) . "</td>";
+                                echo "<td>" . htmlspecialchars(($row['Prenom'] ?? '') . ' ' . ($row['Nom'] ?? '')) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['Resultat_tentative'] ?? '') . "</td>";
                                 echo "</tr>";
                             }

@@ -109,7 +109,6 @@
                             <th>Motif</th>
                             <th>Date de début</th>
                             <th>Date de fin</th>
-                            <th>ID Carte</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -126,7 +125,6 @@
                                 echo "<td>" . htmlspecialchars($row['Motif'] ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_debut'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
                                 echo "<td>";
                                 
                                 // Si Verifier est NULL, affiche les boutons
