@@ -6,8 +6,30 @@
         exit();
     }
 
-    $query = "SELECT * FROM Acces_log ORDER BY Date_heure_entree DESC";
-    $stmt = $pdo->query($query);
+    // Ajout de débogage
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    try {
+        // Vérifier la structure de la table User
+        $query = "SHOW COLUMNS FROM User";
+        $stmt = $pdo->query($query);
+        error_log("Structure de la table User :");
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            error_log(print_r($row, true));
+        }
+
+        // Requête principale modifiée
+        $query = "SELECT a.*, u.Nom, u.Prenom 
+                  FROM Acces_log a 
+                  LEFT JOIN User u ON a.IdUser = u.idUser 
+                  ORDER BY a.Date_heure_entree DESC";
+        
+        $stmt = $pdo->query($query);
+        
+    } catch (PDOException $e) {
+        error_log("Erreur SQL : " . $e->getMessage());
+    }
 ?>
 
 <!DOCTYPE html>
@@ -48,14 +70,14 @@
                         <th>Tentative</th>
                         <th>Date Heure Sortie</th>
                         <th>UID</th>
-                        <th>ID Utilisateur</th>
+                        <th>Utilisateur</th>
                     </tr>
                 </thead>
 
                 <tbody id="activity-log">
                     <?php
                         // Boucle pour afficher chaque ligne de résultat dans le tableau
-                        while ($row = $stmt->fetch()) {
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['idAcces'] ?? '') . "</td>";
                             echo "<td>" . ($row['Date_heure_entree'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['Date_heure_entree']))) : '') . "</td>";
@@ -64,7 +86,7 @@
                             $uid_dec = $row['UID'] ?? 0;
                             $uid_hex = strtoupper(dechex($uid_dec));
                             echo "<td title='$uid_dec'>" . htmlspecialchars($uid_hex) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['IdUser'] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars(($row['Prenom'] ?? '') . ' ' . ($row['Nom'] ?? '')) . "</td>";
                             echo "</tr>";
                         }
                     ?>

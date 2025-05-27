@@ -217,6 +217,43 @@ th {
     transform: translateY(-2px);
 }
 
+/* Styles pour les états de la porte et de la présence */
+.status-open {
+    color: #4cd137;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(76, 209, 55, 0.1);
+}
+
+.status-closed {
+    color: #e84118;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(232, 65, 24, 0.1);
+}
+
+.status-error {
+    color: #fbc531;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(251, 197, 49, 0.1);
+}
+
+/* Styles pour l'état de présence */
+#presence-status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+#presence-status:not(:empty) {
+    color: #4cd137;
+    background-color: rgba(76, 209, 55, 0.1);
+}
+
 /* La partie dark mode selon la taille de l'écran */
 /* Media par défault */
 /* LIGHT */

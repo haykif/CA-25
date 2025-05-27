@@ -1,47 +1,42 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const doorStatus = document.getElementById("door-status");
-    const presenceStatus = document.getElementById("presence-status");
-    console.log("Élément door-status trouvé:", doorStatus);
+function openModal(formElement) {
+    window.currentForm = formElement;
+    document.getElementById('modalPython').style.display = 'block';
+}
 
-    async function majEtatPorte() {
-        console.log("Tentative de récupération de l'état de la porte...");
-        
-        try {
-            const response = await fetch("http://173.21.1.14:5000/etat_porte", {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors',
-                credentials: 'include'
-            });
-            
-            console.log("Réponse reçue:", response.status, response.statusText);
-            
-            if (response.ok) {
-                const data = await response.json();
-                console.log("Données reçues:", data);
-                
-                if (data && data.etat) {
-                    doorStatus.textContent = data.etat === "ouverte" ? "Ouverte" : "Fermée";
-                    doorStatus.className = data.etat === "ouverte" ? "status-open" : "status-closed";
-                } else {
-                    throw new Error("Format de données invalide");
-                }
-            } else {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-        } catch (error) {
-            console.error("Erreur détaillée:", error);
-            doorStatus.textContent = "Erreur de connexion";
-            doorStatus.className = "status-error";
-        }
+function closeModal() {
+    document.getElementById('modalPython').style.display = 'none';
+}
+
+function submitJson() {
+    const fileInput = document.getElementById('jsonFileInput');
+    if (fileInput.files.length === 0) {
+        alert('Veuillez charger un fichier JSON.');
+        return;
     }
 
-    // Première mise à jour immédiate
-    majEtatPorte();
-    
-    // Mise à jour toutes les 3 secondes
-    setInterval(majEtatPorte, 3000);
-});
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const jsonContent = JSON.parse(event.target.result);
+        if (jsonContent.uid) {
+            const formData = new FormData(window.currentForm);
+            formData.append('uid', jsonContent.uid);
+
+            fetch('bouton.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                closeModal();
+                window.location.reload();
+            })
+            .catch(error => {
+                alert('Erreur : ' + error);
+            });
+        } else {
+            alert('Le fichier JSON ne contient pas de champ "uid".');
+        }
+    };
+    reader.readAsText(fileInput.files[0]);
+}
