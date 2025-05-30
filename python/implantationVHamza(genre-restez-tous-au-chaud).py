@@ -45,9 +45,9 @@ def envoyer_mail(uid_hex):
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as serveur:
             serveur.login(expediteur, mot_de_passe)
             serveur.sendmail(expediteur, destinataire, message.as_string())
-            print("📧 Mail envoyé !")
+            print("> Mail envoyé !")
     except Exception as e:
-        print(f"⚠️ Erreur mail : {e}")
+        print(f"> Erreur mail : {e}")
 
 # === PINS GPIO ===
 GPIO.setmode(GPIO.BCM)
@@ -81,7 +81,7 @@ DB_CONFIG = {
 
 # === Fonctions ===
 def activer_gache():
-    print("✅ Gâche activée")
+    print("> Gâche activée")
     GPIO.output(RELAY_PIN, GPIO.LOW)
     time.sleep(3)
     GPIO.output(RELAY_PIN, GPIO.HIGH)
@@ -103,9 +103,9 @@ def enregistrer_acces(uid_hex, autorise):
         valeurs = (date_entree, resultat, True, "1", uid_int, "1")
         cursor.execute(sql, valeurs)
         conn.commit()
-        print(f"📌 {resultat} | UID : {uid_hex} logué")
+        print(f"> {resultat} | UID : {uid_hex} logué")
     except Exception as e:
-        print(f"⚠️ MySQL (entrée) : {e}")
+        print(f"> MySQL (entrée) : {e}")
     finally:
         cursor.close()
         conn.close()
@@ -126,11 +126,11 @@ def enregistrer_heure_sortie(uid_hex):
                 (heure_sortie, last_entry[0])
             )
             conn.commit()
-            print(f"🕒 Sortie enregistrée pour ID {last_entry[0]}")
+            print(f"> Sortie enregistrée pour ID {last_entry[0]}")
         else:
-            print("⚠️ Aucun log trouvé")
+            print("> Aucun log trouvé")
     except Exception as e:
-        print(f"⚠️ MySQL (sortie) : {e}")
+        print(f"> MySQL (sortie) : {e}")
     finally:
         cursor.close()
         conn.close()
@@ -159,13 +159,13 @@ def verifier_et_traiter(uid_hex):
             enregistrer_acces(uid_hex, False)
             envoyer_mail(uid_hex)
     except Exception as e:
-        print(f"⚠️ Erreur RFID : {e}")
+        print(f"> Erreur RFID : {e}")
     finally:
         cursor.close()
         conn.close()
 
 def detecter_sortie(uid_hex):
-    print("👁️ Surveillance ouverture porte...")
+    print("> Surveillance ouverture porte...")
     precedent = GPIO.input(CAPTEUR_PORTE)
     while True:
         etat = GPIO.input(CAPTEUR_PORTE)
@@ -183,14 +183,14 @@ def surveiller_etat_porte():
             etat_porte_actuel = "fermée" if GPIO.input(CAPTEUR_PORTE) == GPIO.LOW else "ouverte"
             time.sleep(0.5)
     except Exception as e:
-        print(f"❌ Thread porte : {e}")
+        print(f"> Thread porte : {e}")
 
 # === BOUCLE PRINCIPALE ===
 def boucle_principale():
     reader_low = MFRC522()
     try:
         while True:
-            print("📡 En attente d'un badge…")
+            print("> En attente d'un badge…")
             status, uid_bytes = reader_low.MFRC522_Anticoll()
             if status == reader_low.MI_OK:
                 # format Big-Endian hex identique à l’ACR122U
@@ -200,7 +200,7 @@ def boucle_principale():
             time.sleep(0.5)
     except KeyboardInterrupt:
         GPIO.cleanup()
-        print("🛑 Arrêt programme.")
+        print("> Arrêt programme.")
 
 def lancer_serveur():
     app.run(host="0.0.0.0", port=5000)
