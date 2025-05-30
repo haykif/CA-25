@@ -75,7 +75,7 @@
 
                     <div class="card">
                         <h3>Présence</h3>
-                        <p>Détectée: <span id="presence-status">Non</span></p>
+                        <p>Détection: <span id="presence-status">Initialisation du capteur de mouvement...</span></p>
                     </div>
 
                     <a href="./accesAutorise.php">

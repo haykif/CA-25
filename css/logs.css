@@ -94,6 +94,24 @@ body {
     to { opacity: 1; }
 }
 
+.supprimer-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.4);
+}
+  
+.supprimer-btn:hover {
+    background: linear-gradient(135deg, #cc0000, #ff4444);
+    transform: translateY(-2px);
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

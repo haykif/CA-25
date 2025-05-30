@@ -72,11 +72,11 @@ try {
         $mail->Body    = "Bonjour $prenom $nom,<br><br>"
                       . "Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien ci-dessous :<br><br>"
                       . "<a href='$confirmation_link'>$confirmation_link</a><br><br>"
-                      . "Cordialement,<br>Lycée Charles Poncet.";
+                      . "Cordialement,<br>Lycee Charles Poncet.";
         $mail->AltBody = "Bonjour $prenom $nom,\n\n"
                       . "Merci de votre inscription. Veuillez confirmer votre adresse email en cliquant sur le lien suivant :\n\n"
                       . "$confirmation_link\n\n"
-                      . "Cordialement,\nLycée Charles Poncet.";
+                      . "Cordialement,\nLycee Charles Poncet.";
 
         $mail->send();
 

@@ -79,4 +79,16 @@ try {
 } catch (Exception $e) {
     echo "✅ Vérification réussie, mais erreur lors de l'envoi du mail à l'admin : {$mail->ErrorInfo}";
 }
+
+ // Suppression des utilisateurs dont la demande de vérification a expiré
+$delai = 1;
+$deleteExpired = $pdo->prepare("
+    DELETE FROM User
+    WHERE Verifier IS NULL 
+      AND Mail_verif = 1 
+      AND date_demande < (NOW() - INTERVAL :delai MINUTE)
+");
+$deleteExpired->bindValue(':delai', $delai, PDO::PARAM_INT);
+$deleteExpired->execute();
+
 ?>

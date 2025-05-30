@@ -63,13 +63,13 @@
 
                 // Contenu du mail
                 $mailer->isHTML(true);
-                $mailer->Subject = "Accès accordé";
+                $mailer->Subject = "Acces accordé";
                 $mailer->Body    = "Bonjour $prenom $nom,<br><br>"
-                                . "Nous vous contactons pour vous informer que l'accès vous est accordé.<br><br>"
-                                . "Cordialement,<br>L'équipe de validation.";
+                                . "Nous vous contactons pour vous informer que l'accès vous est accorde.<br><br>"
+                                . "Cordialement,<br>L'equipe de validation.";
                 // Version texte (fallback)
                 $mailer->AltBody = "Bonjour $prenom $nom,\n\n"
-                                . "Nous vous contactons pour vous informer que l'accès vous est accordé.\n\n"
+                                . "Nous vous contactons pour vous informer que l'accès vous est accorde.\n\n"
                                 . "Cordialement,\nL'équipe de validation.";
 
                 // Envoi du mail
@@ -106,13 +106,13 @@
 
                 // Contenu du mail
                 $mailer->isHTML(true);
-                $mailer->Subject = "Accès refusé";
+                $mailer->Subject = "Acces refuse";
                 $mailer->Body    = "Bonjour $prenom $nom,<br><br>"
-                                . "Nous vous contactons pour vous informer que l'accès vous est refusé.<br><br>"
+                                . "Nous vous contactons pour vous informer que l'accès vous est refuse.<br><br>"
                                 . "Cordialement,<br>L'équipe de validation.";
                 // Version texte (fallback)
                 $mailer->AltBody = "Bonjour $prenom $nom,\n\n"
-                                . "Nous vous contactons pour vous informer que l'accès vous est refusé.\n\n"
+                                . "Nous vous contactons pour vous informer que l'acces vous est refuse.\n\n"
                                 . "Cordialement,\nL'équipe de validation.";
 
                 // Envoi du mail

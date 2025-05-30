@@ -54,12 +54,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 const data = await response.json();
                 if (data && data.pir) {
-                    presenceStatus.textContent = data.pir === "mouvement détecté"
-                        ? "Présence détectée"
-                        : "Aucune présence";
-                    presenceStatus.className = data.pir === "mouvement détecté"
-                        ? "status-alert"
-                        : "status-normal";
+                    presenceStatus.textContent = data.pir === "mouvement détecté" ? "Présence détectée" : "Aucun Mouvement";
+                    presenceStatus.className = data.pir === "mouvement détecté" ? "status-open" : "status-closed";
                 } else {
                     throw new Error("Format de données PIR invalide");
                 }
