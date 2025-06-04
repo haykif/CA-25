@@ -17,9 +17,9 @@ function submitJson() {
     const reader = new FileReader();
     reader.onload = function(event) {
         const jsonContent = JSON.parse(event.target.result);
-        if (jsonContent.uid) {
+        if (jsonContent.UID) {
             const formData = new FormData(window.currentForm);
-            formData.append('uid', jsonContent.uid);
+            formData.append('uid', jsonContent.UID);
 
             fetch('bouton.php', {
                 method: 'POST',
