@@ -40,5 +40,5 @@ Filename: "{app}\UIDScanner.exe"; Description: "Lancer UIDScanner maintenant"; F
 [Code]
 procedure InitializeWizard();
 begin
-  MsgBox('Bienvenue dans l''installation de UIDScanner ! Cette application permet de lire les cartes RFID ACR122U.', mbInformation, MB_OK);
+  MsgBox('Bienvenue dans l''installation de UIDScanner ! Cette application permet de lire des cartes RFID.', mbInformation, MB_OK);
 end;
