@@ -51,7 +51,7 @@ def envoyer_mail(uid):
             serveur.sendmail(expediteur, destinataire, message.as_string())
             print("📧 Mail envoyé !")
     except Exception as e:
-        print(f"⚠️ Erreur mail : {e}")
+        print(f"> Erreur mail : {e}")
 
 # === PINS GPIO ===
 GPIO.setmode(GPIO.BCM)
@@ -88,12 +88,12 @@ DB_CONFIG = {
 
 # === Fonctions ===
 def initialiser_capteur_pir():
-    print("⏳ Initialisation du capteur PIR...")
+    print("> Initialisation du capteur PIR...")
     time.sleep(15)  # Temps pour que le capteur se stabilise
-    print("✅ Prêt ! Surveillance du mouvement...")
+    print("> Prêt ! Surveillance du mouvement...")
 
 def activer_gache():
-    print("✅ Gâche activée")
+    print("> Gâche activée")
     GPIO.output(RELAY_PIN, GPIO.LOW)
     time.sleep(3)
     GPIO.output(RELAY_PIN, GPIO.HIGH)
@@ -112,9 +112,9 @@ def enregistrer_acces(uid, autorise):
         valeurs = (date_entree, resultat, True, "1", uid, "1")
         cursor.execute(sql, valeurs)
         conn.commit()
-        print(f"📌 {resultat} | UID : {uid} logué")
+        print(f"> {resultat} | UID : {uid} logué")
     except Exception as e:
-        print(f"⚠️ MySQL (entrée) : {e}")
+        print(f"> MySQL (entrée) : {e}")
     finally:
         cursor.close()
         conn.close()
@@ -129,11 +129,11 @@ def enregistrer_heure_sortie(uid):
         if last_entry:
             cursor.execute("UPDATE Acces_log SET Date_heure_sortie = %s WHERE idAcces = %s", (heure_sortie, last_entry[0]))
             conn.commit()
-            print(f"🕒 Sortie enregistrée pour ID {last_entry[0]}")
+            print(f"> Sortie enregistrée pour ID {last_entry[0]}")
         else:
-            print("⚠️ Aucun log trouvé")
+            print("> Aucun log trouvé")
     except Exception as e:
-        print(f"⚠️ MySQL (sortie) : {e}")
+        print(f"️> MySQL (sortie) : {e}")
     finally:
         cursor.close()
         conn.close()
@@ -158,13 +158,13 @@ def verifier_et_traiter(uid):
             enregistrer_acces(uid, False)
             envoyer_mail(uid)
     except Exception as e:
-        print(f"⚠️ Erreur RFID : {e}")
+        print(f"> Erreur RFID : {e}")
     finally:
         cursor.close()
         conn.close()
 
 def detecter_sortie(uid):
-    print("👁️ Surveillance ouverture porte...")
+    print("> Surveillance ouverture porte...")
     precedent = GPIO.input(CAPTEUR_PORTE)
     while True:
         etat = GPIO.input(CAPTEUR_PORTE)
@@ -186,7 +186,7 @@ def surveiller_etat_porte():
                 etat_porte_actuel = "ouverte"
             time.sleep(0.5)
     except Exception as e:
-        print(f"❌ Thread porte : {e}")
+        print(f"> Thread porte : {e}")
 
 
 # === Thread capteur
@@ -199,32 +199,32 @@ def surveiller_pir():
             if etat == 1 and etat_precedent == 0:
                 etat_pir_actuel = "mouvement détecté"
                 GPIO.output(LED_JAUNE, GPIO.LOW)  # Allume LED jaune
-                print("⚠️ Mouvement détecté par le PIR !")
+                print("> Mouvement détecté par le PIR !")
             elif etat == 0 and etat_precedent == 1:
                 etat_pir_actuel = "aucun mouvement"
                 GPIO.output(LED_JAUNE, GPIO.HIGH)  # Éteint LED jaune
             etat_precedent = etat
             time.sleep(0.2)
     except Exception as e:
-        print(f"❌ Thread PIR : {e}")
+        print(f"> Thread PIR : {e}")
 
 
 # === BOUCLE PRINCIPALE ===
 def boucle_principale():
-    reader = SimpleMFRC522()
+    reader_low = MFRC522()
     try:
         while True:
-            time.sleep(1)
-            print("📡 En attente d'un badge...")
-            uid, _ = reader.read()
-            verifier_et_traiter(uid)
+            print("> En attente d'un badge…")
+            status, uid_bytes = reader_low.MFRC522_Anticoll()
+            if status == reader_low.MI_OK:
+                # format Big-Endian hex identique à l’ACR122U
+                uid_hex = "".join(f"{b:02X}" for b in uid_bytes)
+                print(f"UID hex : {uid_hex}")  # debug
+                verifier_et_traiter(uid_hex)
             time.sleep(0.5)
-            reader = SimpleMFRC522()
     except KeyboardInterrupt:
         GPIO.cleanup()
-        print("🛑 Arrêt programme.")
-    #finally:
-        #reader.close()
+        print("> Arrêt programme.")
 
 def lancer_serveur():
     app.run(host="0.0.0.0", port=5000)
