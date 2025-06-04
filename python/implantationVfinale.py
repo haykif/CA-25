@@ -93,7 +93,7 @@ def initialiser_capteur_pir():
 def activer_gache():
     print("> Gâche activée")
     GPIO.output(RELAY_PIN, GPIO.LOW)
-    time.sleep(3)
+    time.sleep(10)
     GPIO.output(RELAY_PIN, GPIO.HIGH)
     return GPIO.input(CAPTEUR_PORTE) == GPIO.HIGH
 
