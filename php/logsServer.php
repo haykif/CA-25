@@ -34,7 +34,6 @@
     if (isset($_POST['clear_logs'])) {
         $stmtClear = $pdo->prepare("DELETE FROM Acces_log");
         $stmtClear->execute();
-        echo "<p style='color: green; margin-left: 250px;'>✅ Journal effacé avec succès.</p>";
     }
 ?>
 
@@ -96,7 +95,7 @@
                             echo "<td>" . ($row['Date_heure_entree'] ?? '' ? htmlspecialchars(date("d-m-Y H:i:s", strtotime($row['Date_heure_entree']))) : '') . "</td>";
                             echo "<td>" . htmlspecialchars($row['Resultat_tentative'] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars(isset($row['Date_heure_sortie']) && $row['Date_heure_sortie'] ? date("d-m-Y H:i:s", strtotime($row['Date_heure_sortie'])) : '') . "</td>";
-                            $uid_dec = $row['UID'] ?? 0;
+                            $uid_dec = intval($row['UID'] ?? 0);
                             $uid_hex = strtoupper(dechex($uid_dec));
                             echo "<td title='$uid_dec'>" . htmlspecialchars($uid_hex) . "</td>";
                             echo "<td>" . htmlspecialchars(($row['Prenom'] ?? '') . ' ' . ($row['Nom'] ?? '')) . "</td>";

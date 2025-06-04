@@ -6,6 +6,11 @@
         exit();
     }
 
+    if (isset($_POST['clear_logs'])) {
+        $stmtClear = $pdo->prepare("DELETE FROM Connect_log_admin");
+        $stmtClear->execute();
+    }
+
     $query = "SELECT 
         Connect_log_admin.HeureConnexion AS HeureConnexion, 
         User.Identifiant AS Identifiant, 
@@ -45,7 +50,14 @@
         </div>
 
         <div class="main-content">
-            <h1>Dernières Connexions</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>Dernières Connexions</h1>
+                <form method="POST" onsubmit="return confirm('⚠️ Tu es sûr de vouloir tout effacer ?');">
+                    <button type="submit" name="clear_logs" style="background-color: #c0392b; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+                        🗑 Effacer le journal
+                    </button>
+                </form>
+            </div>
 
             <table>
                 <thead>
