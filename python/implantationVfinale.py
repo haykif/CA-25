@@ -11,13 +11,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS
 
-# Ne pas effacer LAURENT!!!
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 @app.route("/etat_porte")
 def etat_porte():
-	return jsonify({"etat": etat_porte_actuel})
+    return jsonify({"etat": etat_porte_actuel})
 
 @app.route("/etat_pir")
 def etat_pir():
@@ -62,7 +61,6 @@ LED_VERTE = 20
 LED_ROUGE = 21
 PIR_PIN = 26  # Le pin OUT du capteur est branché ici
 etat_pir_actuel = "aucun mouvement"
-
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIR_PIN, GPIO.IN)
@@ -141,8 +139,8 @@ def enregistrer_heure_sortie(uid):
 def verifier_et_traiter(uid):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (int(uid),))
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (uid,))
         carte = cursor.fetchone()
         if carte:
             GPIO.output(LED_VERTE, GPIO.LOW)
@@ -188,7 +186,6 @@ def surveiller_etat_porte():
     except Exception as e:
         print(f"Thread porte : {e}")
 
-
 # === Thread capteur
 def surveiller_pir():
     global etat_pir_actuel
@@ -208,7 +205,6 @@ def surveiller_pir():
     except Exception as e:
         print(f"Thread PIR : {e}")
 
-
 # === BOUCLE PRINCIPALE ===
 def boucle_principale():
     reader = SimpleMFRC522()
@@ -216,15 +212,23 @@ def boucle_principale():
         while True:
             time.sleep(1)
             print("> En attente d'un badge...")
-            uid, _ = reader.read()
-            verifier_et_traiter(uid)
+            uid_int, _ = reader.read()
+
+            # Convertir en bytes (important: little vs big endian)
+            uid_bytes = uid_int.to_bytes((uid_int.bit_length() + 7) // 8, byteorder='big')
+            uid_bytes = uid_bytes[:4]
+            uid_hex = ''.join(f"{b:02X}" for b in uid_bytes)
+
+            print(f"> UID brut (int) : {uid_int}")
+            print(f"> UID formaté    : {uid_hex}")
+
+            verifier_et_traiter(uid_hex)  # Envoie le bon format hexa dans la BDD
             time.sleep(0.5)
             reader = SimpleMFRC522()
     except KeyboardInterrupt:
         GPIO.cleanup()
         print("> Arrêt programme.")
-    #finally:
-        #reader.close()
+
 
 def lancer_serveur():
     app.run(host="0.0.0.0", port=5000)
