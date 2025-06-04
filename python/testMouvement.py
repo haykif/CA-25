@@ -1,9 +1,9 @@
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, jsonify
 import threading
 import mysql.connector
 import time
 import RPi.GPIO as GPIO
-from mfrc522 import SimpleMFRC522
+from mfrc522 import MFRC522
 from gpiozero.pins.rpigpio import RPiGPIOFactory
 from gpiozero import Device
 import smtplib
