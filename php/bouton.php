@@ -32,17 +32,30 @@
                 echo "Erreur : UID manquant.";
                 exit();
             }
-
-            // Met à jour la base de données avec Verifier = 1 et l'UID
-            $query = "UPDATE User SET Verifier = 1, uid = :uid WHERE Email = :Email";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':Email', $userEmail, PDO::PARAM_STR);
-            $stmt->bindParam(':uid', $uid, PDO::PARAM_STR);
-
-            if ($stmt->execute()) {
-                echo "Accès donné avec succès pour l'utilisateur (UID enregistré).";
+            
+            // 1. Insérer la nouvelle carte dans la table Carte
+            $queryCarte = "INSERT INTO Carte (RFID) VALUES (:rfid)";
+            $stmtCarte = $pdo->prepare($queryCarte);
+            $stmtCarte->bindParam(':rfid', $uid, PDO::PARAM_STR);
+            
+            if (!$stmtCarte->execute()) {
+                echo "Erreur lors de l'enregistrement de la carte.";
+                exit();
+            }
+            
+            // 2. Récupérer l’ID de la carte qu'on vient d’ajouter
+            $idCarte = $pdo->lastInsertId();
+            
+            // 3. Mettre à jour l'utilisateur pour lier la carte
+            $queryUser = "UPDATE User SET Verifier = 1, idCarte = :idCarte WHERE Email = :Email";
+            $stmtUser = $pdo->prepare($queryUser);
+            $stmtUser->bindParam(':idCarte', $idCarte, PDO::PARAM_INT);
+            $stmtUser->bindParam(':Email', $userEmail, PDO::PARAM_STR);
+            
+            if ($stmtUser->execute()) {
+                echo "Carte insérée et utilisateur mis à jour avec succès.";
             } else {
-                echo "Erreur lors de la mise à jour de l'UID.";
+                echo "Erreur lors de la mise à jour de l'utilisateur.";
                 exit();
             }
 

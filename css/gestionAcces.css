@@ -261,11 +261,6 @@ th {
     to { transform: translateY(0); opacity: 1; }
 }
 
-@media (prefers-color-scheme: dark) {
-    
-}
-
-
 /* La partie dark mode selon la taille de l'écran */
 /* Media par défault */
 /* LIGHT */

@@ -187,12 +187,12 @@
 
         <script src="../js/modal.js"></script>
         <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const tableauVide = document.querySelector('#demande-section tbody');
-            if (!tableauVide || tableauVide.children.length === 0) {
-                document.getElementById("demande-section").style.display = "none";
-            }
-        });
+            document.addEventListener("DOMContentLoaded", function () {
+                const tableauVide = document.querySelector('#demande-section tbody');
+                if (!tableauVide || tableauVide.children.length === 0) {
+                    document.getElementById("demande-section").style.display = "none";
+                }
+            });
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {

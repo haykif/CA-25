@@ -153,8 +153,8 @@
                                 // Si Verifier est NULL, affiche les boutons
                                 if (is_null($row['Verifier'])) {
                                     // Bouton accepter
-                                    echo '<form action="bouton.php" method="post" style="display:inline;">';
-                                    echo '<input type="hidden" name="userId" value="' . htmlspecialchars(isset($row['idCarte']) ? $row['idCarte'] : '') . '">';
+                                    echo '<form onsubmit="event.preventDefault(); openModal(this);" method="post" style="display:inline;">';
+                                    echo '<input type="hidden" name="userId" value="' . htmlspecialchars($row['idCarte'] ?? '') . '">';
                                     echo '<input type="hidden" name="action" value="donner">';
                                     echo '<input type="hidden" name="Nom" value="' . htmlspecialchars($row['Nom']) . '">';
                                     echo '<input type="hidden" name="Prenom" value="' . htmlspecialchars($row['Prenom']) . '">';
@@ -182,7 +182,54 @@
             </div>
         </div>
 
+        <div id="modalPython" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                
+                <p>Veuillez lancer l'exécutable Python et scanner la carte.<br>
+                Ensuite, chargez le fichier JSON généré :</p>
+                
+                <input type="file" id="jsonFileInput" accept=".json">
+                <button onclick="submitJson()">Valider UID</button>
+
+                <hr style="margin: 20px 0;">
+
+                <p style="margin-bottom: 10px;">Vous n'avez pas encore l'application ?</p>
+
+                <div class="download-section" style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+                    <a id="download-mac" href="../downloader/macos/UIDScanner Installer.dmg" download>
+                        <img src="../assets/dl-for-macos.png" alt="Télécharger pour macOS" style="height:50px;">
+                    </a>
+                    <a id="download-win" href="../downloader/windows/UIDScanner_Installer.exe" download>
+                        <img src="../assets/dl-for-windows.png" alt="Télécharger pour Windows" style="height:50px;">
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <script src="../js/dashboard.js"></script>
+        <script src="../js/modal.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const tableauVide = document.querySelector('#demande-section tbody');
+                if (!tableauVide || tableauVide.children.length === 0) {
+                    document.getElementById("demande-section").style.display = "none";
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const platform = navigator.platform.toLowerCase();
+                const mac = document.getElementById("download-mac");
+                const win = document.getElementById("download-win");
+
+                if (platform.includes("mac")) {
+                    win.style.display = "none";
+                } else if (platform.includes("win")) {
+                    mac.style.display = "none";
+                }
+            });
+        </script>
 
     </body>
 </html>

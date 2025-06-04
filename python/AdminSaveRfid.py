@@ -171,9 +171,9 @@ class RFIDDashboard(QtWidgets.QMainWindow):
             "Feel free to contribute, and keep this trace ✊"
         ))
 
-    def save_uid(self, uid_dec):
+    def save_uid(self, uid_hex):
         record = {
-            "UID": uid_dec,
+            "UID": uid_hex,
             "timestamp": datetime.datetime.now().isoformat()
         }
         try:
@@ -181,7 +181,7 @@ class RFIDDashboard(QtWidgets.QMainWindow):
                 data = json.load(f)
         except:
             data = []
-        data = [entry for entry in data if entry.get("UID") != uid_dec]
+        data = [entry for entry in data if entry.get("UID") != uid_hex]
         data.append(record)
         with open(JSON_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
@@ -211,13 +211,13 @@ class RFIDDashboard(QtWidgets.QMainWindow):
                     QtWidgets.QMessageBox.warning(self, "Error", "No valid card detected.")
                     return
 
-                uid_dec = int(uid_hex, 16)
+                
 
                 already_scanned = False
                 try:
                     with open(JSON_FILE, "r", encoding="utf-8") as f:
                         data = json.load(f)
-                        if any(entry["UID"] == uid_dec for entry in data):
+                        if any(entry["UID"] == uid_hex for entry in data):
                             already_scanned = True
                 except:
                     pass
@@ -227,7 +227,7 @@ class RFIDDashboard(QtWidgets.QMainWindow):
                 status_msg = f"UID : {uid_hex}\nAlready scanned : {'✅' if already_scanned else '❌'}"
                 self.uid_card.update_uid(status_msg)
                 QtCore.QTimer.singleShot(4000, lambda: self.uid_card.update_uid(f"UID : {uid_hex}"))
-                self.save_uid(uid_dec)
+                self.save_uid(uid_hex)
             else:
                 raise Exception(f"Error: {sw1:02X} {sw2:02X}")
         except Exception as e:

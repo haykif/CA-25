@@ -17,10 +17,11 @@ function submitJson() {
     const reader = new FileReader();
     reader.onload = function(event) {
         const jsonContent = JSON.parse(event.target.result);
-        if (jsonContent.UID) {
+        const firstEntry = jsonContent[0]; // car c'est un tableau d’objets
+        if (firstEntry && firstEntry.UID) {
             const formData = new FormData(window.currentForm);
-            formData.append('uid', jsonContent.UID);
-
+            formData.append('uid', firstEntry.UID);
+    
             fetch('bouton.php', {
                 method: 'POST',
                 body: formData
@@ -35,8 +36,9 @@ function submitJson() {
                 alert('Erreur : ' + error);
             });
         } else {
-            alert('Le fichier JSON ne contient pas de champ "uid".');
+            alert('Le fichier JSON ne contient pas de champ "UID".');
         }
     };
+    
     reader.readAsText(fileInput.files[0]);
 }
