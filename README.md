@@ -48,4 +48,7 @@ Le système permettra :
 - username: `dbca25`
 - password: `admin`
 
+Dashboard : 
+http://ca25.charles-poncet.net:8083/index.html
+
 
