@@ -106,25 +106,27 @@ def activer_gache():
     GPIO.output(RELAY_PIN, GPIO.HIGH)
     return GPIO.input(CAPTEUR_PORTE) == GPIO.HIGH
 
-def enregistrer_acces(uid, autorise):
+def enregistrer_acces(uid, autorise, id_user):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
         date_entree = time.strftime('%Y-%m-%d %H:%M:%S')
         resultat = "Accès autorisé" if autorise else "Accès refusé"
+
         sql = """
-        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, Presence, Etat_porte, UID, IdUser)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        INSERT INTO Acces_log (Date_heure_entree, Resultat_tentative, UID, IdUser)
+        VALUES (%s, %s, %s, %s)
         """
-        valeurs = (date_entree, resultat, True, "1", uid, "1")
+        valeurs = (date_entree, resultat, uid, id_user if id_user is not None else 0)
         cursor.execute(sql, valeurs)
         conn.commit()
-        print(f"{resultat} | UID : {uid} logué")
+        print(f"{resultat} | UID : {uid} logué avec ID utilisateur : {id_user}")
     except Exception as e:
         print(f"MySQL (entrée) : {e}")
     finally:
         cursor.close()
         conn.close()
+
 
 def enregistrer_heure_sortie(uid):
     try:
@@ -149,27 +151,44 @@ def verifier_et_traiter(uid):
     try:
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM Carte WHERE RFID = %s", (uid,))
+
+        cursor.execute("SELECT idCarte FROM Carte WHERE RFID = %s", (uid,))
         carte = cursor.fetchone()
+
         if carte:
+            idCarte = carte[0]
+
+            cursor.execute("SELECT idUser FROM User WHERE idCarte = %s", (idCarte,))
+            utilisateur = cursor.fetchone()
+
+            if utilisateur:
+                idUser = utilisateur[0]
+            else:
+                print("> Carte reconnue mais aucun utilisateur lié.")
+                idUser = 0
+
             GPIO.output(LED_VERTE, GPIO.LOW)
             GPIO.output(LED_ROUGE, GPIO.HIGH)
             porte_ouverte = activer_gache()
             GPIO.output(LED_VERTE, GPIO.HIGH)
-            enregistrer_acces(uid, True)
-            if porte_ouverte:
+
+            enregistrer_acces(uid, True, idUser)
+            if porte_ouverte and idUser:
                 detecter_sortie(uid)
                 GPIO.output(LED_ROUGE, GPIO.LOW)
         else:
             clignote_led_rouge()
             GPIO.output(LED_ROUGE, GPIO.LOW)
-            enregistrer_acces(uid, False)
+            enregistrer_acces(uid, False, 0)
             envoyer_mail(uid)
+
     except Exception as e:
         print(f"Erreur RFID : {e}")
     finally:
         cursor.close()
         conn.close()
+
+
 
 def detecter_sortie(uid):
     print("> Surveillance ouverture porte...")
