@@ -6,8 +6,15 @@
         exit();
     }
 
-    $queryAuthorized = "SELECT * FROM User WHERE Fonction != 'Admin' AND Mail_verif = 1 AND Verifier = 1 ORDER BY Nom";
+    $queryAuthorized = "
+        SELECT User.Nom, User.Prenom, User.Email, User.Tel, User.Fonction, User.Date_debut, User.Date_fin, Carte.RFID
+        FROM User
+        LEFT JOIN Carte ON Carte.idCarte = User.idCarte
+        WHERE User.Fonction != 'Admin' AND User.Mail_verif = 1 AND User.Verifier = 1 
+        ORDER BY User.Nom
+    ";
     $stmtAuthorized = $pdo->query($queryAuthorized);
+
 
     $queryAdminAuthorized = "SELECT * FROM User WHERE Fonction = 'Admin' ORDER BY Nom";
     $stmtAdminAuthorized = $pdo->query($queryAdminAuthorized);
@@ -57,7 +64,7 @@
                         <th>Fonction</th>
                         <th>Date de début</th>
                         <th>Date de fin</th>
-                        <th>ID Carte</th>
+                        <th>UID</th>
                     </tr>
                 </thead>
 
@@ -72,9 +79,9 @@
                                 echo "<td>" . htmlspecialchars($row['Fonction'] ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_debut'])[0]))->format('d-m-Y') ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars((new DateTime(explode(' ', $row['Date_fin'])[0]))->format('d-m-Y') ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['idCarte'] ?? '') . "</td>";
+                                echo "<td>" . htmlspecialchars($row['RFID'] ?? '') . "</td>";
                             echo "</tr>";
-                        }
+                        }    
                     ?>
                 </tbody>
             </table>
