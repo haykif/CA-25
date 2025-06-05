@@ -144,15 +144,21 @@ def verifier_et_traiter(uid):
         carte = cursor.fetchone()
         if carte:
             GPIO.output(LED_VERTE, GPIO.LOW)
+            GPIO.output(LED_ROUGE, GPIO.HIGH)
             porte_ouverte = activer_gache()
             GPIO.output(LED_VERTE, GPIO.HIGH)
             enregistrer_acces(uid, True)
             if porte_ouverte:
                 detecter_sortie(uid)
+                GPIO.output(LED_ROUGE, GPIO.LOW)
         else:
+            for i in range(5):
+                GPIO.output(LED_ROUGE, GPIO.LOW)
+                time.sleep(0.5)
+                GPIO.output(LED_ROUGE, GPIO.HIGH)
+                time.sleep(0.5)
+                i=+1
             GPIO.output(LED_ROUGE, GPIO.LOW)
-            time.sleep(2)
-            GPIO.output(LED_ROUGE, GPIO.HIGH)
             enregistrer_acces(uid, False)
             envoyer_mail(uid)
     except Exception as e:
