@@ -84,7 +84,15 @@ def envoyer_mail(uid):
             print("Mail envoyé !")
     except Exception as e:
         print(f"Erreur mail : {e}")
-
+        
+def clignote_led_rouge():
+    for i in range(5):
+        GPIO.output(LED_ROUGE, GPIO.LOW)
+        time.sleep(0.5)
+        GPIO.output(LED_ROUGE, GPIO.HIGH)
+        time.sleep(0.5)
+        i=+1
+    
 
 def initialiser_capteur_pir():
     print("> Initialisation du capteur PIR...")
@@ -153,12 +161,7 @@ def verifier_et_traiter(uid):
                 detecter_sortie(uid)
                 GPIO.output(LED_ROUGE, GPIO.LOW)
         else:
-            for i in range(5):
-                GPIO.output(LED_ROUGE, GPIO.LOW)
-                time.sleep(0.5)
-                GPIO.output(LED_ROUGE, GPIO.HIGH)
-                time.sleep(0.5)
-                i=+1
+            clignote_led_rouge()
             GPIO.output(LED_ROUGE, GPIO.LOW)
             enregistrer_acces(uid, False)
             envoyer_mail(uid)
