@@ -33,25 +33,6 @@ expediteur = "carteacces99@gmail.com"
 mot_de_passe = "llvz ctlm vjas xyfq"
 destinataire = "laurent14123@gmail.com"
 
-def envoyer_mail(uid):
-    heure = time.strftime('%d-%m-%Y à %H:%M:%S')
-    sujet = "ENTREE NON AUTORISEE"
-    corps = f"Entrée interdite détectée le {heure}.\nUID : {uid}"
-
-    message = MIMEMultipart()
-    message["From"] = expediteur
-    message["To"] = destinataire
-    message["Subject"] = sujet
-    message.attach(MIMEText(corps, "plain"))
-
-    try:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as serveur:
-            serveur.login(expediteur, mot_de_passe)
-            serveur.sendmail(expediteur, destinataire, message.as_string())
-            print("Mail envoyé !")
-    except Exception as e:
-        print(f"Erreur mail : {e}")
-
 # === PINS GPIO ===
 GPIO.setmode(GPIO.BCM)
 CAPTEUR_PORTE = 17
@@ -85,6 +66,26 @@ DB_CONFIG = {
 }
 
 # === Fonctions ===
+def envoyer_mail(uid):
+    heure = time.strftime('%d-%m-%Y à %H:%M:%S')
+    sujet = "ENTREE NON AUTORISEE"
+    corps = f"Entrée interdite détectée le {heure}.\nUID : {uid}"
+
+    message = MIMEMultipart()
+    message["From"] = expediteur
+    message["To"] = destinataire
+    message["Subject"] = sujet
+    message.attach(MIMEText(corps, "plain"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as serveur:
+            serveur.login(expediteur, mot_de_passe)
+            serveur.sendmail(expediteur, destinataire, message.as_string())
+            print("Mail envoyé !")
+    except Exception as e:
+        print(f"Erreur mail : {e}")
+
+
 def initialiser_capteur_pir():
     print("> Initialisation du capteur PIR...")
     time.sleep(15)  # Temps pour que le capteur se stabilise
