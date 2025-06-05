@@ -55,11 +55,11 @@ CREATE TABLE IF NOT EXISTS `dbca25`.`User` (
   `Mail_envoye` TINYINT NULL,
   `Mail_verif` TINYINT NULL,
   `token` VARCHAR(100) NULL,
-  `Carte_idCarte` INT NULL,
+  `idCarte` INT NULL,
   PRIMARY KEY (`idUser`),
-  INDEX `fk_User_Carte1_idx` (`Carte_idCarte` ASC) VISIBLE,
+  INDEX `fk_User_Carte1_idx` (`idCarte` ASC) VISIBLE,
   CONSTRAINT `fk_User_Carte1`
-    FOREIGN KEY (`Carte_idCarte`)
+    FOREIGN KEY (`idCarte`)
     REFERENCES `dbca25`.`Carte` (`idCarte`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
