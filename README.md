@@ -49,6 +49,6 @@ Le système permettra :
 - password: `admin`
 
 Dashboard : 
-http://ca25.charles-poncet.net:8083/index.html
+http://ca25.charles-poncet.net:8083
 
 
