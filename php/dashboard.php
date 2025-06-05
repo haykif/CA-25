@@ -141,8 +141,8 @@
                             // Boucle pour afficher chaque ligne de résultat dans le tableau
                             while (($row = $stmtAcces->fetch(PDO::FETCH_ASSOC)) !== false) {
                                 echo "<tr>";
-                                echo "<td>" . htmlspecialchars($row['Nom'] ?? '') . "</td>";
-                                echo "<td>" . htmlspecialchars($row['Prenom'] ?? '') . "</td>";
+                                echo "<td>" . strtoupper(htmlspecialchars($row['Nom'] ?? '')) . "</td>";
+                                echo "<td>" . ucfirst(strtolower(htmlspecialchars($row['Prenom'] ?? ''))) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['Email'] ?? '') . "</td>";
                                 echo "<td>" . "0" . htmlspecialchars($row['Tel'] ?? '') . "</td>";
                                 echo "<td>" . htmlspecialchars($row['Fonction'] ?? '') . "</td>";
