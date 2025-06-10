@@ -1,5 +1,14 @@
 # 🚀 Projet Contrôle d'Accès 2025 (CA25)
+
+<div style="display: flex; justify-content: center; gap: 20px;">
+   <img src="https://github.com/haykif/CA-25/blob/main/assets/favicon.png" alt="Logo CA25" width="150" title="Logo CA25" target="_blank">
+   <img src="https://github.com/haykif/CA-25/blob/main/assets/Apple/applestyle.png" alt="Logo CA25 Apple style" width="150" title="Logo CA25 Apple style" target="_blank">
+   <img src="https://github.com/haykif/CA-25/blob/main/assets/light-4k.webp" alt="Website Background light" width="250" title="Website Background light" target="_blank">
+   <img src="https://github.com/haykif/CA-25/blob/main/assets/dark-4k.webp" alt="Website Background dark" width="250" title="Website Background dark" target="_blank">
+</div>
+
 ---
+
 ## 📌 Description
 Ce projet vise à mettre en place un **système de contrôle d'accès** basé sur des **cartes NFC** pour le local technique informatique du Lycée Charles Poncet.  
 Le système permettra :
