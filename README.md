@@ -23,16 +23,17 @@ Le système permettra :
 - **Base de données MySQL** pour stocker les utilisateurs et les accès.
 - **Serveur Web (Nginx)** pour l'administration des accès.
 - **Interface Web (CSS)** pour l’interface administrateur.
-- **Python** pour le développement embarqué sur le RPi.
+- **Python** pour le développement embarqué sur le RPi et l'application native.
 
 ## 📂 Structure du projet
 - `assets/` → Fond d'écran adaptative dans le GUI au thème clair ou sombre du system local
 - `css/` → Interface web administrateur et formulaire de demande d'accès
+- `database/` → Fichiers constituant la base de donnée
+- `downloader/` → Executables
 - `html/` → Formulaire de demande d'accès
 - `js/` → Emulation de l'état ouvert/fermée de la porte
 - `php/` → Code pour communiquer avec la Base de données
 - `python/` → Code pour le Raspberry Pi
-- `tests/` → Scripts de tests
 ---
 ## 📝 Installation
 1. **Cloner le projet: en ligne de commande**
