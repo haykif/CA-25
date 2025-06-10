@@ -28,8 +28,8 @@ Le système permettra :
 ## 📝 Installation
 1. **Cloner le projet: en ligne de commande**
    ```bash
-   git clone https://github.com/ton-utilisateur/controle-acces-2025.git
-   cd controle-acces-2025```
+   git clone https://github.com/haykif/CA-25.git
+   cd CA-25```
    
 2. **Cloner le projet: avec Github Desktop**
    - Installer sur ce lien: [**Github Desktop**](https://desktop.github.com/download/)
@@ -44,11 +44,10 @@ Le système permettra :
 - username: `n2wdd8ov`
 - password: `121bb80e`
 
-## ⚙️ Base de Donnée :
+## ⚙️ Base de Donnée
 - username: `dbca25`
 - password: `admin`
 
-Dashboard : 
-http://ca25.charles-poncet.net:8083
+---
 
-
+[Dashboard](http://ca25.charles-poncet.net:8083): `http://ca25.charles-poncet.net:8083`
