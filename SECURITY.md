@@ -6,10 +6,10 @@ Voici les versions *fonctionnelles* à l'heure actuelle du projet **CA25**:
 
 | Versions                  | Supportée          |
 | ------------------------- | ------------------ |
-| 1.0.1 (Post-Release)      | :white_check_mark: |
-| 0.1.0-alpha (Pre-Release) | :x:                |
-| 1.0 (Release)             | :white_check_mark: |
-| < 1.0                     | :x:                |
+| 4.1.1 (Release)           | :white_check_mark: |
+| 3.5.7-beta5 (Pre-Release) | :x:                |
+| 4.0 (Release)             | :white_check_mark: |
+| < 4.0                     | :x:                |
 
 ___
 
