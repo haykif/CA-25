@@ -57,7 +57,3 @@ Le système permettra :
 ## ⚙️ Base de Donnée
 - username: `dbca25`
 - password: `admin`
-
----
-
-[Dashboard](http://ca25.charles-poncet.net:8083): `http://ca25.charles-poncet.net:8083`
