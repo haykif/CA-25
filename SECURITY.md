@@ -15,4 +15,4 @@ ___
 
 ## Reporting a Vulnerability
 
-### ➡️ Si vous trouvez une vulnérabilité, n'hésitez pas à ouvrir une [**Issue**](https://github.com/haykif/CA-25/issues) !
+### ➡️ Si vous trouvez une vulnérabilité, n'hésitez pas à ouvrir une [**Issue**](https://github.com/haykif/CA-25/issues/new) !
