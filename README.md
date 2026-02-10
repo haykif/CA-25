@@ -1,4 +1,4 @@
-# 🚀 Projet Contrôle d'Accès 2025 (CA25)
+# Projet Contrôle d'Accès 2025 / 2025 Access Control project (CA25)
 
 <div style="display: flex; justify-content: center; gap: 20px;">
    <img src="https://github.com/haykif/CA-25/blob/main/assets/favicon.png" alt="Logo CA25" width="150" title="Logo CA25" target="_blank">
@@ -10,7 +10,39 @@
 ---
 
 ## 📌 Description
-Ce projet vise à mettre en place un **système de contrôle d'accès** basé sur des **cartes NFC** pour le local technique informatique du Lycée Charles Poncet.  
+This project aims to implement an **access control system** based on **NFC cards** for a server room.
+
+The system will enable:
+- Granting access via a unique NFC card for each user.
+- Managing access rights via an administrator interface.
+- Ensuring real-time monitoring of the room.
+- Storing a history of access logs and unauthorized attempts.
+
+## 🛠️ Technologies Used
+- **Raspberry Pi** for access control.
+- **NFC Reader** to identify cards.
+- **MySQL Database** to store users and access logs.
+- **Web Server (Nginx)** for access administration.
+- **Web Interface (CSS)** for the admin interface.
+- **Python** for embedded development on the RPi and the native application.
+
+## 📂 Project Structure
+The project is organized as follows:
+
+- `assets/` → GUI background wallpaper adaptive to the local system's light or dark theme
+- `css/` → Admin web interface and access request form
+- `database/` → Files constituting the database
+- `downloader/` → Executables
+- `html/` → Access request form
+- `js/` → Emulation of the door's open/closed state
+- `php/` → Code to communicate with the Database
+- `python/` → Code for the Raspberry Pi
+
+---
+
+## 📌 Description
+Ce projet vise à mettre en place un **système de contrôle d'accès** basé sur des **cartes NFC** pour un local de serveurs.
+
 Le système permettra :
 - D'autoriser l'accès via une carte NFC unique pour chaque utilisateur.
 - De gérer les droits d'accès via une interface administrateur.
@@ -26,6 +58,8 @@ Le système permettra :
 - **Python** pour le développement embarqué sur le RPi et l'application native.
 
 ## 📂 Structure du projet
+Le projet est organisé comme suit :
+
 - `assets/` → Fond d'écran adaptative dans le GUI au thème clair ou sombre du system local
 - `css/` → Interface web administrateur et formulaire de demande d'accès
 - `database/` → Fichiers constituant la base de donnée
@@ -34,26 +68,19 @@ Le système permettra :
 - `js/` → Emulation de l'état ouvert/fermée de la porte
 - `php/` → Code pour communiquer avec la Base de données
 - `python/` → Code pour le Raspberry Pi
+
 ---
-## 📝 Installation
-1. **Cloner le projet: en ligne de commande**
-   ```bash
-   git clone https://github.com/haykif/CA-25.git
-   cd CA-25```
-   
-2. **Cloner le projet: avec Github Desktop**
-   - Installer sur ce lien: [**Github Desktop**](https://desktop.github.com/download/)
----
-## 🔐 Serveur Login / Mot de Passe 
+
+## 🔐 Server Login / Password 
 - username: `ca25`
 - password: `ca25`
 
-## 💚 aaPanel Login / Mot de Passe
+## aaPanel Login / Password
 - aaPanel Internet Address: https://80.245.21.40:41022/c712c546
 - aaPanel Internal Address: https://173.21.1.164:41022/c712c546
 - username: `n2wdd8ov`
 - password: `121bb80e`
 
-## ⚙️ Base de Donnée
+## ⚙️ Datas Base
 - username: `dbca25`
 - password: `admin`
